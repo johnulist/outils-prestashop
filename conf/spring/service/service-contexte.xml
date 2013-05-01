@@ -5,10 +5,9 @@
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- Managed bean service creation -->
-	<bean id="productManagementService"
-		class="fr.upyourbizz.web.service.ProductManagementService">
+	<bean id="productManagementService" class="fr.upyourbizz.web.service.ProductManagementService">
 		<property name="productDao" ref="productDao" />
 	</bean>
-	<bean id="googleImageService"
-		class="fr.upyourbizz.web.service.GoogleImageService"/>
+	<bean id="googleImageService" class="fr.upyourbizz.web.service.GoogleImageService" />
+	<bean id="fileManagementService" class="fr.upyourbizz.web.service.FileManagementService" />
 </beans>

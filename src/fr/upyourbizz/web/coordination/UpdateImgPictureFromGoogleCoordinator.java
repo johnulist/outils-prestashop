@@ -1,15 +1,20 @@
 package fr.upyourbizz.web.coordination;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.upyourbizz.web.dto.ProductInfo;
+import fr.upyourbizz.web.service.FileManagementService;
 import fr.upyourbizz.web.service.GoogleImageService;
 import fr.upyourbizz.web.service.ProductManagementService;
 
+/**
+ * UpdateImgPictureFromGoogleCoordinator
+ */
 public class UpdateImgPictureFromGoogleCoordinator {
 
     // ===== Attributs statiques ==============================================
@@ -24,6 +29,8 @@ public class UpdateImgPictureFromGoogleCoordinator {
     private ProductManagementService productManagementService;
 
     private GoogleImageService googleImageService;
+
+    private FileManagementService fileManagementService;
 
     // ===== Constructeurs ====================================================
 
@@ -44,6 +51,19 @@ public class UpdateImgPictureFromGoogleCoordinator {
         return googleImageService.searchProductImages(productName);
     }
 
+    /**
+     * Save the file from internet to the disk.
+     * 
+     * @param url The file url
+     * @param fileName The name given to the new image
+     * @throws IOException
+     * @throws MalformedURLException
+     */
+    public void saveFileOnDiskFromUrl(String url, String fileName) throws MalformedURLException,
+            IOException {
+        fileManagementService.saveFileOnDiskFromUrl(url, fileName);
+    }
+
     // ===== Accesseurs =======================================================
 
     /**
@@ -62,6 +82,15 @@ public class UpdateImgPictureFromGoogleCoordinator {
      */
     public void setGoogleImageService(GoogleImageService googleImageService) {
         this.googleImageService = googleImageService;
+    }
+
+    /**
+     * Affecte fileManagementService
+     * 
+     * @param fileManagementService fileManagementService à affecter
+     */
+    public void setFileManagementService(FileManagementService fileManagementService) {
+        this.fileManagementService = fileManagementService;
     }
 
     // ===== Classes imbriquées ===============================================

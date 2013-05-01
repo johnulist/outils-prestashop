@@ -9,6 +9,7 @@
 		class="fr.upyourbizz.web.coordination.UpdateImgPictureFromGoogleCoordinator">
 		<property name="productManagementService" ref="productManagementService" />
 		<property name="googleImageService" ref="googleImageService" />
+		<property name="fileManagementService" ref="fileManagementService" />
 	</bean>
 
 </beans>

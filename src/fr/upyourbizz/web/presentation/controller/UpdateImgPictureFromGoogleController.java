@@ -1,6 +1,7 @@
 package fr.upyourbizz.web.presentation.controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,8 +88,26 @@ public class UpdateImgPictureFromGoogleController extends AbstractController {
         logger.debug("New image selected. Product id:"
                 + updateImgPictureFromGoogleModel.getSelectedProduct().getProductId());
         logger.debug("Url:" + updateImgPictureFromGoogleModel.getSelectedImg());
-        growlBean.setText("La nouvelle image a été enregistrée avec succès");
-        growlBean.display();
+        try {
+            updateImgPictureFromGoogleCoordinator.saveFileOnDiskFromUrl(
+                    updateImgPictureFromGoogleModel.getSelectedImg(),
+                    String.valueOf(updateImgPictureFromGoogleModel.getSelectedProduct().getProductId())
+                            + ".jpg");
+            growlBean.setText("La nouvelle image a été enregistrée avec succès");
+            growlBean.display();
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+            logger.debug("Error while attemping to save the image on disk");
+            growlBean.setText("La nouvelle image n'a pas été enregistrée");
+            growlBean.display();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            logger.debug("Error while attemping to save the image on disk");
+            growlBean.setText("La nouvelle image n'a pas été enregistrée");
+            growlBean.display();
+        }
     }
 
     /**
