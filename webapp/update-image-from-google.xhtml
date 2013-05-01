@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event type="preRenderView"
+		listener="#{updateImgPictureFromGoogleController.init}" />
+</f:metadata>
+<ui:define name="head">
+	<style type="text/css">
+.carItem {
+	width: 200px;
+	height: 130px;
+	text-align: center;
+}
+</style>
+</ui:define>
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Upyourbizz - Mise à jour image</title>
+		</f:facet>
+
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+	</h:head>
+	<h:form id="form">
+		<p:growl id="growl" showDetail="true" />
+
+		<p:panel id="panel" header="Sélection du produit">
+			<p:dataTable id="productsDataTable" var="product"
+				value="#{updateImgPictureFromGoogleModel.productInfoList}"
+				lazy="true">
+
+				<p:column style="width:2%">
+					<p:rowToggler />
+				</p:column>
+
+				<f:facet name="header">
+            		Liste des produits
+        		</f:facet>
+
+				<p:column style="width:10%">
+					<p:commandLink update=":form:detailAncienneImg"
+						oncomplete="dlgOld.show()">
+						<p:graphicImage url="#{product.url}" width="60px" heigth="60px" />
+						<f:setPropertyActionListener value="#{product}"
+							target="#{updateImgPictureFromGoogleModel.selectedProduct}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column style="width:22%">
+					<f:facet name="header">
+                    	Id produit
+            		</f:facet>
+					<h:outputText value="#{product.productId}" />
+				</p:column>
+
+				<p:column style="width:22%">
+					<f:facet name="header">
+                    	Nom produit
+            		</f:facet>
+					<h:outputText value="#{product.productName}" />
+				</p:column>
+
+				<p:column style="width:22%">
+					<f:facet name="header">
+                    	Id image
+            		</f:facet>
+					<h:outputText value="#{product.imageId}" />
+				</p:column>
+				<p:rowExpansion>
+					<p:panel header="Changement de l'image du produit">
+						<h:panelGrid id="display" columns="3" cellpadding="4"
+							style="width:300px;" styleClass=" ui-widget-content grid">
+							<p:panel header="Image actuelle">
+								<p:commandLink update=":form:detailAncienneImg"
+									oncomplete="dlgOld.show()">
+									<p:graphicImage url="#{product.url}" width="250px"
+										heigth="200px" />
+									<f:setPropertyActionListener value="#{product}"
+										target="#{updateImgPictureFromGoogleModel.selectedProduct}" />
+								</p:commandLink>
+							</p:panel>
+							<p:spacer width="50" height="10" />
+							<p:carousel id="carousel" rows="3"
+								value="#{product.googleImgUrls}" var="googleImgUrl"
+								headerText="Nouvelle image"
+								itemStyle="height:200px;width:300px;text-align: center;">
+								<p:column>
+									<p:commandLink update=":form:detailNouvelleImg"
+										oncomplete="dlgNew.show()">
+										<p:graphicImage url="#{googleImgUrl}"
+											style="max-width:200px;max-height:150px;" alt="Utiliser" />
+										<f:setPropertyActionListener value="#{googleImgUrl}"
+											target="#{updateImgPictureFromGoogleModel.selectedImg}" />
+									</p:commandLink>
+									<br />
+									<br />
+									<p:commandButton
+										action="#{updateImgPictureFromGoogleController.useNewImage}"
+										value="Utiliser" update=":form:growl">
+										<f:setPropertyActionListener value="#{product}"
+											target="#{updateImgPictureFromGoogleModel.selectedProduct}" />
+										<f:setPropertyActionListener value="#{googleImgUrl}"
+											target="#{updateImgPictureFromGoogleModel.selectedImg}" />
+									</p:commandButton>
+								</p:column>
+							</p:carousel>
+						</h:panelGrid>
+					</p:panel>
+				</p:rowExpansion>
+			</p:dataTable>
+			<h:outputLabel for="goToIdProduct" value="Aller à l'article n°" />
+			<p:inputText id="goToIdProduct"
+				value="#{updateImgPictureFromGoogleModel.goToIdProduct}"
+				required="true" label="Id du produit">
+				<f:convertNumber integerOnly="true" type="number" />
+			</p:inputText>
+			<p:commandButton
+				actionListener="#{updateImgPictureFromGoogleController.goToProducts}"
+				update="panel" value="Ok" />
+			<p:message for="goToIdProduct" />
+			<p:commandButton
+				actionListener="#{updateImgPictureFromGoogleController.previousProducts}"
+				update="panel" value="Précédent" width="150px" />
+			<p:commandButton
+				actionListener="#{updateImgPictureFromGoogleController.nextProducts}"
+				update="panel" value="Suivant" width="150px" />
+		</p:panel>
+		<p:dialog widgetVar="dlgNew" header="Image Taille réelle" modal="true">
+			<p:graphicImage id="detailNouvelleImg"
+				url="#{updateImgPictureFromGoogleModel.selectedImg}" />
+		</p:dialog>
+		<p:dialog widgetVar="dlgOld" header="Image Taille réelle" modal="true">
+			<p:graphicImage id="detailAncienneImg"
+				url="#{updateImgPictureFromGoogleModel.selectedProduct.url}" />
+		</p:dialog>
+	</h:form>
+	<h:body>
+	</h:body>
+</f:view>
+
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="editor" class="fr.upyourbizz.web.EditorBean" />
+	<bean id="growlBean" class="fr.upyourbizz.web.presentation.GrowlBean" />
+	<!-- Managed bean controller creation -->
+	<bean id="updateImgPictureFromGoogleController"
+		class="fr.upyourbizz.web.presentation.controller.UpdateImgPictureFromGoogleController"
+		scope="request">
+		<property name="updateImgPictureFromGoogleModel" ref="updateImgPictureFromGoogleModel" />
+		<property name="updateImgPictureFromGoogleCoordinator" ref="updateImgPictureFromGoogleCoordinator" />
+		<property name="growlBean" ref="growlBean" />
+	</bean>
+	<!-- Managed bean model creation -->
+	<bean id="updateImgPictureFromGoogleModel"
+		class="fr.upyourbizz.web.presentation.model.UpdateImgPictureFromGoogleModel"
+		scope="session" />
+</beans>

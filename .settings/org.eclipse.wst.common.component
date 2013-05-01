@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="outils-prestashop">
+        <wb-resource deploy-path="/" source-path="/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF" source-path="/conf/spring"/>
+        <property name="context-root" value="outils-prestashop"/>
+        <property name="java-output-path" value="/outils-prestashop/build/classes"/>
+    </wb-module>
+</project-modules>
