@@ -113,7 +113,6 @@ public class UpdateImgPictureFromGoogleController extends AbstractController {
     }
 
     public void addNewUrl() {
-
         if (!updateImgPictureFromGoogleModel.getUrlNewImg().isEmpty()
                 && updateImgPictureFromGoogleModel.getSelectedProduct() != null) {
             updateImgPictureFromGoogleModel.getSelectedProduct().getGoogleImgUrls().add(

@@ -1,0 +1,1 @@
+delete from `relaisduson`.`relaisdu_image_update_info` where id_update > 1;

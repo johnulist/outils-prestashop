@@ -191,7 +191,7 @@ public class UpdateImgPictureFromGoogleModel {
         public String getUrl() {
             String imgIdStr = String.valueOf(imageId);
             StringBuilder url = new StringBuilder();
-            url.append("http://10.211.55.5/relaisduson/img/p/");
+            url.append("http://mikael.upyourbizz.biz/img/p/");
             int compteur = 0;
             while (compteur < imgIdStr.length()) {
                 url.append(imgIdStr.charAt(compteur) + "/");

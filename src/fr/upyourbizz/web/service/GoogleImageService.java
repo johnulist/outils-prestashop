@@ -21,7 +21,7 @@ public class GoogleImageService {
     @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(GoogleImageService.class);
 
-    private final String GOOGLE_SEARCH_URL = "http://www.google.fr/search?q=%s&safe=off&tbm=isch&biw=1440&bih=755&resnum=10";
+    private final String GOOGLE_SEARCH_URL = "http://www.google.fr/search?q=%s&safe=off&tbm=isch&biw=1440&bih=755&tbs=isz:lt,islt:svga";
 
     private final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0";
 
