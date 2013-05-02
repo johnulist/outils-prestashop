@@ -142,46 +142,28 @@ public class UpdateImgPictureFromGoogleModel {
 
         private final String productName;
 
-        private final String categoryName;
-
         private final int imageId;
+
+        private boolean imgModified;
 
         private List<String> googleImgUrls = new ArrayList<String>();
 
         // ===== Constructeurs ===============================================
 
         public ProductInfoPresentation(int productId, String productName, String categoryName,
-                int imageId) {
+                int imageId, boolean imgModified) {
             super();
             this.productId = productId;
             this.productName = productName;
-            this.categoryName = categoryName;
             this.imageId = imageId;
+            this.imgModified = imgModified;
         }
 
         public ProductInfoPresentation(ProductInfo productInfo) {
             this.productId = productInfo.getProductId();
             this.productName = productInfo.getProductName();
-            this.categoryName = productInfo.getCategoryName();
             this.imageId = productInfo.getImageId();
-            googleImgUrls.add("http://www.aevas-sono.com/evas/images/formule-pack-light-sono.jpg");
-            googleImgUrls.add("http://animation-location-sonorisation.scenic-14.com/sono-caen/sono-caen.jpg");
-            googleImgUrls.add("http://image1.trefle.com/images/service-divers/full/sonorisation-mariage-dj-sono-animation-pro-lumiere.21817554-80645017.jpg");
-            googleImgUrls.add("http://www.tuningfever.fr/pics-med-13307-277046-sono-alpine.jpg");
-            googleImgUrls.add("http://www.eveniums-concept.com/IMG/jpg/sono-plage2.jpg");
-            /*
-             * googleImgUrls.add(
-             * "http://animation.francisco.pagesperso-orange.fr/image/sono3.JPG"
-             * ); googleImgUrls.add(
-             * "http://www.sono-energie.com/Files/29805/Img/21/stroboscope-kool-light-strobe-1000-1.jpg"
-             * ); googleImgUrls.add(
-             * "http://benoit.cara.free.fr/sonorisation/location_sono_100.gif");
-             * googleImgUrls.add(
-             * "http://perlbal.hi-pi.com/blog-images/246724/gd/1252110911/sono.jpg"
-             * ); googleImgUrls.add(
-             * "http://www.espacemusical.fr/images/Image/systeme%20son/YAMAHA+STAGEPAS+300+SONO+COMPACTE.JPG"
-             * );
-             */
+            this.imgModified = productInfo.isImgModified();
         }
 
         // ===== Méthodes ===================================================
@@ -197,6 +179,17 @@ public class UpdateImgPictureFromGoogleModel {
             }
             url.append(imgIdStr + ".jpg");
             return url.toString();
+        }
+
+        /**
+         * @return the style
+         */
+        public String getStyle() {
+            String result = "";
+            if (imgModified) {
+                result = ";background-color: #8FCF3C;";
+            }
+            return result;
         }
 
         // ===== Accesseurs ================================================
@@ -216,15 +209,6 @@ public class UpdateImgPictureFromGoogleModel {
          */
         public String getProductName() {
             return productName;
-        }
-
-        /**
-         * Retourne categoryName
-         * 
-         * @return categoryName
-         */
-        public String getCategoryName() {
-            return categoryName;
         }
 
         /**
@@ -252,6 +236,24 @@ public class UpdateImgPictureFromGoogleModel {
          */
         public List<String> getGoogleImgUrls() {
             return googleImgUrls;
+        }
+
+        /**
+         * Retourne imgModified
+         * 
+         * @return imgModified
+         */
+        public boolean isImgModified() {
+            return imgModified;
+        }
+
+        /**
+         * Affecte imgModified
+         * 
+         * @param imgModified imgModified à affecter
+         */
+        public void setImgModified(boolean imgModified) {
+            this.imgModified = imgModified;
         }
 
         // ===== Classes imbriquées =========================================

@@ -36,6 +36,15 @@ public class ProductManagementService {
         return productDao.getProductsInformation(idFirstProduct, nbMaxProducts);
     }
 
+    /**
+     * Database update to indicate image modification
+     * 
+     * @param imageId The image id
+     */
+    public void imageModificationNotification(int imageId) {
+        productDao.imageModificationNotification(imageId);
+    }
+
     // ===== Accesseurs =======================================================
 
     /**

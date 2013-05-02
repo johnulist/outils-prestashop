@@ -38,25 +38,12 @@ public class ProductDao {
      * @return the list of products informations
      */
     public List<ProductInfo> getProductsInformation(int idFirstProduct, int nbMaxProducts) {
-        // get database connection
         List<ProductInfo> productsInformation = new ArrayList<ProductInfo>();
         try {
 
-            // // Obtain our environment naming context
-            // Context initCtx = new InitialContext();
-            // Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            //
-            // // Look up our data source
-            // DataSource ds = (DataSource) envCtx.lookup("jdbc/Default");
-            //
-            // // Allocate and use a connection from the pool
-            // Connection conn = ds.getConnection();
-            // // ... use this connection to access the database ...
-            // conn.close();
-
             Connection connection = ds.getConnection();
             StringBuilder requete = new StringBuilder();
-            requete.append(" select distinct prod.id_product as idProd, catlang.name as CatName,img.id_image as idImage,  ");
+            requete.append(" select distinct prod.id_product as idProd, img.id_image as idImage, updateinfo.id_update as idUpdate, ");
             requete.append(" lang.name as ProdName from relaisduson.relaisdu_product prod  ");
             requete.append(" inner join relaisduson.relaisdu_image img  ");
             requete.append(" on prod.id_product = img.id_product  ");
@@ -66,6 +53,8 @@ public class ProductDao {
             requete.append(" on catprod.id_product = prod.id_product ");
             requete.append(" inner join relaisduson.relaisdu_category_lang catlang ");
             requete.append(" on catlang.id_category = catprod.id_category ");
+            requete.append(" left join relaisduson.relaisdu_image_update_info updateinfo");
+            requete.append(" on img.id_image = updateinfo.id_image ");
             requete.append(" where prod.id_product>? limit 0,? ");
 
             PreparedStatement preStatement = connection.prepareStatement(requete.toString());
@@ -75,15 +64,9 @@ public class ProductDao {
             ResultSet result = preStatement.executeQuery();
 
             while (result.next()) {
-                // System.out.println("Product id: " + result.getInt("idProd"));
-                // System.out.println("Category name: " +
-                // result.getString("CatName"));
-                // System.out.println("Img id: " + result.getInt("idImage"));
-                // System.out.println("Product name: " +
-                // result.getString("ProdName"));
+                Integer idUpdate = result.getInt("idUpdate");
                 productsInformation.add(new ProductInfo(result.getInt("idProd"),
-                        result.getString("ProdName"), result.getString("CatName"),
-                        result.getInt("idImage")));
+                        result.getString("ProdName"), result.getInt("idImage"), idUpdate != 0));
             }
 
         }
@@ -92,6 +75,33 @@ public class ProductDao {
             logger.error("Erreur Sql" + e.getMessage());
         }
         return productsInformation;
+    }
+
+    /**
+     * Database update to indicate image modification
+     * 
+     * @param imageId The image id
+     */
+    public void imageModificationNotification(int imageId) {
+        try {
+
+            Connection connection = ds.getConnection();
+            StringBuilder requete = new StringBuilder();
+            requete.append(" INSERT INTO `relaisdu_image_update_info` (id_image) VALUES(?) ");
+
+            PreparedStatement preStatement = connection.prepareStatement(requete.toString());
+            preStatement.setInt(1, imageId);
+
+            int result = preStatement.executeUpdate();
+            if (result > 0) {
+                logger.debug("One row update");
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Erreur Sql" + e.getMessage());
+        }
     }
 
     // ===== Accesseurs =======================================================

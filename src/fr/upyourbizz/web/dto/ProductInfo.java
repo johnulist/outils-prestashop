@@ -12,34 +12,21 @@ public class ProductInfo {
 
     private final String productName;
 
-    private final String categoryName;
-
     private final int imageId;
+
+    private final boolean isImgModified;
 
     // ===== Constructeurs ====================================================
 
-    public ProductInfo(int productId, String productName, String categoryName, int imageId) {
+    public ProductInfo(int productId, String productName, int imageId, boolean isImgModified) {
         super();
         this.productId = productId;
         this.productName = productName;
-        this.categoryName = categoryName;
         this.imageId = imageId;
+        this.isImgModified = isImgModified;
     }
 
     // ===== Méthodes =========================================================
-
-    public String getUrl() {
-        String imgIdStr = String.valueOf(imageId);
-        StringBuilder url = new StringBuilder();
-        url.append("http://10.211.55.5/relaisduson/img/p/");
-        int compteur = 0;
-        while (compteur < imgIdStr.length()) {
-            url.append(imgIdStr.charAt(compteur) + "/");
-            compteur++;
-        }
-        url.append(imgIdStr + ".jpg");
-        return url.toString();
-    }
 
     // ===== Accesseurs =======================================================
     /**
@@ -61,15 +48,6 @@ public class ProductInfo {
     }
 
     /**
-     * Retourne categoryName
-     * 
-     * @return categoryName
-     */
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    /**
      * Retourne imageId
      * 
      * @return imageId
@@ -77,5 +55,15 @@ public class ProductInfo {
     public int getImageId() {
         return imageId;
     }
+
+    /**
+     * Retourne isImgModified
+     * 
+     * @return isImgModified
+     */
+    public boolean isImgModified() {
+        return isImgModified;
+    }
+
     // ===== Classes imbriquées ===============================================
 }

@@ -91,8 +91,10 @@ public class UpdateImgPictureFromGoogleController extends AbstractController {
         try {
             updateImgPictureFromGoogleCoordinator.saveFileOnDiskFromUrl(
                     updateImgPictureFromGoogleModel.getSelectedImg(),
-                    String.valueOf(updateImgPictureFromGoogleModel.getSelectedProduct().getProductId())
+                    String.valueOf(updateImgPictureFromGoogleModel.getSelectedProduct().getImageId())
                             + ".jpg");
+            updateImgPictureFromGoogleCoordinator.imageModificationNotification(updateImgPictureFromGoogleModel.getSelectedProduct().getImageId());
+            updateImgPictureFromGoogleModel.getSelectedProduct().setImgModified(true);
             growlBean.setText("La nouvelle image a été enregistrée avec succès");
             growlBean.display();
         }

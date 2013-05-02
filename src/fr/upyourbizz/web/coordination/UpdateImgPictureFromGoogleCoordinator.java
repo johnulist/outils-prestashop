@@ -64,6 +64,15 @@ public class UpdateImgPictureFromGoogleCoordinator {
         fileManagementService.saveFileOnDiskFromUrl(url, fileName);
     }
 
+    /**
+     * Notifie database about the image modification
+     * 
+     * @param imageId The image id
+     */
+    public void imageModificationNotification(int imageId) {
+        productManagementService.imageModificationNotification(imageId);
+    }
+
     // ===== Accesseurs =======================================================
 
     /**

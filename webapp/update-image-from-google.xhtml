@@ -8,15 +8,6 @@
 	<f:event type="preRenderView"
 		listener="#{updateImgPictureFromGoogleController.init}" />
 </f:metadata>
-<ui:define name="head">
-	<style type="text/css">
-.carItem {
-	width: 200px;
-	height: 130px;
-	text-align: center;
-}
-</style>
-</ui:define>
 
 <f:view contentType="text/html">
 	<h:head>
@@ -32,6 +23,13 @@
 			href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
 
 	</h:head>
+	<p:ajaxStatus onstart="statusDialog.show();"
+		onsuccess="statusDialog.hide();" />
+
+	<p:dialog modal="true" widgetVar="statusDialog" header="Attente réponse..."
+		draggable="false" closable="false">
+		<p:graphicImage value="/img/ajaxloadingbar.gif" />
+	</p:dialog>
 	<h:form id="form">
 		<p:growl id="growl" showDetail="true" />
 
@@ -40,7 +38,7 @@
 				value="#{updateImgPictureFromGoogleModel.productInfoList}"
 				lazy="true">
 
-				<p:column style="width:2%">
+				<p:column style="width:2% #{product.style}">
 					<p:rowToggler />
 				</p:column>
 
@@ -57,7 +55,7 @@
 					</p:commandLink>
 				</p:column>
 
-				<p:column style="width:22%">
+				<p:column style="width:22%;">
 					<f:facet name="header">
                     	Id produit
             		</f:facet>
@@ -107,7 +105,7 @@
 									<br />
 									<p:commandButton
 										action="#{updateImgPictureFromGoogleController.useNewImage}"
-										value="Utiliser" update=":form:growl">
+										value="Utiliser" update=":form:growl,:form:productsDataTable">
 										<f:setPropertyActionListener value="#{product}"
 											target="#{updateImgPictureFromGoogleModel.selectedProduct}" />
 										<f:setPropertyActionListener value="#{googleImgUrl}"
