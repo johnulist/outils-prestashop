@@ -29,6 +29,8 @@ public class UpdateImgPictureFromGoogleModel {
 
     private String selectedImg = "www.empty.com";
 
+    private String urlNewImg = "";
+
     // ===== Constructeurs ====================================================
 
     // ===== Méthodes =========================================================
@@ -127,6 +129,24 @@ public class UpdateImgPictureFromGoogleModel {
      */
     public void setSelectedImg(String selectedImg) {
         this.selectedImg = selectedImg;
+    }
+
+    /**
+     * Retourne urlNewImg
+     * 
+     * @return urlNewImg
+     */
+    public String getUrlNewImg() {
+        return urlNewImg;
+    }
+
+    /**
+     * Affecte urlNewImg
+     * 
+     * @param urlNewImg urlNewImg à affecter
+     */
+    public void setUrlNewImg(String urlNewImg) {
+        this.urlNewImg = urlNewImg;
     }
 
     // ===== Classes imbriquées ===============================================

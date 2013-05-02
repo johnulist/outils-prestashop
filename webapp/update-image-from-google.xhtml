@@ -26,8 +26,8 @@
 	<p:ajaxStatus onstart="statusDialog.show();"
 		onsuccess="statusDialog.hide();" />
 
-	<p:dialog modal="true" widgetVar="statusDialog" header="Attente réponse..."
-		draggable="false" closable="false">
+	<p:dialog modal="true" widgetVar="statusDialog"
+		header="Attente réponse..." draggable="false" closable="false">
 		<p:graphicImage value="/img/ajaxloadingbar.gif" />
 	</p:dialog>
 	<h:form id="form">
@@ -93,11 +93,22 @@
 								value="#{product.googleImgUrls}" var="googleImgUrl"
 								headerText="Nouvelle image"
 								itemStyle="height:200px;width:300px;text-align: center;">
+								<f:facet name="header">
+									<p:commandLink oncomplete="dlgAdd.show()">
+										<p:graphicImage url="/img/axialis-plus-grey.png"
+											style="width:16px;height:16px;" alt="Ajouter" />
+										<f:setPropertyActionListener value="#{product}"
+											target="#{updateImgPictureFromGoogleModel.selectedProduct}" />
+										<f:setPropertyActionListener value="#{googleImgUrl}"
+											target="#{updateImgPictureFromGoogleModel.selectedImg}" />
+									</p:commandLink>
+								</f:facet>
 								<p:column>
 									<p:commandLink update=":form:detailNouvelleImg"
 										oncomplete="dlgNew.show()">
 										<p:graphicImage url="#{googleImgUrl}"
-											style="max-width:200px;max-height:150px;" alt="Utiliser" />
+											style="max-width:200px;max-height:150px;"
+											alt="Image non utilisable" />
 										<f:setPropertyActionListener value="#{googleImgUrl}"
 											target="#{updateImgPictureFromGoogleModel.selectedImg}" />
 									</p:commandLink>
@@ -135,12 +146,23 @@
 				update="panel" value="Suivant" width="150px" />
 		</p:panel>
 		<p:dialog widgetVar="dlgNew" header="Image Taille réelle" modal="true">
-			<p:graphicImage id="detailNouvelleImg"
-				url="#{updateImgPictureFromGoogleModel.selectedImg}" />
+			<p:commandLink oncomplete="dlgNew.hide()">
+				<p:graphicImage id="detailNouvelleImg"
+					url="#{updateImgPictureFromGoogleModel.selectedImg}" />
+			</p:commandLink>
 		</p:dialog>
 		<p:dialog widgetVar="dlgOld" header="Image Taille réelle" modal="true">
-			<p:graphicImage id="detailAncienneImg"
-				url="#{updateImgPictureFromGoogleModel.selectedProduct.url}" />
+			<p:commandLink oncomplete="dlgOld.hide()">
+				<p:graphicImage id="detailAncienneImg"
+					url="#{updateImgPictureFromGoogleModel.selectedProduct.url}" />
+			</p:commandLink>
+		</p:dialog>
+		<p:dialog widgetVar="dlgAdd" header="Entrez url image" modal="true">
+			<p:inputText value="#{updateImgPictureFromGoogleModel.urlNewImg}"
+				size="100" />
+			<p:commandButton oncomplete="dlgAdd.hide()"
+				actionListener="#{updateImgPictureFromGoogleController.addNewUrl}"
+				update="panel" value="Ajouter" />
 		</p:dialog>
 	</h:form>
 	<h:body>
