@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel header="Description courte">
+		<p:inputTextarea rows="6" cols="140" value="#{ajoutProduitModel.descriptionCourte}"/>
+	</p:panel>
+	<p:panel header="Description offre">
+		<p:editor value="#{ajoutProduitModel.descriptionOffre}" width="600" height="200"/>
+	</p:panel>
+	<p:panel header="Avantages">
+		<p:editor value="#{ajoutProduitModel.avantages}" width="600" height="200"/>
+	</p:panel>
+	<p:panel header="Bénéfices">
+		<p:editor value="#{ajoutProduitModel.benefices}" width="600" height="200"/>
+	</p:panel>
+</ui:composition>

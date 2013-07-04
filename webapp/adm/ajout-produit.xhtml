@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/standard-template.xhtml">
+	<ui:define name="title">Upyourbizz Ajout Produit</ui:define>
+	<ui:define name="content">
+		<p:panel>
+			<h:form>
+				<p style="font-size: 250%; color: #835C3B;">
+					<h:outputText value="Ajout Produit " />
+				</p>
+				<p:tabView id="ajout-produit">
+					<p:tab id="onglet-produit" title="Produit">
+						<ui:include src="ajout-produit-produit.xhtml"></ui:include>
+					</p:tab>
+					<p:tab id="onglet-description" title="Descriptions">
+						<ui:include src="ajout-produit-description.xhtml"></ui:include>
+					</p:tab>
+					<p:tab id="onglet-prix" title="Prix">
+						<ui:include src="ajout-produit-prix.xhtml"></ui:include>
+					</p:tab>
+					<p:tab id="onglet-option" title="Options">
+						<ui:include src="ajout-produit-option.xhtml"></ui:include>
+					</p:tab>
+					<p:tab id="onglet-images" title="Images">
+						<ui:include src="ajout-produit-images.xhtml"></ui:include>
+					</p:tab>
+				</p:tabView>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

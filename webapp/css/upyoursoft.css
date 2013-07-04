@@ -1,0 +1,58 @@
+/*
+ * Default font size of themes provided by primefaces are bigger than expected to change the font-size of PrimeFaces
+ * components globally, use the .ui-widget style class
+*/
+.ui-widget,.ui-widget .ui-widget {
+	font-size: 90% !important;
+}
+body {
+    background: url("../img/bgslider.png") repeat scroll 0 0 #FFFFFF !important;
+}
+
+label.defaultSize{
+	width:130px;
+	display: inline-block;
+}
+
+/*
+ * Template
+ */
+div.anglobante{
+	width:90%;
+	background: none repeat scroll 0 0 transparent;
+	margin: 0 auto;
+}
+img.headerLogo{
+	margin-bottom: 7px;
+    margin-top: 7px;
+    width: 200px;
+}
+img.headerQuit{
+    margin-top: 7px;
+    width: 30px;
+    float: right;
+}
+
+/*
+ * Login page
+ */
+fieldset.connexion{
+	width:450px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin:-135px 0 0 -250px;
+}
+label.connexionLabel{
+	width:150px;
+	display:block;
+	font-weight:bold;
+}
+input.connexionInput{
+	width:200px;
+	display:block;
+}
+
+/*
+ * Ajout produit
+ */

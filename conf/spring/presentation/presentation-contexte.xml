@@ -14,8 +14,22 @@
 		<property name="updateImgPictureFromGoogleCoordinator" ref="updateImgPictureFromGoogleCoordinator" />
 		<property name="growlBean" ref="growlBean" />
 	</bean>
+	<bean id="ajoutProduitController"
+		class="fr.upyourbizz.web.presentation.controller.AjoutProduitController"
+		scope="request">
+	</bean>
 	<!-- Managed bean model creation -->
 	<bean id="updateImgPictureFromGoogleModel"
 		class="fr.upyourbizz.web.presentation.model.UpdateImgPictureFromGoogleModel"
+		scope="session" />
+	<bean id="loginBean" class="fr.upyourbizz.web.presentation.LoginBean"
+		scope="request" />
+	<bean id="testControleur"
+		class="fr.upyourbizz.web.presentation.controller.testControleur"
+		scope="request">
+		<property name="produitReferenceDao" ref="produitReferenceDao" />
+	</bean>
+	<bean id="ajoutProduitModel"
+		class="fr.upyourbizz.web.presentation.model.AjoutProduitModel"
 		scope="session" />
 </beans>

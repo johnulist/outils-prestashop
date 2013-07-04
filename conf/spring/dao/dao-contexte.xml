@@ -6,4 +6,7 @@
 	<bean id="productDao" class="fr.upyourbizz.web.persistence.ProductDao">
 		<property name="ds" ref="dataSource" />
 	</bean>
+	<bean id="produitReferenceDao" class="fr.upyourbizz.web.persistence.ProduitReferenceDao">
+		<property name="ds" ref="dataSource" />
+	</bean>
 </beans>

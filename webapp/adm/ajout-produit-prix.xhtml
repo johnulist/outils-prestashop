@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel header="Coût nominal">
+		<h:outputLabel value="Coût nominal: " for="coutNominal"
+			styleClass="defaultSize" />
+		<p:inputText id="coutNominal" value="#{ajoutProduitModel.coutNominal}" />
+	</p:panel>
+	<br />
+	<p:panel header="Coût unitaire fixe (si non dégressif)">
+		<h:outputLabel value="Coût unitaire fixe:" for="coutUnitaireFixe"
+			styleClass="defaultSize" />
+		<p:inputText id="coutUnitaireFixe"
+			value="#{ajoutProduitModel.prixUnitaireFixe}" />
+	</p:panel>
+	<br />
+	<p:panel header="Prix si dégressif">
+		<h:outputLabel value="Borne inférieure:" for="borneInferieure"
+			styleClass="defaultSize" />
+		<p:inputText id="borneInferieure"
+			value="#{ajoutProduitModel.borneInferieure}" />
+		<h:outputLabel value="Borne supérieure" for="borneInferieure"
+			styleClass="defaultSize" />
+		<p:inputText id="borneSuperieure"
+			value="#{ajoutProduitModel.borneInferieure}" />
+	</p:panel>
+
+</ui:composition>
