@@ -406,15 +406,6 @@ public class AjoutProduitModel {
     }
 
     /**
-     * Retourne optionNom
-     * 
-     * @return optionNom
-     */
-    public String getOptionNom() {
-        return optionNom;
-    }
-
-    /**
      * Affecte optionNom
      * 
      * @param optionNom optionNom à affecter

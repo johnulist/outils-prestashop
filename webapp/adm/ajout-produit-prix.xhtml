@@ -16,15 +16,57 @@
 			value="#{ajoutProduitModel.prixUnitaireFixe}" />
 	</p:panel>
 	<br />
+	<br />
 	<p:panel header="Prix si dégressif">
-		<h:outputLabel value="Borne inférieure:" for="borneInferieure"
-			styleClass="defaultSize" />
-		<p:inputText id="borneInferieure"
-			value="#{ajoutProduitModel.borneInferieure}" />
-		<h:outputLabel value="Borne supérieure" for="borneInferieure"
-			styleClass="defaultSize" />
-		<p:inputText id="borneSuperieure"
-			value="#{ajoutProduitModel.borneInferieure}" />
+		<p:panelGrid id="ajoutPrixDegressif" columns="2">
+			<f:facet name="header">  
+        		Ajout Prix Dégressif
+    		</f:facet>
+			<h:outputLabel value="Borne inférieure:" for="borneInferieure"
+				styleClass="defaultSize" />
+			<p:inputText id="borneInferieure"
+				value="#{ajoutProduitModel.borneInferieure}" />
+
+			<h:outputLabel value="Borne supérieure" for="borneSuperieure"
+				styleClass="defaultSize" />
+			<p:inputText id="borneSuperieure"
+				value="#{ajoutProduitModel.borneSuperieure}" />
+
+			<h:outputLabel value="Coût unitaire" for="coutUnitaireDegressif"
+				styleClass="defaultSize" />
+			<p:inputText id="coutUnitaireDegressif"
+				value="#{ajoutProduitModel.coutUnitaire}" />
+
+			<f:facet name="footer">
+				<p:commandButton value="Ajouter" update="ajoutPrixDegressif, tableauPrixDegressif"
+					action="#{ajoutProduitController.ajoutPrixDegressif}" />
+			</f:facet>
+		</p:panelGrid>
+		<br />
+		<p:dataTable id="tableauPrixDegressif" var="prix"
+			value="#{ajoutProduitModel.listePrixDegressifProduit}">
+			<f:facet name="header">  
+            Prix dégressifs
+        </f:facet>
+
+			<p:column sortBy="borneInferieure" headerText="Borne Inférieure">
+				<h:outputText value="#{prix.borneInferieure}" />
+			</p:column>
+
+			<p:column sortBy="borneSuperieure" headerText="Borne Supérieure">
+				<h:outputText value="#{prix.borneSuperieure}" />
+			</p:column>
+
+			<p:column sortBy="prixUnitaire" headerText="Prix Unitaire">
+				<h:outputText value="#{prix.prixUnitaire}" />
+			</p:column>
+
+			<p:column style="width:10%" headerText="Suppression">
+				<p:commandButton id="deleteButton" update="tableauPrixDegressif"
+					action="#{ajoutProduitController.suppressionPrixDegressif(prix)}"
+					icon="ui-icon-closethick" title="View" />
+			</p:column>
+		</p:dataTable>
 	</p:panel>
 
 </ui:composition>

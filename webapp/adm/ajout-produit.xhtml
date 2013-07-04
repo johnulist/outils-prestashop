@@ -6,10 +6,14 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="../templates/standard-template.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{ajoutProduitController.init}" />
+	</f:metadata>
 	<ui:define name="title">Upyourbizz Ajout Produit</ui:define>
 	<ui:define name="content">
 		<p:panel>
-			<h:form>
+			<h:form id="form">
 				<p style="font-size: 250%; color: #835C3B;">
 					<h:outputText value="Ajout Produit " />
 				</p>
