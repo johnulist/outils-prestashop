@@ -11,5 +11,15 @@
 		<property name="googleImageService" ref="googleImageService" />
 		<property name="fileManagementService" ref="fileManagementService" />
 	</bean>
-
+	<bean id="ajoutProduitCoordinateur" class="fr.upyourbizz.web.coordination.AjoutProduitCoordinateur">
+		<property name="gestionProduitService" ref="gestionProduitService" />
+	</bean>
+	<bean id="gestionClientCoordinateur"
+		class="fr.upyourbizz.web.coordination.GestionClientCoordinateur">
+		<property name="gestionClientService" ref="gestionClientService" />
+	</bean>
+	<bean id="gestionUtilisateurCoordinateur"
+		class="fr.upyourbizz.web.coordination.GestionUtilisateursCoordinateur">
+		<property name="gestionUtilisateurService" ref="gestionUtilisateurService" />
+	</bean>
 </beans>

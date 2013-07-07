@@ -9,4 +9,10 @@
 	<bean id="produitReferenceDao" class="fr.upyourbizz.web.persistence.ProduitReferenceDao">
 		<property name="ds" ref="dataSource" />
 	</bean>
+	<bean id="utilisateurDao" class="fr.upyourbizz.web.persistence.UtilisateurDao">
+		<property name="ds" ref="dataSource" />
+	</bean>
+	<bean id="clientDao" class="fr.upyourbizz.web.persistence.ClientDao">
+		<property name="ds" ref="dataSource" />
+	</bean>
 </beans>

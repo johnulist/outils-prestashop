@@ -3,15 +3,253 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<p:panel header="Prix si dégressif">
-		<p:panelGrid columns="2">
-			<f:facet name="header">  
-        		Ajout Prix Dégressif
-    		</f:facet>
+	<h:form id="option">
+		<p:panel header="Options produit">
+			<p:fieldset id="listeOptionFiedset" legend="Options existantes">
+				<p:dataTable id="listeOption" var="option"
+					value="#{ajoutProduitModel.listeOptions}" paginator="true" rows="5"
+					paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<f:facet name="header">  
+            	Liste Options
+        	</f:facet>
 
-			<f:facet name="footer">
-				<p:commandButton value="Ajouter" />
-			</f:facet>
-		</p:panelGrid>
-	</p:panel>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nom Option" />
+						</f:facet>
+						<h:outputText value="#{option.nom}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Référence" />
+						</f:facet>
+						<h:outputText value="#{option.reference}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Obligatoire" />
+						</f:facet>
+						<p:commandButton id="obligatoireBtn" icon="ui-icon-check"
+							rendered="#{option.obligatoire}" title="option obligatoire"
+							style="width:15px; height:15px;" />
+						<p:commandButton id="nonObligatoireBtn" icon="ui-icon-close"
+							rendered="#{!option.obligatoire}" title="option non obligatoire"
+							style="width:15px; height:15px;" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Coût unitaire" />
+						</f:facet>
+						<h:outputText value="#{option.coutUnitaireFixe}"
+							rendered="#{option.coutUnitaireFixe ne 0}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Prix dégressif" />
+						</f:facet>
+						<p:commandButton id="selectButton" icon="ui-icon-search"
+							oncomplete="optionPrixDegresDialog.show()" update=":ajout-produit:option:tableauOptionPrixDegressifDlg"
+							title="Détails Prix Dégressif">
+							<f:setPropertyActionListener value="#{option}"
+								target="#{ajoutProduitModel.optionSelectionne}" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="M" style="width:3%">
+						<p:commandButton id="modifierOptionButton"
+							update=":ajout-produit:option"
+							action="#{ajoutProduitController.modifierOption(option)}"
+							icon="ui-icon-pencil" title="Modifier"
+							style="width:15px; height:15px;" />
+					</p:column>
+					<p:column headerText="S" style="width:3%">
+						<p:commandButton id="deleteOptionButton" update="listeOption"
+							action="#{ajoutProduitController.suppressionOption(option)}"
+							icon="ui-icon-trash" title="Supprimer"
+							style="width:15px; height:15px;" />
+					</p:column>
+				</p:dataTable>
+				<br />
+				<p:commandButton id="ajouterOptionBtn"
+					action="#{ajoutProduitController.afficherPartieNouvelleOption}"
+					update=":ajout-produit:option" value="Ajouter une option"
+					title="View" style="float:right;" />
+				<br />
+			</p:fieldset>
+			<br />
+			<br />
+			<p:fieldset id="ajoutNouvelleOptionFiedset" legend=" Nouvelle Option"
+				rendered="#{ajoutProduitModel.afficherPartieNouvelleOption}">
+				<h:panelGrid id="nouvelleOption" columns="2" cellpadding="5">
+					<h:outputLabel value="Nom: " for="nomOptionProduit"
+						styleClass="defaultSize" />
+					<p:inputText id="nomOptionProduit"
+						value="#{ajoutProduitModel.optionNom}" />
+
+					<h:outputLabel value="Référence: " for="referenceOptionProduit"
+						styleClass="defaultSize" />
+					<p:inputText id="referenceOptionProduit"
+						value="#{ajoutProduitModel.optionReference}" />
+
+					<h:outputLabel value="Obligatoire: " for="optionObligatoire"
+						styleClass="defaultSize" />
+					<p:selectBooleanCheckbox id="optionObligatoire"
+						value="#{ajoutProduitModel.optionObligatoire}" />
+				</h:panelGrid>
+				<br />
+				<p:panel header="Coût nominal">
+					<h:outputLabel value="Coût nominal: " for="optionCoutNominal"
+						styleClass="defaultSize" />
+					<p:inputText id="optionCoutNominal"
+						value="#{ajoutProduitModel.optionCoutNominal}" />
+				</p:panel>
+				<br />
+				<p:panel header="Coût unitaire fixe (si non dégressif)">
+					<h:outputLabel value="Coût unitaire fixe:"
+						for="coutOptionUnitaireFixe" styleClass="defaultSize" />
+					<p:inputText id="coutOptionUnitaireFixe"
+						value="#{ajoutProduitModel.optionCoutUnitaireFixe}" />
+				</p:panel>
+				<br />
+
+				<p:panel header="Prix si dégressif">
+					<p:panelGrid id="ajoutOptionPrixDegressif" columns="2">
+						<f:facet name="header">  
+        				Ajout Prix Dégressif
+    				</f:facet>
+						<h:outputLabel value="Borne inférieure:"
+							for="optionBorneInferieure" styleClass="defaultSize" />
+						<p:inputText id="optionBorneInferieure"
+							value="#{ajoutProduitModel.optionBorneInferieure}" />
+
+						<h:outputLabel value="Borne supérieure"
+							for="optionBorneSuperieure" styleClass="defaultSize" />
+						<p:inputText id="optionBorneSuperieure"
+							value="#{ajoutProduitModel.optionBorneSuperieure}" />
+
+						<h:outputLabel value="Coût unitaire"
+							for="optionCoutUnitaireDegressif" styleClass="defaultSize" />
+						<p:inputText id="optionCoutUnitaireDegressif"
+							value="#{ajoutProduitModel.optionCoutUnitaire}" />
+
+						<f:facet name="footer">
+							<p:commandButton value="Ajouter"
+								update="ajoutOptionPrixDegressif, tableauOptionPrixDegressif"
+								action="#{ajoutProduitController.ajouterOptionPrixDegressif}" />
+						</f:facet>
+					</p:panelGrid>
+					<br />
+
+					<p:dataTable var="prix"
+						value="#{ajoutProduitModel.listeOptionPrixDegressifProduit}"
+						id="tableauOptionPrixDegressif" editable="true">
+
+						<f:facet name="header">  
+            			Prix dégressifs 
+        			</f:facet>
+						<p:column headerText="Borne Inférieure"
+							sortBy="#{prix.borneInferieure}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{prix.borneInferieure}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{prix.borneInferieure}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Borne Supérieure" style="width:30%">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{prix.borneSuperieure}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{prix.borneSuperieure}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Prix Unitaire" style="width:30%">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{prix.prixUnitaire}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{prix.prixUnitaire}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="M" style="width:6%">
+							<p:rowEditor />
+						</p:column>
+						<p:column headerText="S" style="width:3%">
+							<p:commandButton id="deleteButton"
+								update="tableauOptionPrixDegressif"
+								action="#{ajoutProduitController.suppressionOptionPrixDegressif(prix)}"
+								icon="ui-icon-closethick" title="View"
+								style="width:15px; height:15px;" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<p:commandButton id="annulerAjouterOption"
+					action="#{ajoutProduitController.annulerAjouterNouvelleOption}"
+					style="float:right;width:130px;" update=":ajout-produit:option"
+					value="Annuler" title="Annuler Ajouter l'option" />
+				<p:commandButton id="ajouterOption"
+					action="#{ajoutProduitController.ajouterNouvelleOption}"
+					style="float:right;width:130px;" update=":ajout-produit:option"
+					value="Ajouter l'option" title="Ajouter l'option" />
+			</p:fieldset>
+		</p:panel>
+
+		<p:dialog header="Option Prix Dégressif"
+			widgetVar="optionPrixDegresDialog" resizable="false"
+			id="optionPrixDegresDlg" showEffect="fade" hideEffect="explode"
+			modal="true">
+			<p:dataTable var="prixOption"
+				value="#{ajoutProduitModel.optionSelectionne.listePrixDegressif}"
+				id="tableauOptionPrixDegressifDlg" editable="true">
+
+				<f:facet name="header">  
+            			Prix dégressifs 
+        			</f:facet>
+				<p:column headerText="Borne Inférieure"
+					sortBy="#{prixOption.borneInferieure}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{prixOption.borneInferieure}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{prixOption.borneInferieure}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Borne Supérieure" style="width:30%">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{prixOption.borneSuperieure}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{prixOption.borneSuperieure}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Prix Unitaire" style="width:30%">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{prixOption.prixUnitaire}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{prixOption.prixUnitaire}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="M" style="width:6%">
+					<p:rowEditor />
+				</p:column>
+			</p:dataTable>
+		</p:dialog>
+	</h:form>
 </ui:composition>

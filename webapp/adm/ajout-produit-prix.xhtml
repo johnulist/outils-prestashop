@@ -3,70 +3,97 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<p:panel header="Coût nominal">
-		<h:outputLabel value="Coût nominal: " for="coutNominal"
-			styleClass="defaultSize" />
-		<p:inputText id="coutNominal" value="#{ajoutProduitModel.coutNominal}" />
-	</p:panel>
-	<br />
-	<p:panel header="Coût unitaire fixe (si non dégressif)">
-		<h:outputLabel value="Coût unitaire fixe:" for="coutUnitaireFixe"
-			styleClass="defaultSize" />
-		<p:inputText id="coutUnitaireFixe"
-			value="#{ajoutProduitModel.prixUnitaireFixe}" />
-	</p:panel>
-	<br />
-	<br />
-	<p:panel header="Prix si dégressif">
-		<p:panelGrid id="ajoutPrixDegressif" columns="2">
-			<f:facet name="header">  
+	<h:form id="prix">
+		<p:panel header="Coût nominal">
+			<h:outputLabel value="Coût nominal: " for="coutNominal"
+				styleClass="defaultSize" />
+			<p:inputText id="coutNominal"
+				value="#{ajoutProduitModel.coutNominal}" />
+		</p:panel>
+		<br />
+		<p:panel header="Coût unitaire fixe (si non dégressif)">
+			<h:outputLabel value="Coût unitaire fixe:" for="coutUnitaireFixe"
+				styleClass="defaultSize" />
+			<p:inputText id="coutUnitaireFixe"
+				value="#{ajoutProduitModel.prixUnitaireFixe}" />
+		</p:panel>
+		<br />
+		<br />
+		<p:panel header="Prix si dégressif">
+			<p:panelGrid id="ajoutPrixDegressif" columns="2">
+				<f:facet name="header">  
         		Ajout Prix Dégressif
     		</f:facet>
-			<h:outputLabel value="Borne inférieure:" for="borneInferieure"
-				styleClass="defaultSize" />
-			<p:inputText id="borneInferieure"
-				value="#{ajoutProduitModel.borneInferieure}" />
+				<h:outputLabel value="Borne inférieure:" for="borneInferieure"
+					styleClass="defaultSize" />
+				<p:inputText id="borneInferieure"
+					value="#{ajoutProduitModel.borneInferieure}" />
 
-			<h:outputLabel value="Borne supérieure" for="borneSuperieure"
-				styleClass="defaultSize" />
-			<p:inputText id="borneSuperieure"
-				value="#{ajoutProduitModel.borneSuperieure}" />
+				<h:outputLabel value="Borne supérieure" for="borneSuperieure"
+					styleClass="defaultSize" />
+				<p:inputText id="borneSuperieure"
+					value="#{ajoutProduitModel.borneSuperieure}" />
 
-			<h:outputLabel value="Coût unitaire" for="coutUnitaireDegressif"
-				styleClass="defaultSize" />
-			<p:inputText id="coutUnitaireDegressif"
-				value="#{ajoutProduitModel.coutUnitaire}" />
+				<h:outputLabel value="Coût unitaire" for="coutUnitaireDegressif"
+					styleClass="defaultSize" />
+				<p:inputText id="coutUnitaireDegressif"
+					value="#{ajoutProduitModel.coutUnitaire}" />
 
-			<f:facet name="footer">
-				<p:commandButton value="Ajouter" update="ajoutPrixDegressif, tableauPrixDegressif"
-					action="#{ajoutProduitController.ajoutPrixDegressif}" />
-			</f:facet>
-		</p:panelGrid>
-		<br />
-		<p:dataTable id="tableauPrixDegressif" var="prix"
-			value="#{ajoutProduitModel.listePrixDegressifProduit}">
-			<f:facet name="header">  
-            Prix dégressifs
-        </f:facet>
+				<f:facet name="footer">
+					<p:commandButton value="Ajouter"
+						update="ajoutPrixDegressif, tableauPrixDegressif"
+						action="#{ajoutProduitController.ajoutPrixDegressif}" />
+				</f:facet>
+			</p:panelGrid>
+			<br />
 
-			<p:column sortBy="borneInferieure" headerText="Borne Inférieure">
-				<h:outputText value="#{prix.borneInferieure}" />
-			</p:column>
+			<p:dataTable var="prix"
+				value="#{ajoutProduitModel.listePrixDegressifProduit}"
+				id="tableauPrixDegressif" editable="true">
 
-			<p:column sortBy="borneSuperieure" headerText="Borne Supérieure">
-				<h:outputText value="#{prix.borneSuperieure}" />
-			</p:column>
-
-			<p:column sortBy="prixUnitaire" headerText="Prix Unitaire">
-				<h:outputText value="#{prix.prixUnitaire}" />
-			</p:column>
-
-			<p:column style="width:10%" headerText="Suppression">
-				<p:commandButton id="deleteButton" update="tableauPrixDegressif"
-					action="#{ajoutProduitController.suppressionPrixDegressif(prix)}"
-					icon="ui-icon-closethick" title="View" />
-			</p:column>
-		</p:dataTable>
-	</p:panel>
-
+				<f:facet name="header">  
+            	Prix dégressifs 
+        	</f:facet>
+				<p:column headerText="Borne Inférieure"
+					sortBy="#{prix.borneInferieure}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{prix.borneInferieure}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{prix.borneInferieure}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Borne Supérieure" style="width:30%">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{prix.borneSuperieure}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{prix.borneSuperieure}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Prix Unitaire" style="width:30%">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{prix.prixUnitaire}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{prix.prixUnitaire}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="M" style="width:6%">
+					<p:rowEditor />
+				</p:column>
+				<p:column headerText="S" style="width:3%">
+					<p:commandButton id="deleteButton" update="tableauPrixDegressif"
+						action="#{ajoutProduitController.suppressionPrixDegressif(prix)}"
+						icon="ui-icon-trash" title="View" style="width:15px; height:15px;" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
 </ui:composition>

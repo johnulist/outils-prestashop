@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel;
+import fr.upyourbizz.web.presentation.model.AjoutProduitModel.Option;
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel.PrixDegressif;
 
 /**
@@ -63,6 +64,73 @@ public class AjoutProduitController {
      */
     public void suppressionPrixDegressif(PrixDegressif prixDegressifSelectionne) {
         ajoutProduitModel.getListePrixDegressifProduit().remove(prixDegressifSelectionne);
+    }
+
+    public void afficherPartieNouvelleOption() {
+        ajoutProduitModel.setAfficherPartieNouvelleOption(true);
+    }
+
+    public void modifierOption(Option optionAModifier) {
+        // On affecte les éléments à la vue
+        ajoutProduitModel.setOptionNom(optionAModifier.getNom());
+        ajoutProduitModel.setOptionReference(optionAModifier.getReference());
+        ajoutProduitModel.setOptionObligatoire(optionAModifier.isObligatoire());
+        ajoutProduitModel.setOptionCoutUnitaireFixe(optionAModifier.getCoutUnitaireFixe());
+        ajoutProduitModel.setListeOptionPrixDegressifProduit(optionAModifier.getListePrixDegressif());
+
+        // On sauvegarde les anciennes valeurs
+        Option optionAvantModif = ajoutProduitModel.new Option(optionAModifier.getNom(),
+                optionAModifier.getReference(), optionAModifier.isObligatoire());
+        optionAvantModif.setCoutUnitaireFixe(optionAModifier.getCoutUnitaireFixe());
+        optionAvantModif.setListePrixDegressif(optionAModifier.getListePrixDegressif());
+        ajoutProduitModel.setOptionAvantModification(optionAvantModif);
+
+        ajoutProduitModel.getListeOptions().remove(optionAModifier);
+        ajoutProduitModel.setAfficherPartieNouvelleOption(true);
+    }
+
+    public void suppressionOption(Option optionASupprimer) {
+        ajoutProduitModel.getListeOptions().remove(optionASupprimer);
+    }
+
+    public void ajouterNouvelleOption() {
+        Option nouvelleOption = ajoutProduitModel.new Option(ajoutProduitModel.getOptionNom(),
+                ajoutProduitModel.getOptionReference(), ajoutProduitModel.isOptionObligatoire());
+        if (ajoutProduitModel.getOptionCoutUnitaireFixe() != 0) {
+            nouvelleOption.setCoutUnitaireFixe(ajoutProduitModel.getOptionCoutUnitaireFixe());
+        }
+        else {
+            nouvelleOption.setListePrixDegressif(ajoutProduitModel.getListeOptionPrixDegressifProduit());
+        }
+
+        ajoutProduitModel.getListeOptions().add(nouvelleOption);
+        ajoutProduitModel.setOptionAvantModification(null);
+        ajoutProduitModel.reinitialiserAjoutOption();
+        ajoutProduitModel.setAfficherPartieNouvelleOption(false);
+    }
+
+    public void annulerAjouterNouvelleOption() {
+        if (ajoutProduitModel.getOptionAvantModification() != null) {
+            ajoutProduitModel.getListeOptions().add(ajoutProduitModel.getOptionAvantModification());
+            ajoutProduitModel.setOptionAvantModification(null);
+        }
+        ajoutProduitModel.reinitialiserAjoutOption();
+        ajoutProduitModel.setAfficherPartieNouvelleOption(false);
+    }
+
+    public void ajouterOptionPrixDegressif() {
+        PrixDegressif nouveauPrix = ajoutProduitModel.new PrixDegressif(
+                ajoutProduitModel.getOptionBorneInferieure(),
+                ajoutProduitModel.getOptionBorneSuperieure(),
+                ajoutProduitModel.getOptionCoutUnitaire());
+        ajoutProduitModel.getListeOptionPrixDegressifProduit().add(nouveauPrix);
+        ajoutProduitModel.setOptionBorneInferieure(0);
+        ajoutProduitModel.setOptionBorneSuperieure(0);
+        ajoutProduitModel.setOptionCoutUnitaire(0F);
+    }
+
+    public void suppressionOptionPrixDegressif(PrixDegressif prixDegressifSelectionne) {
+        ajoutProduitModel.getListeOptionPrixDegressifProduit().remove(prixDegressifSelectionne);
     }
 
     // ===== Accesseurs =======================================================

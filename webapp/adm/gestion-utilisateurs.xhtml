@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/standard-template.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{gestionUtilisateursController.init}" />
+	</f:metadata>
+	<ui:define name="title">Upyourbizz Gestion Utilisateurs</ui:define>
+	<ui:define name="content">
+		<p:panel>
+			<h:form id="form">
+				<p style="font-size: 250%; color: #835C3B;">
+					<h:outputText value="Gestion Utilisateurs " />
+				</p>
+				<p:fieldset id="listeUtilisateurFiedset" legend="Liste Utilisateurs">
+					<p:dataTable id="listeUtilisateurs" var="utilisateur"
+						value="#{gestionUtilisateursModel.listeUtilisateurs}"
+						paginator="true" rows="10" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+						<f:facet name="header">  
+            			Liste Utilisateurs
+        			</f:facet>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Login:" />
+							</f:facet>
+							<h:outputText value="#{utilisateur.login}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Nom:" />
+							</f:facet>
+							<h:outputText value="#{utilisateur.nom}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Prénom:" />
+							</f:facet>
+							<h:outputText value="#{utilisateur.prenom}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Email:" />
+							</f:facet>
+							<h:outputText value="#{utilisateur.email}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Rôle:" />
+							</f:facet>
+							<h:outputText value="#{utilisateur.role}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Niveau:" />
+							</f:facet>
+							<h:outputText value="#{utilisateur.niveau}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Date création:" />
+							</f:facet>
+							<h:outputText value="#{utilisateur.dateCreation}" />
+						</p:column>
+						<p:column headerText="M" style="width:3%">
+							<p:commandButton id="modifierUtilisateurBtn"
+								action="#{gestionUtilisateursController.modifierUtilisateur(utilisateur)}"
+								icon="ui-icon-pencil" title="Modifier"
+								style="width:15px; height:15px;" />
+						</p:column>
+						<p:column headerText="S" style="width:3%">
+							<p:commandButton id="deleteOptionButton"
+								update="listeUtilisateurs"
+								action="#{gestionUtilisateursController.supprimerUtilisateur(utilisateur)}"
+								icon="ui-icon-trash" title="Supprimer"
+								style="width:15px; height:15px;" />
+						</p:column>
+					</p:dataTable>
+					<br />
+					<p:commandButton id="ajouterNouvelUtilisateurBtn"
+						action="#{gestionUtilisateursController.afficherPartieAjoutNouvelUtilisateur}"
+						update=":form" value="Ajouter nouvel utilisateur"
+						title="Ajout nouvel utilisateur" style="float:right;" />
+					<br />
+				</p:fieldset>
+				<br />
+				<p:fieldset id="ajoutNouvelUtilisateur"
+					legend="Informations Nouvel Utilisateurs" rendered="#{gestionUtilisateursModel.afficherPartieNouvelUtilisateur}">
+					<p:panel>
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel value="Nom: " for="nom" styleClass="defaultSize" />
+							<p:inputText id="nom"
+								value="#{gestionUtilisateursModel.utilisateurNom}" />
+
+							<h:outputLabel value="Prénom: " for="prenom"
+								styleClass="defaultSize" />
+							<p:inputText id="prenom"
+								value="#{gestionUtilisateursModel.utilisateurPrenom}" />
+
+							<h:outputText value="Rôle: " />
+							<p:selectOneMenu
+								value="#{gestionUtilisateursModel.roleSelectionne}"
+								style="width:140px;">
+								<f:selectItems value="#{gestionUtilisateursModel.listeRoles}" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Niveau: " />
+							<p:selectOneMenu
+								value="#{gestionUtilisateursModel.niveauSelectionne}"
+								style="width:140px;">
+								<f:selectItems value="#{gestionUtilisateursModel.listeNiveaux}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:panel>
+					<br />
+					<p:panel>
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel value="Login: " for="login"
+								styleClass="defaultSize" />
+							<p:inputText id="login"
+								value="#{gestionUtilisateursModel.utilisateurLogin}" />
+
+							<h:outputLabel value="Mot de passe: " for="mdp"
+								styleClass="defaultSize" />
+							<p:password id="mdp"
+								value="#{gestionUtilisateursModel.utilisateurMdp}" />
+
+							<h:outputLabel value="Confirmation: " for="mdpconfirm"
+								styleClass="defaultSize" />
+							<p:password id="mdpconfirm"
+								value="#{gestionUtilisateursModel.utilisateurMdpConfirmation}" />
+						</h:panelGrid>
+					</p:panel>
+					<p:commandButton id="ajouterUtilisateurBtn"
+						action="#{gestionUtilisateursController.ajoutNouvelUtilisateur}"
+						update=":form" value="Ajouter"
+						title="Ajout nouvel utilisateur" style="float:right;" />
+				</p:fieldset>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

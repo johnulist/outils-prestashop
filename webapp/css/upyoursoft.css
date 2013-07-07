@@ -3,7 +3,7 @@
  * components globally, use the .ui-widget style class
 */
 .ui-widget,.ui-widget .ui-widget {
-	font-size: 90% !important;
+	font-size: 95% !important;
 }
 body {
     background: url("../img/bgslider.png") repeat scroll 0 0 #FFFFFF !important;

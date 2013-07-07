@@ -73,19 +73,32 @@ public class AjoutProduitModel {
 
     private List<Option> listeOptions = new ArrayList<Option>();
 
+    private boolean afficherPartieNouvelleOption = false;
+
     private String optionNom = "";
 
     private String optionReference = "";
 
+    private List<PrixDegressif> listeOptionPrixDegressifProduit = new ArrayList<PrixDegressif>();
+
+    private Option optionSelectionne;
+
     private float optionCoutNominal = 0F;
 
-    private float optionPrixUnitaireFixe = 0F;
+    private boolean optionObligatoire = false;
+
+    private float optionCoutUnitaireFixe = 0F;
 
     private int optionBorneInferieure;
 
-    private int optionBorneSuperieur;
+    private int optionBorneSuperieure;
 
     private float optionCoutUnitaire = 0F;
+
+    /**
+     * Permet l'annulation de la modification
+     */
+    private Option optionAvantModification = null;
 
     // ===== Attributs ========================================================
 
@@ -96,6 +109,21 @@ public class AjoutProduitModel {
     }
 
     // ===== Méthodes =========================================================
+
+    /**
+     * Réinitialise les champs de la partie ajout option produit
+     */
+    public void reinitialiserAjoutOption() {
+        optionNom = "";
+        optionReference = "";
+        optionObligatoire = false;
+        optionCoutNominal = 0F;
+        optionCoutUnitaire = 0F;
+        optionCoutUnitaireFixe = 0F;
+        optionBorneInferieure = 0;
+        optionBorneSuperieure = 0;
+        listeOptionPrixDegressifProduit = new ArrayList<PrixDegressif>();
+    }
 
     // ===== Accesseurs =======================================================
 
@@ -406,6 +434,34 @@ public class AjoutProduitModel {
     }
 
     /**
+     * Retourne afficherPartieNouvelleOption
+     * 
+     * @return afficherPartieNouvelleOption
+     */
+    public boolean isAfficherPartieNouvelleOption() {
+        return afficherPartieNouvelleOption;
+    }
+
+    /**
+     * Affecte afficherPartieNouvelleOption
+     * 
+     * @param afficherPartieNouvelleOption afficherPartieNouvelleOption à
+     *            affecter
+     */
+    public void setAfficherPartieNouvelleOption(boolean afficherPartieNouvelleOption) {
+        this.afficherPartieNouvelleOption = afficherPartieNouvelleOption;
+    }
+
+    /**
+     * Retourne optionNom
+     * 
+     * @return optionNom
+     */
+    public String getOptionNom() {
+        return optionNom;
+    }
+
+    /**
      * Affecte optionNom
      * 
      * @param optionNom optionNom à affecter
@@ -433,6 +489,44 @@ public class AjoutProduitModel {
     }
 
     /**
+     * Retourne listeOptionPrixDegressifProduit
+     * 
+     * @return listeOptionPrixDegressifProduit
+     */
+    public List<PrixDegressif> getListeOptionPrixDegressifProduit() {
+        return listeOptionPrixDegressifProduit;
+    }
+
+    /**
+     * Affecte listeOptionPrixDegressifProduit
+     * 
+     * @param listeOptionPrixDegressifProduit listeOptionPrixDegressifProduit à
+     *            affecter
+     */
+    public void setListeOptionPrixDegressifProduit(
+            List<PrixDegressif> listeOptionPrixDegressifProduit) {
+        this.listeOptionPrixDegressifProduit = listeOptionPrixDegressifProduit;
+    }
+
+    /**
+     * Retourne optionSelectionne
+     * 
+     * @return optionSelectionne
+     */
+    public Option getOptionSelectionne() {
+        return optionSelectionne;
+    }
+
+    /**
+     * Affecte optionSelectionne
+     * 
+     * @param optionSelectionne optionSelectionne à affecter
+     */
+    public void setOptionSelectionne(Option optionSelectionne) {
+        this.optionSelectionne = optionSelectionne;
+    }
+
+    /**
      * Retourne optionCoutNominal
      * 
      * @return optionCoutNominal
@@ -451,21 +545,39 @@ public class AjoutProduitModel {
     }
 
     /**
-     * Retourne optionPrixUnitaireFixe
+     * Retourne optionObligatoire
      * 
-     * @return optionPrixUnitaireFixe
+     * @return optionObligatoire
      */
-    public float getOptionPrixUnitaireFixe() {
-        return optionPrixUnitaireFixe;
+    public boolean isOptionObligatoire() {
+        return optionObligatoire;
     }
 
     /**
-     * Affecte optionPrixUnitaireFixe
+     * Affecte optionObligatoire
      * 
-     * @param optionPrixUnitaireFixe optionPrixUnitaireFixe à affecter
+     * @param optionObligatoire optionObligatoire à affecter
      */
-    public void setOptionPrixUnitaireFixe(float optionPrixUnitaireFixe) {
-        this.optionPrixUnitaireFixe = optionPrixUnitaireFixe;
+    public void setOptionObligatoire(boolean optionObligatoire) {
+        this.optionObligatoire = optionObligatoire;
+    }
+
+    /**
+     * Retourne optionCoutUnitaireFixe
+     * 
+     * @return optionCoutUnitaireFixe
+     */
+    public float getOptionCoutUnitaireFixe() {
+        return optionCoutUnitaireFixe;
+    }
+
+    /**
+     * Affecte optionCoutUnitaireFixe
+     * 
+     * @param optionCoutUnitaireFixe optionCoutUnitaireFixe à affecter
+     */
+    public void setOptionCoutUnitaireFixe(float optionCoutUnitaireFixe) {
+        this.optionCoutUnitaireFixe = optionCoutUnitaireFixe;
     }
 
     /**
@@ -487,21 +599,21 @@ public class AjoutProduitModel {
     }
 
     /**
-     * Retourne optionBorneSuperieur
+     * Retourne optionBorneSuperieure
      * 
-     * @return optionBorneSuperieur
+     * @return optionBorneSuperieure
      */
-    public int getOptionBorneSuperieur() {
-        return optionBorneSuperieur;
+    public int getOptionBorneSuperieure() {
+        return optionBorneSuperieure;
     }
 
     /**
-     * Affecte optionBorneSuperieur
+     * Affecte optionBorneSuperieure
      * 
-     * @param optionBorneSuperieur optionBorneSuperieur à affecter
+     * @param optionBorneSuperieure optionBorneSuperieure à affecter
      */
-    public void setOptionBorneSuperieur(int optionBorneSuperieur) {
-        this.optionBorneSuperieur = optionBorneSuperieur;
+    public void setOptionBorneSuperieure(int optionBorneSuperieure) {
+        this.optionBorneSuperieure = optionBorneSuperieure;
     }
 
     /**
@@ -524,15 +636,133 @@ public class AjoutProduitModel {
 
     // ===== Classes imbriquées ===============================================
 
+    /**
+     * Retourne optionAvantModification
+     * 
+     * @return optionAvantModification
+     */
+    public Option getOptionAvantModification() {
+        return optionAvantModification;
+    }
+
+    /**
+     * Affecte optionAvantModification
+     * 
+     * @param optionAvantModification optionAvantModification à affecter
+     */
+    public void setOptionAvantModification(Option optionAvantModification) {
+        this.optionAvantModification = optionAvantModification;
+    }
+
     public class Option {
 
-        private final String nom = "";
+        private String nom = "";
+
+        private String reference = "";
 
         private boolean obligatoire;
 
-        private float prixUnitaire;
+        private float coutUnitaireFixe;
 
-        private PrixDegressif prixDegressif;
+        private List<PrixDegressif> listePrixDegressif = new ArrayList<PrixDegressif>();
+
+        public Option(String nom, String reference, boolean obligatoire) {
+            super();
+            this.nom = nom;
+            this.reference = reference;
+            this.obligatoire = obligatoire;
+        }
+
+        /**
+         * Retourne nom
+         * 
+         * @return nom
+         */
+        public String getNom() {
+            return nom;
+        }
+
+        /**
+         * Affecte nom
+         * 
+         * @param nom nom à affecter
+         */
+        public void setNom(String nom) {
+            this.nom = nom;
+        }
+
+        /**
+         * Retourne reference
+         * 
+         * @return reference
+         */
+        public String getReference() {
+            return reference;
+        }
+
+        /**
+         * Affecte reference
+         * 
+         * @param reference reference à affecter
+         */
+        public void setReference(String reference) {
+            this.reference = reference;
+        }
+
+        /**
+         * Retourne obligatoire
+         * 
+         * @return obligatoire
+         */
+        public boolean isObligatoire() {
+            return obligatoire;
+        }
+
+        /**
+         * Affecte obligatoire
+         * 
+         * @param obligatoire obligatoire à affecter
+         */
+        public void setObligatoire(boolean obligatoire) {
+            this.obligatoire = obligatoire;
+        }
+
+        /**
+         * Retourne coutUnitaireFixe
+         * 
+         * @return coutUnitaireFixe
+         */
+        public float getCoutUnitaireFixe() {
+            return coutUnitaireFixe;
+        }
+
+        /**
+         * Affecte coutUnitaireFixe
+         * 
+         * @param coutUnitaireFixe coutUnitaire à affecter
+         */
+        public void setCoutUnitaireFixe(float coutUnitaireFixe) {
+            this.coutUnitaireFixe = coutUnitaireFixe;
+        }
+
+        /**
+         * Retourne listePrixDegressif
+         * 
+         * @return listePrixDegressif
+         */
+        public List<PrixDegressif> getListePrixDegressif() {
+            return listePrixDegressif;
+        }
+
+        /**
+         * Affecte listePrixDegressif
+         * 
+         * @param listePrixDegressif listePrixDegressif à affecter
+         */
+        public void setListePrixDegressif(List<PrixDegressif> listePrixDegressif) {
+            this.listePrixDegressif = listePrixDegressif;
+        }
+
     }
 
     public class PrixDegressif {

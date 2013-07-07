@@ -10,4 +10,13 @@
 	</bean>
 	<bean id="googleImageService" class="fr.upyourbizz.web.service.GoogleImageService" />
 	<bean id="fileManagementService" class="fr.upyourbizz.web.service.FileManagementService" />
+	<bean id="gestionUtilisateurService" class="fr.upyourbizz.web.service.GestionUtilisateurService">
+		<property name="utilisateurDao" ref="utilisateurDao" />
+	</bean>
+	<bean id="gestionClientService" class="fr.upyourbizz.web.service.GestionClientService">
+		<property name="clientDao" ref="clientDao" />
+	</bean>
+	<bean id="gestionProduitService" class="fr.upyourbizz.web.service.GestionProduitService">
+		<property name="produitReferenceDao" ref="produitReferenceDao" />
+	</bean>
 </beans>

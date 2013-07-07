@@ -19,18 +19,42 @@
 		scope="request">
 		<property name="ajoutProduitModel" ref="ajoutProduitModel" />
 	</bean>
+	<bean id="gestionUtilisateursController"
+		class="fr.upyourbizz.web.presentation.controller.GestionUtilisateursController"
+		scope="request">
+		<property name="gestionUtilisateursModel" ref="gestionUtilisateursModel" />
+		<property name="gestionUtilisateurCoordinateur" ref="gestionUtilisateurCoordinateur" />
+	</bean>
+	<bean id="gestionClientController"
+		class="fr.upyourbizz.web.presentation.controller.GestionClientController"
+		scope="request">
+		<property name="gestionClientModel" ref="gestionClientModel" />
+	</bean>
+	<bean id="listeProduitController"
+		class="fr.upyourbizz.web.presentation.controller.ListeProduitController"
+		scope="request">
+		<property name="listeProduitModel" ref="listeProduitModel" />
+	</bean>
+	<bean id="testControleur"
+		class="fr.upyourbizz.web.presentation.controller.testControleur"
+		scope="request">
+		<property name="produitReferenceDao" ref="produitReferenceDao" />
+	</bean>
 	<!-- Managed bean model creation -->
 	<bean id="updateImgPictureFromGoogleModel"
 		class="fr.upyourbizz.web.presentation.model.UpdateImgPictureFromGoogleModel"
 		scope="session" />
 	<bean id="loginBean" class="fr.upyourbizz.web.presentation.LoginBean"
 		scope="request" />
-	<bean id="testControleur"
-		class="fr.upyourbizz.web.presentation.controller.testControleur"
-		scope="request">
-		<property name="produitReferenceDao" ref="produitReferenceDao" />
-	</bean>
-	<bean id="ajoutProduitModel"
-		class="fr.upyourbizz.web.presentation.model.AjoutProduitModel"
+	<bean id="ajoutProduitModel" class="fr.upyourbizz.web.presentation.model.AjoutProduitModel"
+		scope="session" />
+	<bean id="gestionUtilisateursModel"
+		class="fr.upyourbizz.web.presentation.model.GestionUtilisateursModel"
+		scope="session" />
+	<bean id="gestionClientModel"
+		class="fr.upyourbizz.web.presentation.model.GestionClientModel"
+		scope="session" />
+	<bean id="listeProduitModel"
+		class="fr.upyourbizz.web.presentation.model.ListeProduitModel"
 		scope="session" />
 </beans>
