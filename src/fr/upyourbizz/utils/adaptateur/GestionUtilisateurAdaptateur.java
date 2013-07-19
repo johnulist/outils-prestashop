@@ -3,7 +3,10 @@
  */
 package fr.upyourbizz.utils.adaptateur;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.model.SelectItem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,17 +33,49 @@ public class GestionUtilisateurAdaptateur {
      * @param listeUtilisateur
      * @param gestionUtilisateurModel
      */
-    public static void adapterDonneesDepuisService(List<UtilisateurDto> listeUtilisateur,
+    public static void adapterDonneesUtilisateursPourVue(List<UtilisateurDto> listeUtilisateur,
             GestionUtilisateursModel gestionUtilisateurModel) {
         for (UtilisateurDto utilisateurDto : listeUtilisateur) {
             Utilisateur utilisateur = gestionUtilisateurModel.new Utilisateur(
                     utilisateurDto.getIdUtilisateur(), utilisateurDto.getLogin(),
-                    utilisateurDto.getPrenom(), utilisateurDto.getNom(), utilisateurDto.getEmail(),
-                    utilisateurDto.getRole(), utilisateurDto.getNiveau(),
-                    utilisateurDto.getDateCreation().toDate(), utilisateurDto.isActif());
+                    utilisateurDto.getPassword(), utilisateurDto.getPrenom(),
+                    utilisateurDto.getNom(), utilisateurDto.getEmail(), utilisateurDto.getRole(),
+                    utilisateurDto.getNiveau(), utilisateurDto.getDateCreation().toDate(),
+                    utilisateurDto.isActif());
             gestionUtilisateurModel.getListeUtilisateurs().add(utilisateur);
         }
     }
+
+    /**
+     * Adapte la liste de rôle à la vue
+     * 
+     * @param roles
+     * @param gestionUtilisateurModel
+     */
+    public static void adapterRolesPourVue(List<String> roles,
+            GestionUtilisateursModel gestionUtilisateurModel) {
+        List<SelectItem> listeRoles = new ArrayList<SelectItem>();
+        for (String role : roles) {
+            listeRoles.add(new SelectItem(role));
+        }
+        gestionUtilisateurModel.setListeRoles(listeRoles);
+    }
+
+    /**
+     * Adapte la liste des niveaux à la vue
+     * 
+     * @param niveaux
+     * @param gestionUtilisateurModel
+     */
+    public static void adapterNiveauxPourVue(List<String> niveaux,
+            GestionUtilisateursModel gestionUtilisateurModel) {
+        List<SelectItem> listeNiveaux = new ArrayList<SelectItem>();
+        for (String role : niveaux) {
+            listeNiveaux.add(new SelectItem(role));
+        }
+        gestionUtilisateurModel.setListeNiveaux(listeNiveaux);
+    }
+
     // ===== Attributs ========================================================
 
     // ===== Constructeurs ====================================================

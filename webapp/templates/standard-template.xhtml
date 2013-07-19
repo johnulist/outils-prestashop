@@ -14,12 +14,14 @@
 		<f:facet name="first">
 			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
 			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<meta HTTP-EQUIV="Pragma" CONTENT="no-cache"/>
 			<title><ui:insert name="title">UpyourSoft</ui:insert></title>
 		</f:facet>
 		<link type="text/css" rel="stylesheet"
 			href="#{request.contextPath}/css/foundation.css" />
 		<link type="text/css" rel="stylesheet"
 			href="#{request.contextPath}/css/upyoursoft.css" />
+		<ui:insert name="head"></ui:insert>
 	</h:head>
 	<h:body>
 		<p:panel styleClass="anglobante">

@@ -29,6 +29,8 @@ public class UtilisateurDto {
 
     private String login;
 
+    private String password;
+
     private String email;
 
     private DateTime dateCreation;
@@ -50,21 +52,21 @@ public class UtilisateurDto {
      * @param nom
      * @param prenom
      * @param login
+     * @param password
      * @param email
-     * @param dateCreation
      * @param role
      * @param niveau
      * @param actif
      */
-    public UtilisateurDto(int idUtilisateur, String nom, String prenom, String login, String email,
-            DateTime dateCreation, String role, String niveau, boolean actif) {
+    public UtilisateurDto(int idUtilisateur, String nom, String prenom, String login,
+            String password, String email, String role, String niveau, boolean actif) {
         super();
         this.idUtilisateur = idUtilisateur;
         this.nom = nom;
         this.prenom = prenom;
         this.login = login;
+        this.password = password;
         this.email = email;
-        this.dateCreation = dateCreation;
         this.role = role;
         this.niveau = niveau;
         this.actif = actif;
@@ -142,6 +144,24 @@ public class UtilisateurDto {
      */
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    /**
+     * Retourne password
+     * 
+     * @return password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Affecte password
+     * 
+     * @param password password à affecter
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**

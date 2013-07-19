@@ -55,6 +55,25 @@ public class GestionUtilisateursCoordinateur {
     }
 
     /**
+     * Modification d'un utilisateur
+     * 
+     * @param id
+     * @param nom Nom de l'utilisateur
+     * @param prenom Prenom de l'utilisateur
+     * @param login Login de l'utilisateur
+     * @param password Passpord de l'utilisateur
+     * @param email email de l'utilisateur
+     * @param role Rôle de l'utilisateur
+     * @param niveau Niveau de l'utilisateur
+     * @throws TechnicalException Exception technique
+     */
+    public void modifierUtilisateur(int id, String nom, String prenom, String login,
+            String password, String email, String role, String niveau) throws TechnicalException {
+        gestionUtilisateurService.modifierUtilisateur(id, nom, prenom, login, password, email,
+                role, niveau);
+    }
+
+    /**
      * Suppression d'un utilisateur
      * 
      * @param idUtilisateur id de l'utilisateur à supprimer
@@ -62,6 +81,26 @@ public class GestionUtilisateursCoordinateur {
      */
     public void suppressionUtilisateur(int idUtilisateur) throws TechnicalException {
         gestionUtilisateurService.suppressionUtilisateur(idUtilisateur);
+    }
+
+    /**
+     * Liste des rôles que peuvent avoir les utilisateurs
+     * 
+     * @return La liste des rôles
+     * @throws TechnicalException
+     */
+    public List<String> listerRoles() throws TechnicalException {
+        return gestionUtilisateurService.listerRoles();
+    }
+
+    /**
+     * Liste des niveaux que peuvent avoir les utilisateurs
+     * 
+     * @return la liste des niveaux
+     * @throws TechnicalException
+     */
+    public List<String> listerNiveaux() throws TechnicalException {
+        return gestionUtilisateurService.listerNiveaux();
     }
 
     // ===== Accesseurs =======================================================

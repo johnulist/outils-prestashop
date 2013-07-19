@@ -1,11 +1,4 @@
-*,
-*:before,
-*:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
-
-html,
+/*html,
 body {
   font-size: 100%; }
 
@@ -46,7 +39,7 @@ img {
 .map_canvas img,
 .map_canvas embed,
 .map_canvas object {
-  max-width: none !important; }
+  max-width: none !important; }*/
 
 .left {
   float: left !important; }

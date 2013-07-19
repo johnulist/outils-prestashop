@@ -102,6 +102,22 @@ public class ProduitReferenceDao {
         return null;
     }
 
+    public List<String> listerFamille() throws TechnicalException {
+        // TODO Ébauche de méthode auto-générée
+        return null;
+    }
+
+    public List<String> listerSousFamille(String nomFamille) throws TechnicalException {
+        // TODO Ébauche de méthode auto-générée
+        return null;
+    }
+
+    public List<ProduitReferenceDto> listerProduitsReference(String nomSousFamille)
+            throws TechnicalException {
+        // TODO Ébauche de méthode auto-générée
+        return null;
+    }
+
     // ===== Accesseurs =======================================================
 
     /**

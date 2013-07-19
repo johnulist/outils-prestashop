@@ -3,6 +3,9 @@
  */
 package fr.upyourbizz.web.presentation.controller;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.slf4j.Logger;
@@ -38,29 +41,15 @@ public class GestionUtilisateursController {
 
     public void init() {
         if (!FacesContext.getCurrentInstance().isPostback()) {
-            // Utilisateur eric = gestionUtilisateursModel.new
-            // Utilisateur("elegrand", "Eric",
-            // "Legrand", "elegrand@upyourbizz.fr", "Responsable", "Master", new
-            // Date(), true);
-            // gestionUtilisateursModel.getListeUtilisateurs().clear();
-            // gestionUtilisateursModel.getListeUtilisateurs().add(eric);
-            // gestionUtilisateursModel.getListeRoles().clear();
-            // gestionUtilisateursModel.getListeRoles().add(new
-            // SelectItem("Administrateur"));
-            // gestionUtilisateursModel.getListeRoles().add(new
-            // SelectItem("Vendeur"));
-            // gestionUtilisateursModel.getListeRoles().add(new
-            // SelectItem("Marketeur"));
-            // gestionUtilisateursModel.getListeNiveaux().clear();
-            // gestionUtilisateursModel.getListeNiveaux().add(new
-            // SelectItem("Niveau 1"));
-            // gestionUtilisateursModel.getListeNiveaux().add(new
-            // SelectItem("Niveau 2"));
-            // gestionUtilisateursModel.getListeNiveaux().add(new
-            // SelectItem("Niveau 3"));
             try {
-                GestionUtilisateurAdaptateur.adapterDonneesDepuisService(
+                gestionUtilisateursModel.reinitialiser();
+                GestionUtilisateurAdaptateur.adapterDonneesUtilisateursPourVue(
                         gestionUtilisateurCoordinateur.listerUtilisateurs(),
+                        gestionUtilisateursModel);
+                List<String> roles = gestionUtilisateurCoordinateur.listerRoles();
+                GestionUtilisateurAdaptateur.adapterRolesPourVue(roles, gestionUtilisateursModel);
+                List<String> niveaux = gestionUtilisateurCoordinateur.listerNiveaux();
+                GestionUtilisateurAdaptateur.adapterNiveauxPourVue(niveaux,
                         gestionUtilisateursModel);
             }
             catch (TechnicalException e) {
@@ -71,18 +60,107 @@ public class GestionUtilisateursController {
     }
 
     public void modifierUtilisateur(Utilisateur utilisateur) {
+        gestionUtilisateursModel.setUtilisateurAvantModification(utilisateur);
+        gestionUtilisateursModel.setIdUtilisateur(utilisateur.getIdUtilisateur());
+        gestionUtilisateursModel.setUtilisateurNom(utilisateur.getNom());
+        gestionUtilisateursModel.setUtilisateurPrenom(utilisateur.getPrenom());
+        gestionUtilisateursModel.setUtilisateurEmail(utilisateur.getEmail());
+        gestionUtilisateursModel.setUtilisateurLogin(utilisateur.getLogin());
+        gestionUtilisateursModel.setRoleSelectionne(utilisateur.getRole());
+        gestionUtilisateursModel.setNiveauSelectionne(utilisateur.getNiveau());
+        gestionUtilisateursModel.setUtilisateurMdp(utilisateur.getPassword());
+        gestionUtilisateursModel.setUtilisateurMdpConfirmation(utilisateur.getPassword());
+
+        gestionUtilisateursModel.setAfficherPartieNouvelUtilisateur(true);
 
     }
 
+    public void supprimerUtilisateur(Utilisateur utilisateur) {
+        try {
+            gestionUtilisateurCoordinateur.suppressionUtilisateur(utilisateur.getIdUtilisateur());
+            gestionUtilisateursModel.getListeUtilisateurs().clear();
+            GestionUtilisateurAdaptateur.adapterDonneesUtilisateursPourVue(
+                    gestionUtilisateurCoordinateur.listerUtilisateurs(), gestionUtilisateursModel);
+        }
+        catch (TechnicalException e) {
+            e.printStackTrace();
+            // TODO Rediriger vers page erreur
+        }
+    }
+
     public void afficherPartieAjoutNouvelUtilisateur() {
+        gestionUtilisateursModel.setIdUtilisateur(-1);
         gestionUtilisateursModel.setAfficherPartieNouvelUtilisateur(true);
     }
 
     public void ajoutNouvelUtilisateur() {
+        if (controlerChampsAvantAjoutUtilisateur()) {
 
+            try {
+                if (gestionUtilisateursModel.getIdUtilisateur() == -1) {
+                    // Ajout d'un utilisateur
+                    gestionUtilisateurCoordinateur.ajouterUtilisateur(
+                            gestionUtilisateursModel.getUtilisateurNom(),
+                            gestionUtilisateursModel.getUtilisateurPrenom(),
+                            gestionUtilisateursModel.getUtilisateurLogin(),
+                            gestionUtilisateursModel.getUtilisateurMdp(),
+                            gestionUtilisateursModel.getUtilisateurEmail(),
+                            gestionUtilisateursModel.getRoleSelectionne(),
+                            gestionUtilisateursModel.getNiveauSelectionne());
+                }
+                else {
+                    // Modification d'un utilisateur
+                    gestionUtilisateurCoordinateur.modifierUtilisateur(
+                            gestionUtilisateursModel.getIdUtilisateur(),
+                            gestionUtilisateursModel.getUtilisateurNom(),
+                            gestionUtilisateursModel.getUtilisateurPrenom(),
+                            gestionUtilisateursModel.getUtilisateurLogin(),
+                            gestionUtilisateursModel.getUtilisateurMdp(),
+                            gestionUtilisateursModel.getUtilisateurEmail(),
+                            gestionUtilisateursModel.getRoleSelectionne(),
+                            gestionUtilisateursModel.getNiveauSelectionne());
+                }
+                gestionUtilisateursModel.getListeUtilisateurs().clear();
+                GestionUtilisateurAdaptateur.adapterDonneesUtilisateursPourVue(
+                        gestionUtilisateurCoordinateur.listerUtilisateurs(),
+                        gestionUtilisateursModel);
+                gestionUtilisateursModel.reinitialiserChampsUtilisateur();
+                gestionUtilisateursModel.setAfficherPartieNouvelUtilisateur(false);
+            }
+            catch (TechnicalException e) {
+                e.printStackTrace();
+                // TODO Rediriger vers page erreur
+            }
+
+        }
+    }
+
+    public void annulerAjoutNouvelUtilisateur() {
+        gestionUtilisateursModel.reinitialiserChampsUtilisateur();
+        gestionUtilisateursModel.setAfficherPartieNouvelUtilisateur(false);
     }
 
     // ===== Accesseurs =======================================================
+
+    private boolean controlerChampsAvantAjoutUtilisateur() {
+        boolean controleMdpOk = true;
+        if (!gestionUtilisateursModel.getUtilisateurMdp().isEmpty()
+                && !gestionUtilisateursModel.getUtilisateurMdpConfirmation().isEmpty()
+                && !gestionUtilisateursModel.getUtilisateurMdp().equals(
+                        gestionUtilisateursModel.getUtilisateurMdpConfirmation())) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention",
+                            "Les mots de passe ne correspondent pas!"));
+            controleMdpOk = false;
+
+        }
+        return (controleMdpOk && (gestionUtilisateursModel.getUtilisateurNom() != null)
+                && (gestionUtilisateursModel.getUtilisateurPrenom() != null)
+                && (gestionUtilisateursModel.getUtilisateurLogin() != null)
+                && (gestionUtilisateursModel.getUtilisateurMdp() != null) && (gestionUtilisateursModel.getUtilisateurMdpConfirmation() != null));
+
+    }
 
     /**
      * Affecte gestionUtilisateursModel

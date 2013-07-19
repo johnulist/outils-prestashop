@@ -3,7 +3,7 @@
  * components globally, use the .ui-widget style class
 */
 .ui-widget,.ui-widget .ui-widget {
-	font-size: 95% !important;
+	font-size: 90% !important;
 }
 body {
     background: url("../img/bgslider.png") repeat scroll 0 0 #FFFFFF !important;
@@ -53,6 +53,23 @@ input.connexionInput{
 	display:block;
 }
 
+/*
+ * Accueil administration
+ */
+button.accueilGlobalBtn{
+	width:200px;
+	height:80px;
+}
+
+div.accueilDivBtn{
+	position:absolute;
+	left:20%; 
+	top:20%
+}
+div.accueilDivEditor{
+	left: 10%;
+    position: absolute;
+}
 /*
  * Ajout produit
  */

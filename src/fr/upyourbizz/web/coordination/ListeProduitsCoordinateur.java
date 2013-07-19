@@ -1,25 +1,33 @@
-package fr.upyourbizz.web.service;
+package fr.upyourbizz.web.coordination;
 
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
-import fr.upyourbizz.web.persistence.ProduitReferenceDao;
+import fr.upyourbizz.web.service.GestionProduitService;
 
-public class GestionProduitService {
+/**
+ * ListeProduitsCoordinateur
+ */
+@Named
+public class ListeProduitsCoordinateur {
 
     // ===== Attributs statiques ==============================================
 
     @SuppressWarnings("unused")
-    private final Logger logger = LoggerFactory.getLogger(GestionProduitService.class);
+    private final Logger logger = LoggerFactory.getLogger(ListeProduitsCoordinateur.class);
 
     // ===== Méthodes statiques ===============================================
 
     // ===== Attributs ========================================================
-    private ProduitReferenceDao produitReferenceDao;
+    @Inject
+    private GestionProduitService gestionProduitService;
 
     // ===== Constructeurs ====================================================
 
@@ -32,7 +40,7 @@ public class GestionProduitService {
      * @throws TechnicalException Exception technique
      */
     public List<String> listerFamille() throws TechnicalException {
-        return produitReferenceDao.listerFamille();
+        return gestionProduitService.listerFamille();
     }
 
     /**
@@ -44,7 +52,7 @@ public class GestionProduitService {
      * @throws TechnicalException Exception technique
      */
     public List<String> listerSousFamille(String nomFamille) throws TechnicalException {
-        return produitReferenceDao.listerSousFamille(nomFamille);
+        return gestionProduitService.listerSousFamille(nomFamille);
     }
 
     /**
@@ -57,19 +65,10 @@ public class GestionProduitService {
      */
     public List<ProduitReferenceDto> listerProduitsReference(String nomSousFamille)
             throws TechnicalException {
-        return produitReferenceDao.listerProduitsReference(nomSousFamille);
+        return gestionProduitService.listerProduitsReference(nomSousFamille);
     }
 
     // ===== Accesseurs =======================================================
-
-    /**
-     * Affecte produitReferenceDao
-     * 
-     * @param produitReferenceDao produitReferenceDao à affecter
-     */
-    public void setProduitReferenceDao(ProduitReferenceDao produitReferenceDao) {
-        this.produitReferenceDao = produitReferenceDao;
-    }
 
     // ===== Classes imbriquées ===============================================
 }

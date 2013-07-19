@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/standard-template.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{listeProduitsController.init}" />
+	</f:metadata>
+	<ui:define name="head">
+		<style type="text/css">
+.image-ring .ui-ring-item {
+	border: 0 none;
+}
+
+.image-ring .ui-ring-item img {
+	width: 120%;
+}
+
+.ui-ring button {
+	font-size: 1em !important;
+}
+</style>
+	</ui:define>
+	<ui:define name="title">Upyourbizz Liste Produits</ui:define>
+	<ui:define name="content">
+		<p:panel>
+			<h:form id="form2">
+				<!-- <p:ring id="basic" value="#{listeProduitsModel.famille}"
+					easing="easeInQuad" var="famille">
+					<p:graphicImage value="/img/#{famille.imgUrl}" style="width:100px;"/>
+				</p:ring> -->
+				<p:fieldset id="listeFamilleFiedset" legend="Liste Famille" style="width:700px;">
+					<p:ring id="custom" value="#{listeProduitsModel.famille}"
+						var="famille" styleClass="image-ring" easing="easeInOutBack">
+						<p:graphicImage value="/img/#{famille.imgUrl}" />
+					</p:ring>
+				</p:fieldset>
+				<!-- <p:carousel id="basicCarousel" value="#{listeProduitsModel.famille}"
+					var="famille" headerText="Nouvelle image"
+					itemStyle="height:200px;width:300px;text-align: center;">
+					<f:facet name="header">  
+            			Famille  
+    				</f:facet>
+					<h:panelGrid columns="1" style="width:100%" cellpadding="5">
+						<p:graphicImage value="/img/#{famille.imgUrl}"
+							style="width:100px;" />
+
+						<h:outputText value="Model: #{famille.nomFamille}" />
+
+					</h:panelGrid>
+					<f:facet name="footer">  
+            Au total, il y a  familles.  
+    </f:facet>
+				</p:carousel> -->
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

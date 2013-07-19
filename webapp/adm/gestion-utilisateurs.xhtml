@@ -69,7 +69,7 @@
 							<h:outputText value="#{utilisateur.dateCreation}" />
 						</p:column>
 						<p:column headerText="M" style="width:3%">
-							<p:commandButton id="modifierUtilisateurBtn"
+							<p:commandButton id="modifierUtilisateurBtn" update=":form"
 								action="#{gestionUtilisateursController.modifierUtilisateur(utilisateur)}"
 								icon="ui-icon-pencil" title="Modifier"
 								style="width:15px; height:15px;" />
@@ -91,17 +91,25 @@
 				</p:fieldset>
 				<br />
 				<p:fieldset id="ajoutNouvelUtilisateur"
-					legend="Informations Nouvel Utilisateurs" rendered="#{gestionUtilisateursModel.afficherPartieNouvelUtilisateur}">
+					legend="Informations Nouvel Utilisateurs"
+					rendered="#{gestionUtilisateursModel.afficherPartieNouvelUtilisateur}">
+					<p:messages id="msgErrorAjoutUtilisateur" showDetail="true"
+							autoUpdate="true" closable="true" />
 					<p:panel>
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel value="Nom: " for="nom" styleClass="defaultSize" />
-							<p:inputText id="nom"
+							<p:inputText id="nom" required="true"
 								value="#{gestionUtilisateursModel.utilisateurNom}" />
 
 							<h:outputLabel value="Prénom: " for="prenom"
 								styleClass="defaultSize" />
-							<p:inputText id="prenom"
+							<p:inputText id="prenom" required="true"
 								value="#{gestionUtilisateursModel.utilisateurPrenom}" />
+
+							<h:outputLabel value="Email: " for="email"
+								styleClass="defaultSize" />
+							<p:inputText id="email" required="true"
+								value="#{gestionUtilisateursModel.utilisateurEmail}" />
 
 							<h:outputText value="Rôle: " />
 							<p:selectOneMenu
@@ -123,7 +131,7 @@
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel value="Login: " for="login"
 								styleClass="defaultSize" />
-							<p:inputText id="login"
+							<p:inputText id="login" required="true"
 								value="#{gestionUtilisateursModel.utilisateurLogin}" />
 
 							<h:outputLabel value="Mot de passe: " for="mdp"
@@ -137,10 +145,14 @@
 								value="#{gestionUtilisateursModel.utilisateurMdpConfirmation}" />
 						</h:panelGrid>
 					</p:panel>
+					<p:commandButton id="annulerAjouterUtilisateurBtn"
+						action="#{gestionUtilisateursController.annulerAjoutNouvelUtilisateur}"
+						update=":form" value="Annuler" title="Annuler ajout nouvel utilisateur"
+						style="float:right;" />
 					<p:commandButton id="ajouterUtilisateurBtn"
 						action="#{gestionUtilisateursController.ajoutNouvelUtilisateur}"
-						update=":form" value="Ajouter"
-						title="Ajout nouvel utilisateur" style="float:right;" />
+						update=":form" value="Ajouter" title="Ajout nouvel utilisateur"
+						style="float:right;" />
 				</p:fieldset>
 			</h:form>
 		</p:panel>

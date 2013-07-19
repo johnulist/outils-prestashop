@@ -30,10 +30,10 @@
 		scope="request">
 		<property name="gestionClientModel" ref="gestionClientModel" />
 	</bean>
-	<bean id="listeProduitController"
-		class="fr.upyourbizz.web.presentation.controller.ListeProduitController"
+	<bean id="listeProduitsController"
+		class="fr.upyourbizz.web.presentation.controller.ListeProduitsController"
 		scope="request">
-		<property name="listeProduitModel" ref="listeProduitModel" />
+		<property name="listeProduitsModel" ref="listeProduitsModel" />
 	</bean>
 	<bean id="testControleur"
 		class="fr.upyourbizz.web.presentation.controller.testControleur"
@@ -54,7 +54,7 @@
 	<bean id="gestionClientModel"
 		class="fr.upyourbizz.web.presentation.model.GestionClientModel"
 		scope="session" />
-	<bean id="listeProduitModel"
-		class="fr.upyourbizz.web.presentation.model.ListeProduitModel"
+	<bean id="listeProduitsModel"
+		class="fr.upyourbizz.web.presentation.model.ListeProduitsModel"
 		scope="session" />
 </beans>

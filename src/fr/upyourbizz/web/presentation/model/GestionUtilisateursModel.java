@@ -32,9 +32,13 @@ public class GestionUtilisateursModel {
 
     private boolean afficherPartieNouvelUtilisateur = false;
 
+    private Utilisateur utilisateurAvantModification = null;
+
     /*
      * Ajout nouvel utilisateur
      */
+
+    private int idUtilisateur = -1;
 
     private String utilisateurNom = "";
 
@@ -56,9 +60,34 @@ public class GestionUtilisateursModel {
 
     private String niveauSelectionne = "";
 
+    private boolean utilisateurActif;
+
     // ===== Constructeurs ====================================================
 
     // ===== Méthodes =========================================================
+
+    public void reinitialiser() {
+        listeUtilisateurs = new ArrayList<Utilisateur>();
+        afficherPartieNouvelUtilisateur = false;
+        utilisateurAvantModification = null;
+
+        reinitialiserChampsUtilisateur();
+        listeRoles = new ArrayList<SelectItem>();
+        roleSelectionne = "";
+        listeNiveaux = new ArrayList<SelectItem>();
+        niveauSelectionne = "";
+    }
+
+    public void reinitialiserChampsUtilisateur() {
+        idUtilisateur = -1;
+        utilisateurNom = "";
+        utilisateurPrenom = "";
+        utilisateurEmail = "";
+        utilisateurLogin = "";
+        utilisateurMdp = "";
+        utilisateurMdpConfirmation = "";
+        utilisateurActif = false;
+    }
 
     // ===== Accesseurs =======================================================
 
@@ -97,6 +126,43 @@ public class GestionUtilisateursModel {
      */
     public void setAfficherPartieNouvelUtilisateur(boolean afficherPartieNouvelUtilisateur) {
         this.afficherPartieNouvelUtilisateur = afficherPartieNouvelUtilisateur;
+    }
+
+    /**
+     * Retourne utilisateurAvantModification
+     * 
+     * @return utilisateurAvantModification
+     */
+    public Utilisateur getUtilisateurAvantModification() {
+        return utilisateurAvantModification;
+    }
+
+    /**
+     * Affecte utilisateurAvantModification
+     * 
+     * @param utilisateurAvantModification utilisateurAvantModification à
+     *            affecter
+     */
+    public void setUtilisateurAvantModification(Utilisateur utilisateurAvantModification) {
+        this.utilisateurAvantModification = utilisateurAvantModification;
+    }
+
+    /**
+     * Retourne idUtilisateur
+     * 
+     * @return idUtilisateur
+     */
+    public int getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    /**
+     * Affecte idUtilisateur
+     * 
+     * @param idUtilisateur idUtilisateur à affecter
+     */
+    public void setIdUtilisateur(int idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 
     /**
@@ -279,12 +345,32 @@ public class GestionUtilisateursModel {
         this.niveauSelectionne = niveauSelectionne;
     }
 
+    /**
+     * Retourne utilisateurActif
+     * 
+     * @return utilisateurActif
+     */
+    public boolean isUtilisateurActif() {
+        return utilisateurActif;
+    }
+
+    /**
+     * Affecte utilisateurActif
+     * 
+     * @param utilisateurActif utilisateurActif à affecter
+     */
+    public void setUtilisateurActif(boolean utilisateurActif) {
+        this.utilisateurActif = utilisateurActif;
+    }
+
     // ===== Classes imbriquées ===============================================
     public class Utilisateur {
 
         private int idUtilisateur;
 
         private String login;
+
+        private String password;
 
         private String prenom;
 
@@ -305,6 +391,7 @@ public class GestionUtilisateursModel {
          * 
          * @param idUtilisateur id de l'utilisateur
          * @param login Login de l'utilisateur
+         * @param password Le mot de passe de l'utilisateur
          * @param prenom Le prénom de l'utilisateur
          * @param nom Le nom de l'utilisateur
          * @param email L'email de l'utilisateur
@@ -313,11 +400,13 @@ public class GestionUtilisateursModel {
          * @param dateCreation La date de création de l'utilisateur
          * @param actif Indique si l'utilisateur est actif
          */
-        public Utilisateur(int idUtilisateur, String login, String prenom, String nom,
-                String email, String role, String niveau, Date dateCreation, boolean actif) {
+        public Utilisateur(int idUtilisateur, String login, String password, String prenom,
+                String nom, String email, String role, String niveau, Date dateCreation,
+                boolean actif) {
             super();
             this.idUtilisateur = idUtilisateur;
             this.login = login;
+            this.password = password;
             this.prenom = prenom;
             this.nom = nom;
             this.email = email;
@@ -361,6 +450,24 @@ public class GestionUtilisateursModel {
          */
         public void setLogin(String login) {
             this.login = login;
+        }
+
+        /**
+         * Retourne password
+         * 
+         * @return password
+         */
+        public String getPassword() {
+            return password;
+        }
+
+        /**
+         * Affecte password
+         * 
+         * @param password password à affecter
+         */
+        public void setPassword(String password) {
+            this.password = password;
         }
 
         /**
