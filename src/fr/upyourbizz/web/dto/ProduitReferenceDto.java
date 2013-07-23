@@ -52,13 +52,13 @@ public class ProduitReferenceDto {
 
     private PrixDegressifProduitDto prixDegressifProduit;
 
+    private ProduitOptionsDto produitOptions;
+
     private String commentaire;
 
     // ===== Constructeurs ====================================================
 
     /**
-     * @param idProduit
-     * @param famille
      * @param sousFamille
      * @param reference
      * @param nom
@@ -73,14 +73,11 @@ public class ProduitReferenceDto {
      * @param coutNominal
      * @param commentaire
      */
-    public ProduitReferenceDto(int idProduit, ProduitFamilleDto famille,
-            ProduitSousFamilleDto sousFamille, String reference, String nom,
+    public ProduitReferenceDto(ProduitSousFamilleDto sousFamille, String reference, String nom,
             String descriptionCourte, String descriptionLongueHtml, String descriptionOffreHtml,
             String avantagesHtml, String beneficesHtml, String urlImgIllustrationProduit,
             String urlImgIconeProduit, String urlImgProcessus, float coutNominal, String commentaire) {
         super();
-        this.idProduit = idProduit;
-        this.famille = famille;
         this.sousFamille = sousFamille;
         this.reference = reference;
         this.nom = nom;
@@ -386,6 +383,24 @@ public class ProduitReferenceDto {
      */
     public void setPrixDegressifProduit(PrixDegressifProduitDto prixDegressifProduit) {
         this.prixDegressifProduit = prixDegressifProduit;
+    }
+
+    /**
+     * Retourne produitOptions
+     * 
+     * @return produitOptions
+     */
+    public ProduitOptionsDto getProduitOptions() {
+        return produitOptions;
+    }
+
+    /**
+     * Affecte produitOptions
+     * 
+     * @param produitOptions produitOptions à affecter
+     */
+    public void setProduitOptions(ProduitOptionsDto produitOptions) {
+        this.produitOptions = produitOptions;
     }
 
     /**

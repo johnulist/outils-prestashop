@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
+import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
+import fr.upyourbizz.web.dto.ProduitSousFamilleDto;
 import fr.upyourbizz.web.service.GestionProduitService;
 
 /**
@@ -39,7 +41,7 @@ public class ListeProduitsCoordinateur {
      * @return La liste des familles
      * @throws TechnicalException Exception technique
      */
-    public List<String> listerFamille() throws TechnicalException {
+    public List<ProduitFamilleDto> listerFamille() throws TechnicalException {
         return gestionProduitService.listerFamille();
     }
 
@@ -51,7 +53,8 @@ public class ListeProduitsCoordinateur {
      *         paramètre
      * @throws TechnicalException Exception technique
      */
-    public List<String> listerSousFamille(String nomFamille) throws TechnicalException {
+    public List<ProduitSousFamilleDto> listerSousFamille(String nomFamille)
+            throws TechnicalException {
         return gestionProduitService.listerSousFamille(nomFamille);
     }
 

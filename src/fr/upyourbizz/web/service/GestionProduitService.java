@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
+import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
+import fr.upyourbizz.web.dto.ProduitSousFamilleDto;
 import fr.upyourbizz.web.persistence.ProduitReferenceDao;
 
 public class GestionProduitService {
@@ -31,7 +33,7 @@ public class GestionProduitService {
      * @return La liste des familles
      * @throws TechnicalException Exception technique
      */
-    public List<String> listerFamille() throws TechnicalException {
+    public List<ProduitFamilleDto> listerFamille() throws TechnicalException {
         return produitReferenceDao.listerFamille();
     }
 
@@ -43,7 +45,8 @@ public class GestionProduitService {
      *         paramètre
      * @throws TechnicalException Exception technique
      */
-    public List<String> listerSousFamille(String nomFamille) throws TechnicalException {
+    public List<ProduitSousFamilleDto> listerSousFamille(String nomFamille)
+            throws TechnicalException {
         return produitReferenceDao.listerSousFamille(nomFamille);
     }
 

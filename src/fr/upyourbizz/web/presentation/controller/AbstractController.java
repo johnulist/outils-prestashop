@@ -1,5 +1,8 @@
 package fr.upyourbizz.web.presentation.controller;
 
+import java.util.Map;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.slf4j.Logger;
@@ -27,6 +30,39 @@ public class AbstractController {
      */
     public static boolean isPostback() {
         return FacesContext.getCurrentInstance().isPostback();
+    }
+
+    protected boolean controlerChampsObligatoires(Map<String, Object> champsObligatoires) {
+        boolean resultat = true;
+        for (Map.Entry<String, Object> champsObligatoire : champsObligatoires.entrySet()) {
+            // System.out.print(champsObligatoire.getKey() + ": ");
+            // System.out.println(champsObligatoire.getValue());
+            if (champsObligatoire.getValue() instanceof String
+                    && ((String) champsObligatoire.getValue()).isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Champ \""
+                                + champsObligatoire.getKey() + "\" manquant", "Champs manquant"));
+                resultat = false;
+            }
+            else if (champsObligatoire.getValue() instanceof Integer
+                    && ((Integer) champsObligatoire.getValue()).equals(0)) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Champ "
+                                + champsObligatoire.getKey() + " manquant", "Champs manquant"));
+                resultat = false;
+            }
+            else if (champsObligatoire.getValue() instanceof Float
+                    && ((Float) champsObligatoire.getValue()).equals(0F)) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Champ "
+                                + champsObligatoire.getKey() + " manquant", "Champs manquant"));
+                resultat = false;
+            }
+        }
+        return resultat;
     }
 
     // ===== Accesseurs =======================================================

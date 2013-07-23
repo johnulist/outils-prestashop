@@ -20,9 +20,39 @@ public class ProduitSousFamilleDto {
 
     private int idSousFamille;
 
+    private int idFamille;
+
     private String nomFamille;
 
     private String description;
+
+    private String urlImage;
+
+    /**
+     * Constructeur
+     */
+    public ProduitSousFamilleDto() {
+        // Constructeur
+    }
+
+    /**
+     * Constructeur
+     * 
+     * @param idSousFamille L'id sous famille
+     * @param idFamille L'id de la famille
+     * @param nomFamille Le nom de la famille
+     * @param description La description de la famille
+     * @param urlImage L'url de l'image représentant la famille
+     */
+    public ProduitSousFamilleDto(int idSousFamille, int idFamille, String nomFamille,
+            String description, String urlImage) {
+        super();
+        this.idSousFamille = idSousFamille;
+        this.idFamille = idFamille;
+        this.nomFamille = nomFamille;
+        this.description = description;
+        this.urlImage = urlImage;
+    }
 
     // ===== Accesseurs =======================================================
 
@@ -42,6 +72,24 @@ public class ProduitSousFamilleDto {
      */
     public void setIdSousFamille(int idSousFamille) {
         this.idSousFamille = idSousFamille;
+    }
+
+    /**
+     * Retourne idFamille
+     * 
+     * @return idFamille
+     */
+    public int getIdFamille() {
+        return idFamille;
+    }
+
+    /**
+     * Affecte idFamille
+     * 
+     * @param idFamille idFamille à affecter
+     */
+    public void setIdFamille(int idFamille) {
+        this.idFamille = idFamille;
     }
 
     /**
@@ -78,6 +126,24 @@ public class ProduitSousFamilleDto {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Retourne urlImage
+     * 
+     * @return urlImage
+     */
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    /**
+     * Affecte urlImage
+     * 
+     * @param urlImage urlImage à affecter
+     */
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
 }

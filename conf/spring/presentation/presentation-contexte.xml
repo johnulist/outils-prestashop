@@ -34,6 +34,7 @@
 		class="fr.upyourbizz.web.presentation.controller.ListeProduitsController"
 		scope="request">
 		<property name="listeProduitsModel" ref="listeProduitsModel" />
+		<property name="listeProduitsCoordinateur" ref="listeProduitsCoordinateur" />
 	</bean>
 	<bean id="testControleur"
 		class="fr.upyourbizz.web.presentation.controller.testControleur"

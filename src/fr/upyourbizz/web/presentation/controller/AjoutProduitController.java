@@ -4,13 +4,18 @@
 package fr.upyourbizz.web.presentation.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.upyourbizz.utils.adaptateur.AjoutProduitAdaptateur;
+import fr.upyourbizz.web.coordination.AjoutProduitCoordinateur;
+import fr.upyourbizz.web.dto.ProduitReferenceDto;
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel;
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel.Option;
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel.PrixDegressif;
@@ -18,7 +23,7 @@ import fr.upyourbizz.web.presentation.model.AjoutProduitModel.PrixDegressif;
 /**
  * AjoutProduitController
  */
-public class AjoutProduitController {
+public class AjoutProduitController extends AbstractController {
 
     // ===== Attributs statiques ==============================================
 
@@ -30,6 +35,8 @@ public class AjoutProduitController {
     // ===== Attributs ========================================================
 
     private AjoutProduitModel ajoutProduitModel;
+
+    private AjoutProduitCoordinateur ajoutProduitCoordinateur;
 
     // ===== Constructeurs ====================================================
 
@@ -133,6 +140,26 @@ public class AjoutProduitController {
         ajoutProduitModel.getListeOptionPrixDegressifProduit().remove(prixDegressifSelectionne);
     }
 
+    public String enregistrerProduit() {
+        Map<String, Object> champsObligatoires = new HashMap<String, Object>();
+        champsObligatoires.put("Nom", ajoutProduitModel.getNom());
+        champsObligatoires.put("Référence", ajoutProduitModel.getReference());
+        champsObligatoires.put("Famille", ajoutProduitModel.getFamilleSelectionnee());
+        champsObligatoires.put("Sous Famille", ajoutProduitModel.getSousFamilleSelectionnee());
+        champsObligatoires.put("Description Courte", ajoutProduitModel.getDescriptionCourte());
+        champsObligatoires.put("Description Offre", ajoutProduitModel.getDescriptionOffre());
+        champsObligatoires.put("Avantages", ajoutProduitModel.getAvantages());
+        champsObligatoires.put("Bénéfices", ajoutProduitModel.getBenefices());
+        champsObligatoires.put("Coût nominal", ajoutProduitModel.getCoutNominal());
+
+        if (controlerChampsObligatoires(champsObligatoires)) {
+            ProduitReferenceDto produitReferenceDto = AjoutProduitAdaptateur.preparationEnregistrementModel(ajoutProduitModel);
+            // ajoutProduitCoordinateur.
+        }
+
+        return "";
+    }
+
     // ===== Accesseurs =======================================================
 
     /**
@@ -142,6 +169,15 @@ public class AjoutProduitController {
      */
     public void setAjoutProduitModel(AjoutProduitModel ajoutProduitModel) {
         this.ajoutProduitModel = ajoutProduitModel;
+    }
+
+    /**
+     * Affecte ajoutProduitCoordinateur
+     * 
+     * @param ajoutProduitCoordinateur ajoutProduitCoordinateur à affecter
+     */
+    public void setAjoutProduitCoordinateur(AjoutProduitCoordinateur ajoutProduitCoordinateur) {
+        this.ajoutProduitCoordinateur = ajoutProduitCoordinateur;
     }
 
     // ===== Classes imbriquées ===============================================

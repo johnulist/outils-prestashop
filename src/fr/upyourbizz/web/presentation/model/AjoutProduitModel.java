@@ -100,6 +100,16 @@ public class AjoutProduitModel {
      */
     private Option optionAvantModification = null;
 
+    /**
+     * Images
+     */
+
+    private String urlImgIllustrationProduit;
+
+    private String urlImgIconeProduit;
+
+    private String urlImgProcessus;
+
     // ===== Attributs ========================================================
 
     // ===== Constructeurs ====================================================
@@ -652,6 +662,60 @@ public class AjoutProduitModel {
      */
     public void setOptionAvantModification(Option optionAvantModification) {
         this.optionAvantModification = optionAvantModification;
+    }
+
+    /**
+     * Retourne urlImgIllustrationProduit
+     * 
+     * @return urlImgIllustrationProduit
+     */
+    public String getUrlImgIllustrationProduit() {
+        return urlImgIllustrationProduit;
+    }
+
+    /**
+     * Affecte urlImgIllustrationProduit
+     * 
+     * @param urlImgIllustrationProduit urlImgIllustrationProduit à affecter
+     */
+    public void setUrlImgIllustrationProduit(String urlImgIllustrationProduit) {
+        this.urlImgIllustrationProduit = urlImgIllustrationProduit;
+    }
+
+    /**
+     * Retourne urlImgIconeProduit
+     * 
+     * @return urlImgIconeProduit
+     */
+    public String getUrlImgIconeProduit() {
+        return urlImgIconeProduit;
+    }
+
+    /**
+     * Affecte urlImgIconeProduit
+     * 
+     * @param urlImgIconeProduit urlImgIconeProduit à affecter
+     */
+    public void setUrlImgIconeProduit(String urlImgIconeProduit) {
+        this.urlImgIconeProduit = urlImgIconeProduit;
+    }
+
+    /**
+     * Retourne urlImgProcessus
+     * 
+     * @return urlImgProcessus
+     */
+    public String getUrlImgProcessus() {
+        return urlImgProcessus;
+    }
+
+    /**
+     * Affecte urlImgProcessus
+     * 
+     * @param urlImgProcessus urlImgProcessus à affecter
+     */
+    public void setUrlImgProcessus(String urlImgProcessus) {
+        this.urlImgProcessus = urlImgProcessus;
     }
 
     public class Option {

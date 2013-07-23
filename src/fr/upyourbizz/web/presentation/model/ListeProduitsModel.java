@@ -27,6 +27,12 @@ public class ListeProduitsModel {
 
     private List<Famille> sousFamille = new ArrayList<Famille>();
 
+    private List<Produit> produits = new ArrayList<Produit>();;
+
+    private boolean afficherSousFamille;
+
+    private boolean afficherProduits;
+
     // ===== Constructeurs ====================================================
 
     // ===== Méthodes =========================================================
@@ -67,6 +73,60 @@ public class ListeProduitsModel {
      */
     public void setSousFamille(List<Famille> sousFamille) {
         this.sousFamille = sousFamille;
+    }
+
+    /**
+     * Retourne produits
+     * 
+     * @return produits
+     */
+    public List<Produit> getProduits() {
+        return produits;
+    }
+
+    /**
+     * Affecte produits
+     * 
+     * @param produits produits à affecter
+     */
+    public void setProduits(List<Produit> produits) {
+        this.produits = produits;
+    }
+
+    /**
+     * Retourne afficherSousFamille
+     * 
+     * @return afficherSousFamille
+     */
+    public boolean isAfficherSousFamille() {
+        return afficherSousFamille;
+    }
+
+    /**
+     * Affecte afficherSousFamille
+     * 
+     * @param afficherSousFamille afficherSousFamille à affecter
+     */
+    public void setAfficherSousFamille(boolean afficherSousFamille) {
+        this.afficherSousFamille = afficherSousFamille;
+    }
+
+    /**
+     * Retourne afficherProduits
+     * 
+     * @return afficherProduits
+     */
+    public boolean isAfficherProduits() {
+        return afficherProduits;
+    }
+
+    /**
+     * Affecte afficherProduits
+     * 
+     * @param afficherProduits afficherProduits à affecter
+     */
+    public void setAfficherProduits(boolean afficherProduits) {
+        this.afficherProduits = afficherProduits;
     }
 
     // ===== Classes imbriquées ===============================================
@@ -116,6 +176,98 @@ public class ListeProduitsModel {
          */
         public void setImgUrl(String imgUrl) {
             this.imgUrl = imgUrl;
+        }
+    }
+
+    public class Produit {
+
+        private int idProduitReference;
+
+        private String nomProduit;
+
+        private String referenceProduit;
+
+        private String urlImgIconeProduit;
+
+        public Produit(int idProduitReference, String nomProduit, String referenceProduit,
+                String urlImgIconeProduit) {
+            super();
+            this.idProduitReference = idProduitReference;
+            this.nomProduit = nomProduit;
+            this.referenceProduit = referenceProduit;
+            this.urlImgIconeProduit = urlImgIconeProduit;
+        }
+
+        /**
+         * Retourne idProduitReference
+         * 
+         * @return idProduitReference
+         */
+        public int getIdProduitReference() {
+            return idProduitReference;
+        }
+
+        /**
+         * Affecte idProduitReference
+         * 
+         * @param idProduitReference idProduitReference à affecter
+         */
+        public void setIdProduitReference(int idProduitReference) {
+            this.idProduitReference = idProduitReference;
+        }
+
+        /**
+         * Retourne nomProduit
+         * 
+         * @return nomProduit
+         */
+        public String getNomProduit() {
+            return nomProduit;
+        }
+
+        /**
+         * Affecte nomProduit
+         * 
+         * @param nomProduit nomProduit à affecter
+         */
+        public void setNomProduit(String nomProduit) {
+            this.nomProduit = nomProduit;
+        }
+
+        /**
+         * Retourne referenceProduit
+         * 
+         * @return referenceProduit
+         */
+        public String getReferenceProduit() {
+            return referenceProduit;
+        }
+
+        /**
+         * Affecte referenceProduit
+         * 
+         * @param referenceProduit referenceProduit à affecter
+         */
+        public void setReferenceProduit(String referenceProduit) {
+            this.referenceProduit = referenceProduit;
+        }
+
+        /**
+         * Retourne urlImgIconeProduit
+         * 
+         * @return urlImgIconeProduit
+         */
+        public String getUrlImgIconeProduit() {
+            return urlImgIconeProduit;
+        }
+
+        /**
+         * Affecte urlImgIconeProduit
+         * 
+         * @param urlImgIconeProduit urlImgIconeProduit à affecter
+         */
+        public void setUrlImgIconeProduit(String urlImgIconeProduit) {
+            this.urlImgIconeProduit = urlImgIconeProduit;
         }
     }
 }

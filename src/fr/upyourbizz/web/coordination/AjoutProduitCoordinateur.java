@@ -3,6 +3,7 @@ package fr.upyourbizz.web.coordination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.upyourbizz.web.dto.ProduitReferenceDto;
 import fr.upyourbizz.web.service.GestionProduitService;
 
 public class AjoutProduitCoordinateur {
@@ -22,7 +23,13 @@ public class AjoutProduitCoordinateur {
 
     // ===== Méthodes =========================================================
 
-    // TODO Corps de classe auto-généré
+    public void ajouterProduitReference(ProduitReferenceDto produitReference) {
+
+    }
+
+    public void modifierProduitReference(ProduitReferenceDto produitReference) {
+
+    }
 
     // ===== Accesseurs =======================================================
 

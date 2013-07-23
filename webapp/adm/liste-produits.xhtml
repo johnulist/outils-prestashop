@@ -17,11 +17,20 @@
 }
 
 .image-ring .ui-ring-item img {
-	width: 120%;
+	margin-top: 5px;
+	width: 90%;
 }
 
 .ui-ring button {
 	font-size: 1em !important;
+}
+
+.divCarouselleArrondie {
+	border-radius: 10px;
+	background-color: #EBECEC;
+	text-align: center;
+	width: 100px;
+	border: 1px outset black;
 }
 </style>
 	</ui:define>
@@ -29,33 +38,49 @@
 	<ui:define name="content">
 		<p:panel>
 			<h:form id="form2">
-				<!-- <p:ring id="basic" value="#{listeProduitsModel.famille}"
-					easing="easeInQuad" var="famille">
-					<p:graphicImage value="/img/#{famille.imgUrl}" style="width:100px;"/>
-				</p:ring> -->
-				<p:fieldset id="listeFamilleFiedset" legend="Liste Famille" style="width:700px;">
+				<p:fieldset id="listeFamilleFiedset" legend="Liste Famille">
 					<p:ring id="custom" value="#{listeProduitsModel.famille}"
 						var="famille" styleClass="image-ring" easing="easeInOutBack">
-						<p:graphicImage value="/img/#{famille.imgUrl}" />
+						<div class="divCarouselleArrondie">
+							<p:graphicImage value="/img/#{famille.imgUrl}" />
+							<p:commandButton update=":form2" icon="ui-icon-search"
+								actionListener="#{listeProduitsController.selectionFamille(famille)}"
+								title="Sélectionner" />
+						</div>
 					</p:ring>
 				</p:fieldset>
-				<!-- <p:carousel id="basicCarousel" value="#{listeProduitsModel.famille}"
-					var="famille" headerText="Nouvelle image"
-					itemStyle="height:200px;width:300px;text-align: center;">
-					<f:facet name="header">  
-            			Famille  
-    				</f:facet>
-					<h:panelGrid columns="1" style="width:100%" cellpadding="5">
-						<p:graphicImage value="/img/#{famille.imgUrl}"
-							style="width:100px;" />
+				<br />
+				<p:fieldset id="listeSousFamilleFiedset" legend="Liste Sous Famille"
+					rendered="#{listeProduitsModel.afficherSousFamille}">
+					<p:ring id="customSsFamille"
+						value="#{listeProduitsModel.sousFamille}" var="ssfamille"
+						styleClass="image-ring" easing="easeInOutBack">
+						<div class="divCarouselleArrondie">
+							<p:graphicImage value="/img/#{ssfamille.imgUrl}" />
+							<p:commandButton update=":form2" icon="ui-icon-search"
+								actionListener="#{listeProduitsController.selectionSousFamille(ssfamille)}"
+								title="Sélectionner" />
+						</div>
+					</p:ring>
+				</p:fieldset>
+				<br />
+				<p:fieldset id="listeProduitsFiedset" legend="Liste Produits" rendered="#{listeProduitsModel.afficherProduits}">
+					<p:dataGrid var="produit" value="#{listeProduitsModel.produits}"
+						columns="3" rows="12" paginator="true"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-						<h:outputText value="Model: #{famille.nomFamille}" />
+						<p:panel style="text-align:center;font-size:15px !important;">
+							<h:panelGrid columns="1" style="width:100%;">
+								<h:outputText value="#{produit.nomProduit}" />
+								<p:graphicImage value="/img/#{produit.urlImgIconeProduit}" style="width:50px;height:50px;"/>
+								<h:outputText value="#{produit.referenceProduit}" />
+							</h:panelGrid>
+						</p:panel>
 
-					</h:panelGrid>
-					<f:facet name="footer">  
-            Au total, il y a  familles.  
-    </f:facet>
-				</p:carousel> -->
+					</p:dataGrid>
+				</p:fieldset>
+				<p:button value="Retour" icon="ui-icon-circle-arrow-w"
+					href="accueil.faces" />
 			</h:form>
 		</p:panel>
 	</ui:define>

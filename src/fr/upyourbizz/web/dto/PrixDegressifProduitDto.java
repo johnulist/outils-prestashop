@@ -30,8 +30,8 @@ public class PrixDegressifProduitDto {
      * @param borneSuperieure
      * @param prixUnitaire
      */
-    public void ajouterPrixDegressif(int idPrixDegressif, int borneInferieure, int borneSuperieure,
-            float prixUnitaire) {
+    public void ajouterPrixDegressif(Integer idPrixDegressif, int borneInferieure,
+            int borneSuperieure, float prixUnitaire) {
         tableauPrixDegressif.add(new PrixDegressif(idPrixDegressif, borneInferieure,
                 borneSuperieure, prixUnitaire));
     }
