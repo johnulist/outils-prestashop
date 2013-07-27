@@ -3,32 +3,32 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<h:form id="produit">
-		<p:panel header="Information produit">
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Nom: " for="nomProduit"
-					styleClass="defaultSize" />
-				<p:inputText id="nomProduit" value="#{ajoutProduitModel.nom}" />
+	<p:panel header="Information produit">
+		<h:panelGrid columns="2" cellpadding="5">
+			<h:outputLabel value="Nom: " for="nomProduit"
+				styleClass="defaultSize" />
+			<p:inputText id="nomProduit" value="#{ajoutProduitModel.nom}" />
 
-				<h:outputLabel value="Référence: " for="referenceProduit"
-					styleClass="defaultSize" />
-				<p:inputText id="referenceProduit"
-					value="#{ajoutProduitModel.reference}" />
+			<h:outputLabel value="Référence: " for="referenceProduit"
+				styleClass="defaultSize" />
+			<p:inputText id="referenceProduit"
+				value="#{ajoutProduitModel.reference}" />
 
-				<h:outputText value="Famille: " />
-				<p:selectOneMenu value="#{ajoutProduitModel.familleSelectionnee}"
-					style="width:110px;">
-					<f:selectItems value="#{ajoutProduitModel.listeFamilles}" />
-				</p:selectOneMenu>
+			<h:outputText value="Famille: " />
+			<p:selectOneMenu value="#{ajoutProduitModel.familleSelectionnee}"
+				style="width:110px;">
+				<f:selectItems value="#{ajoutProduitModel.listeFamilles}" />
+				<p:ajax listener="#{ajoutProduitController.selectionFamille}"
+					update="sousFamilleSlct" />
+			</p:selectOneMenu>
 
-				<h:outputText value="Sous Famille: " />
-				<p:selectOneMenu
-					value="#{ajoutProduitModel.sousFamilleSelectionnee}"
-					style="width:110px;">
-					<f:selectItems value="#{ajoutProduitModel.listeSousFamilles}" />
-				</p:selectOneMenu>
+			<h:outputText value="Sous Famille: " />
+			<p:selectOneMenu id="sousFamilleSlct"
+				value="#{ajoutProduitModel.sousFamilleSelectionnee}"
+				style="width:110px;">
+				<f:selectItems value="#{ajoutProduitModel.listeSousFamilles}" />
+			</p:selectOneMenu>
 
-			</h:panelGrid>
-		</p:panel>
-	</h:form>
+		</h:panelGrid>
+	</p:panel>
 </ui:composition>

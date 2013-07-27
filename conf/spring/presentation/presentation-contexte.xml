@@ -14,11 +14,11 @@
 		<property name="updateImgPictureFromGoogleCoordinator" ref="updateImgPictureFromGoogleCoordinator" />
 		<property name="growlBean" ref="growlBean" />
 	</bean>
-	<bean id="ajoutProduitController"
+	<!-- <bean id="ajoutProduitController"
 		class="fr.upyourbizz.web.presentation.controller.AjoutProduitController"
 		scope="request">
 		<property name="ajoutProduitModel" ref="ajoutProduitModel" />
-	</bean>
+	</bean> -->
 	<bean id="gestionUtilisateursController"
 		class="fr.upyourbizz.web.presentation.controller.GestionUtilisateursController"
 		scope="request">

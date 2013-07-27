@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
+import fr.upyourbizz.web.dto.PrixDegressif;
 import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
 import fr.upyourbizz.web.dto.ProduitSousFamilleDto;
@@ -61,6 +62,22 @@ public class GestionProduitService {
     public List<ProduitReferenceDto> listerProduitsReference(String nomSousFamille)
             throws TechnicalException {
         return produitReferenceDao.listerProduitsReference(nomSousFamille);
+    }
+
+    public void ajouterProduitReference(ProduitReferenceDto produitReference)
+            throws TechnicalException {
+        int idProduitRef = produitReferenceDao.ajouterProduitReference(
+                produitReference.getSousFamille().getNomFamille(), produitReference.getReference(),
+                produitReference.getNom(), produitReference.getDescriptionCourte(),
+                produitReference.getDescriptionLongueHtml(),
+                produitReference.getDescriptionOffreHtml(), produitReference.getAvantagesHtml(),
+                produitReference.getBeneficesHtml(),
+                produitReference.getUrlImgIllustrationProduit(),
+                produitReference.getUrlImgIconeProduit(), produitReference.getUrlImgProcessus());
+
+        for (PrixDegressif prixDegressif : produitReference.getPrixDegressifProduit().getTableauPrixDegressif()) {
+            produitReferenceDao.ajouterPrixDegressif(idProduitRef, prixDegressif);
+        }
     }
 
     // ===== Accesseurs =======================================================

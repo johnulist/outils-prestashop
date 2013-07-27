@@ -11,6 +11,9 @@ import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.upyourbizz.web.dto.Option;
+import fr.upyourbizz.web.dto.PrixDegressif;
+
 /**
  * AjoutProduitModel
  */
@@ -59,9 +62,9 @@ public class AjoutProduitModel {
 
     private float prixUnitaireFixe = 0F;
 
-    private int borneInferieure;
+    private int borneInferieure = 0;
 
-    private int borneSuperieure;
+    private int borneSuperieure = 0;
 
     private float coutUnitaire = 0F;
 
@@ -89,9 +92,9 @@ public class AjoutProduitModel {
 
     private float optionCoutUnitaireFixe = 0F;
 
-    private int optionBorneInferieure;
+    private int optionBorneInferieure = 0;
 
-    private int optionBorneSuperieure;
+    private int optionBorneSuperieure = 0;
 
     private float optionCoutUnitaire = 0F;
 
@@ -104,18 +107,18 @@ public class AjoutProduitModel {
      * Images
      */
 
-    private String urlImgIllustrationProduit;
+    private String urlImgIllustrationProduit = "";
 
-    private String urlImgIconeProduit;
+    private String urlImgIconeProduit = "";
 
-    private String urlImgProcessus;
+    private String urlImgProcessus = "";
 
     // ===== Attributs ========================================================
 
     // ===== Constructeurs ====================================================
 
     public AjoutProduitModel() {
-        listeFamilles.add(new SelectItem("Marketing"));
+
     }
 
     // ===== Méthodes =========================================================
@@ -128,11 +131,49 @@ public class AjoutProduitModel {
         optionReference = "";
         optionObligatoire = false;
         optionCoutNominal = 0F;
-        optionCoutUnitaire = 0F;
         optionCoutUnitaireFixe = 0F;
         optionBorneInferieure = 0;
         optionBorneSuperieure = 0;
+        optionCoutUnitaire = 0F;
         listeOptionPrixDegressifProduit = new ArrayList<PrixDegressif>();
+    }
+
+    /**
+     * Réinitialise les champs du bean
+     */
+    public void reinitialiser() {
+        nom = "";
+        reference = "";
+        listeFamilles = new ArrayList<SelectItem>();
+        familleSelectionnee = "";
+        listeSousFamilles = new ArrayList<SelectItem>();
+        sousFamilleSelectionnee = "";
+        descriptionCourte = "";
+        descriptionOffre = "";
+        avantages = "";
+        benefices = "";
+        coutNominal = 0F;
+        prixUnitaireFixe = 0F;
+        borneInferieure = 0;
+        borneSuperieure = 0;
+        coutUnitaire = 0F;
+        listePrixDegressifProduit = new ArrayList<PrixDegressif>();
+        listeOptions = new ArrayList<Option>();
+        afficherPartieNouvelleOption = false;
+        optionNom = "";
+        optionReference = "";
+        listeOptionPrixDegressifProduit = new ArrayList<PrixDegressif>();
+        optionSelectionne = null;
+        optionCoutNominal = 0F;
+        optionObligatoire = false;
+        optionCoutUnitaireFixe = 0F;
+        optionBorneInferieure = 0;
+        optionBorneSuperieure = 0;
+        optionCoutUnitaire = 0F;
+        optionAvantModification = null;
+        urlImgIllustrationProduit = "";
+        urlImgIconeProduit = "";
+        urlImgProcessus = "";
     }
 
     // ===== Accesseurs =======================================================
@@ -644,8 +685,6 @@ public class AjoutProduitModel {
         this.optionCoutUnitaire = optionCoutUnitaire;
     }
 
-    // ===== Classes imbriquées ===============================================
-
     /**
      * Retourne optionAvantModification
      * 
@@ -718,184 +757,5 @@ public class AjoutProduitModel {
         this.urlImgProcessus = urlImgProcessus;
     }
 
-    public class Option {
-
-        private String nom = "";
-
-        private String reference = "";
-
-        private boolean obligatoire;
-
-        private float coutUnitaireFixe;
-
-        private List<PrixDegressif> listePrixDegressif = new ArrayList<PrixDegressif>();
-
-        public Option(String nom, String reference, boolean obligatoire) {
-            super();
-            this.nom = nom;
-            this.reference = reference;
-            this.obligatoire = obligatoire;
-        }
-
-        /**
-         * Retourne nom
-         * 
-         * @return nom
-         */
-        public String getNom() {
-            return nom;
-        }
-
-        /**
-         * Affecte nom
-         * 
-         * @param nom nom à affecter
-         */
-        public void setNom(String nom) {
-            this.nom = nom;
-        }
-
-        /**
-         * Retourne reference
-         * 
-         * @return reference
-         */
-        public String getReference() {
-            return reference;
-        }
-
-        /**
-         * Affecte reference
-         * 
-         * @param reference reference à affecter
-         */
-        public void setReference(String reference) {
-            this.reference = reference;
-        }
-
-        /**
-         * Retourne obligatoire
-         * 
-         * @return obligatoire
-         */
-        public boolean isObligatoire() {
-            return obligatoire;
-        }
-
-        /**
-         * Affecte obligatoire
-         * 
-         * @param obligatoire obligatoire à affecter
-         */
-        public void setObligatoire(boolean obligatoire) {
-            this.obligatoire = obligatoire;
-        }
-
-        /**
-         * Retourne coutUnitaireFixe
-         * 
-         * @return coutUnitaireFixe
-         */
-        public float getCoutUnitaireFixe() {
-            return coutUnitaireFixe;
-        }
-
-        /**
-         * Affecte coutUnitaireFixe
-         * 
-         * @param coutUnitaireFixe coutUnitaire à affecter
-         */
-        public void setCoutUnitaireFixe(float coutUnitaireFixe) {
-            this.coutUnitaireFixe = coutUnitaireFixe;
-        }
-
-        /**
-         * Retourne listePrixDegressif
-         * 
-         * @return listePrixDegressif
-         */
-        public List<PrixDegressif> getListePrixDegressif() {
-            return listePrixDegressif;
-        }
-
-        /**
-         * Affecte listePrixDegressif
-         * 
-         * @param listePrixDegressif listePrixDegressif à affecter
-         */
-        public void setListePrixDegressif(List<PrixDegressif> listePrixDegressif) {
-            this.listePrixDegressif = listePrixDegressif;
-        }
-
-    }
-
-    public class PrixDegressif {
-
-        private int borneInferieure;
-
-        private int borneSuperieure;
-
-        private float prixUnitaire;
-
-        public PrixDegressif(int borneInferieure, int borneSuperieure, float prixUnitaire) {
-            super();
-            this.borneInferieure = borneInferieure;
-            this.borneSuperieure = borneSuperieure;
-            this.prixUnitaire = prixUnitaire;
-        }
-
-        /**
-         * Retourne borneInferieure
-         * 
-         * @return borneInferieure
-         */
-        public int getBorneInferieure() {
-            return borneInferieure;
-        }
-
-        /**
-         * Affecte borneInferieure
-         * 
-         * @param borneInferieure borneInferieure à affecter
-         */
-        public void setBorneInferieure(int borneInferieure) {
-            this.borneInferieure = borneInferieure;
-        }
-
-        /**
-         * Retourne borneSuperieure
-         * 
-         * @return borneSuperieure
-         */
-        public int getBorneSuperieure() {
-            return borneSuperieure;
-        }
-
-        /**
-         * Affecte borneSuperieure
-         * 
-         * @param borneSuperieure borneSuperieure à affecter
-         */
-        public void setBorneSuperieure(int borneSuperieure) {
-            this.borneSuperieure = borneSuperieure;
-        }
-
-        /**
-         * Retourne prixUnitaire
-         * 
-         * @return prixUnitaire
-         */
-        public float getPrixUnitaire() {
-            return prixUnitaire;
-        }
-
-        /**
-         * Affecte prixUnitaire
-         * 
-         * @param prixUnitaire prixUnitaire à affecter
-         */
-        public void setPrixUnitaire(float prixUnitaire) {
-            this.prixUnitaire = prixUnitaire;
-        }
-    }
+    // ===== Classes imbriquées ===============================================
 }

@@ -11,8 +11,6 @@ import fr.upyourbizz.web.dto.ProduitOptionsDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
 import fr.upyourbizz.web.dto.ProduitSousFamilleDto;
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel;
-import fr.upyourbizz.web.presentation.model.AjoutProduitModel.Option;
-import fr.upyourbizz.web.presentation.model.AjoutProduitModel.PrixDegressif;
 
 /**
  * AjoutProduitAdaptateur
@@ -34,6 +32,7 @@ public class AjoutProduitAdaptateur {
 
     public static ProduitReferenceDto preparationEnregistrementModel(AjoutProduitModel model) {
         ProduitSousFamilleDto sousFamille = new ProduitSousFamilleDto();
+        sousFamille.setNomFamille(model.getSousFamilleSelectionnee());
 
         ProduitReferenceDto nouveauProduit = new ProduitReferenceDto(sousFamille,
                 model.getReference(), model.getNom(), model.getDescriptionCourte(), "",
@@ -45,33 +44,13 @@ public class AjoutProduitAdaptateur {
         }
         else {
             PrixDegressifProduitDto prixDegressifProduitDto = new PrixDegressifProduitDto();
-            for (PrixDegressif prixDegressif : model.getListeOptionPrixDegressifProduit()) {
-                prixDegressifProduitDto.ajouterPrixDegressif(null,
-                        prixDegressif.getBorneInferieure(), prixDegressif.getBorneSuperieure(),
-                        prixDegressif.getPrixUnitaire());
-            }
+            prixDegressifProduitDto.setTableauPrixDegressif(model.getListePrixDegressifProduit());
             nouveauProduit.setPrixDegressifProduit(prixDegressifProduitDto);
         }
         if (model.getListeOptions().size() > 0) {
             ProduitOptionsDto produitOptionDto = new ProduitOptionsDto();
-            for (Option produitOption : model.getListeOptions()) {
-                ProduitOptionsDto produitOptionsDto = new ProduitOptionsDto();
-                fr.upyourbizz.web.dto.ProduitOptionsDto.Option nouvelOption = produitOptionsDto.new Option(
-                        produitOption.getNom(), produitOption.getReference(),
-                        produitOption.isObligatoire());
-                if (produitOption.getCoutUnitaireFixe() != 0F) {
-                    nouvelOption.setCoutUnitaireFixe(produitOption.getCoutUnitaireFixe());
-                }
-                else {
-                    for (PrixDegressif prixDegressif : produitOption.getListePrixDegressif()) {
-                        nouvelOption.ajouterPrixDegressif(null, prixDegressif.getBorneInferieure(),
-                                prixDegressif.getBorneSuperieure(), prixDegressif.getPrixUnitaire());
-                    }
-                }
-                produitOptionDto.getListeOption().add(nouvelOption);
-
-            }
-
+            produitOptionDto.setListeOption(model.getListeOptions());
+            nouveauProduit.setProduitOptions(produitOptionDto);
         }
         return nouveauProduit;
     }

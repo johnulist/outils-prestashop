@@ -16,26 +16,27 @@
 			<p style="font-size: 250%; color: #835C3B;">
 				<h:outputText value="Ajout Produit " />
 			</p>
-			<p:messages id="messages" autoUpdate="true"
-				closable="true" />
-			<p:tabView id="ajout-produit">
-				<p:tab id="onglet-produit" title="Produit">
-					<ui:include src="ajout-produit-produit.xhtml"></ui:include>
-				</p:tab>
-				<p:tab id="onglet-description" title="Descriptions" dynamic="true">
-					<ui:include src="ajout-produit-description.xhtml"></ui:include>
-				</p:tab>
-				<p:tab id="onglet-prix" title="Prix">
-					<ui:include src="ajout-produit-prix.xhtml"></ui:include>
-				</p:tab>
-				<p:tab id="onglet-option" title="Options">
-					<ui:include src="ajout-produit-option.xhtml"></ui:include>
-				</p:tab>
-				<p:tab id="onglet-images" title="Images">
-					<ui:include src="ajout-produit-images.xhtml"></ui:include>
-				</p:tab>
-			</p:tabView>
-			<h:form id="buttonsAddBack">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<h:form id="ajoutProduitTabView">
+				<p:tabView id="ajout-produit">
+					<p:ajax event="tabChange"
+						listener="#{ajoutProduitController.onTabChange}" />
+					<p:tab id="onglet-produit" title="Produit">
+						<ui:include src="ajout-produit-produit.xhtml"></ui:include>
+					</p:tab>
+					<p:tab id="onglet-description" title="Descriptions" dynamic="true">
+						<ui:include src="ajout-produit-description.xhtml"></ui:include>
+					</p:tab>
+					<p:tab id="onglet-prix" title="Prix">
+						<ui:include src="ajout-produit-prix.xhtml"></ui:include>
+					</p:tab>
+					<p:tab id="onglet-option" title="Options">
+						<ui:include src="ajout-produit-option.xhtml"></ui:include>
+					</p:tab>
+					<p:tab id="onglet-images" title="Images">
+						<ui:include src="ajout-produit-images.xhtml"></ui:include>
+					</p:tab>
+				</p:tabView>
 				<p:commandButton value="Ajouter Produit" icon="ui-icon-check"
 					action="#{ajoutProduitController.enregistrerProduit}" />
 				<p:button value="Retour" icon="ui-icon-circle-arrow-w"

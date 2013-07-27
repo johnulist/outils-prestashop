@@ -35,8 +35,6 @@ public class AbstractController {
     protected boolean controlerChampsObligatoires(Map<String, Object> champsObligatoires) {
         boolean resultat = true;
         for (Map.Entry<String, Object> champsObligatoire : champsObligatoires.entrySet()) {
-            // System.out.print(champsObligatoire.getKey() + ": ");
-            // System.out.println(champsObligatoire.getValue());
             if (champsObligatoire.getValue() instanceof String
                     && ((String) champsObligatoire.getValue()).isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(
@@ -63,6 +61,16 @@ public class AbstractController {
             }
         }
         return resultat;
+    }
+
+    /**
+     * Redirige vers la page d'erreur technique
+     * 
+     * @param message Le message d'erreur
+     * @param detail le detail du message
+     */
+    public void redirectionVersPageErreurTechnique(String message, String detail) {
+        // TODO rediriger vers page d'erreur
     }
 
     // ===== Accesseurs =======================================================

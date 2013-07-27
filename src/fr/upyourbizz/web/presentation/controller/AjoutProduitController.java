@@ -3,39 +3,51 @@
  */
 package fr.upyourbizz.web.presentation.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.SelectItem;
 
+import org.primefaces.event.TabChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import fr.upyourbizz.utils.adaptateur.AjoutProduitAdaptateur;
+import fr.upyourbizz.utils.exception.TechnicalException;
 import fr.upyourbizz.web.coordination.AjoutProduitCoordinateur;
+import fr.upyourbizz.web.dto.Option;
+import fr.upyourbizz.web.dto.PrixDegressif;
+import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
+import fr.upyourbizz.web.dto.ProduitSousFamilleDto;
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel;
-import fr.upyourbizz.web.presentation.model.AjoutProduitModel.Option;
-import fr.upyourbizz.web.presentation.model.AjoutProduitModel.PrixDegressif;
 
 /**
  * AjoutProduitController
  */
+@Component
+@Scope("request")
 public class AjoutProduitController extends AbstractController {
 
     // ===== Attributs statiques ==============================================
 
-    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(AjoutProduitController.class);
 
     // ===== Méthodes statiques ===============================================
 
     // ===== Attributs ========================================================
 
+    @Autowired
     private AjoutProduitModel ajoutProduitModel;
 
+    @Autowired
     private AjoutProduitCoordinateur ajoutProduitCoordinateur;
 
     // ===== Constructeurs ====================================================
@@ -43,20 +55,54 @@ public class AjoutProduitController extends AbstractController {
     // ===== Méthodes =========================================================
 
     public void init() {
+
         if (!FacesContext.getCurrentInstance().isPostback()) {
-            PrixDegressif prixDeg1 = ajoutProduitModel.new PrixDegressif(0, 1000, 10F);
-            PrixDegressif prixDeg2 = ajoutProduitModel.new PrixDegressif(1001, 2000, 8F);
-            List<PrixDegressif> listePrixDegressif = new ArrayList<PrixDegressif>();
-            listePrixDegressif.add(prixDeg1);
-            listePrixDegressif.add(prixDeg2);
-            ajoutProduitModel.setListePrixDegressifProduit(listePrixDegressif);
+            ajoutProduitModel.reinitialiser();
+            try {
+                List<ProduitFamilleDto> listeFamille = ajoutProduitCoordinateur.listerFamille();
+                ajoutProduitModel.getListeFamilles().add(new SelectItem(""));
+                for (ProduitFamilleDto famille : listeFamille) {
+                    ajoutProduitModel.getListeFamilles().add(
+                            new SelectItem(famille.getNomFamille()));
+                }
+            }
+            catch (TechnicalException e) {
+                e.printStackTrace();
+                redirectionVersPageErreurTechnique(e.getMessage(),
+                        e.getCause().getCause().getMessage());
+            }
+        }
+    }
+
+    /**
+     * Fonction appellée lorsque l'utilisateur change la valeur du champs
+     * famille
+     * 
+     * @param event
+     */
+    public void selectionFamille(AjaxBehaviorEvent event) {
+        String nouvelleValeur = (String) ((UIOutput) event.getSource()).getValue();
+        logger.debug("Selection d'une famille:" + nouvelleValeur);
+        if (!nouvelleValeur.isEmpty()) {
+            try {
+                List<ProduitSousFamilleDto> listeFamille = ajoutProduitCoordinateur.listerSousFamille(nouvelleValeur);
+                ajoutProduitModel.getListeSousFamilles().clear();
+                for (ProduitSousFamilleDto sousFamille : listeFamille) {
+                    ajoutProduitModel.getListeSousFamilles().add(
+                            new SelectItem(sousFamille.getNomFamille()));
+                }
+            }
+            catch (TechnicalException e) {
+                e.printStackTrace();
+                redirectionVersPageErreurTechnique(e.getMessage(),
+                        e.getCause().getCause().getMessage());
+            }
         }
     }
 
     public void ajoutPrixDegressif() {
-        PrixDegressif nouveauPrix = ajoutProduitModel.new PrixDegressif(
-                ajoutProduitModel.getBorneInferieure(), ajoutProduitModel.getBorneSuperieure(),
-                ajoutProduitModel.getCoutUnitaire());
+        PrixDegressif nouveauPrix = new PrixDegressif(ajoutProduitModel.getBorneInferieure(),
+                ajoutProduitModel.getBorneSuperieure(), ajoutProduitModel.getCoutUnitaire());
         ajoutProduitModel.getListePrixDegressifProduit().add(nouveauPrix);
         ajoutProduitModel.setBorneInferieure(0);
         ajoutProduitModel.setBorneSuperieure(0);
@@ -86,7 +132,7 @@ public class AjoutProduitController extends AbstractController {
         ajoutProduitModel.setListeOptionPrixDegressifProduit(optionAModifier.getListePrixDegressif());
 
         // On sauvegarde les anciennes valeurs
-        Option optionAvantModif = ajoutProduitModel.new Option(optionAModifier.getNom(),
+        Option optionAvantModif = new Option(optionAModifier.getNom(),
                 optionAModifier.getReference(), optionAModifier.isObligatoire());
         optionAvantModif.setCoutUnitaireFixe(optionAModifier.getCoutUnitaireFixe());
         optionAvantModif.setListePrixDegressif(optionAModifier.getListePrixDegressif());
@@ -101,7 +147,7 @@ public class AjoutProduitController extends AbstractController {
     }
 
     public void ajouterNouvelleOption() {
-        Option nouvelleOption = ajoutProduitModel.new Option(ajoutProduitModel.getOptionNom(),
+        Option nouvelleOption = new Option(ajoutProduitModel.getOptionNom(),
                 ajoutProduitModel.getOptionReference(), ajoutProduitModel.isOptionObligatoire());
         if (ajoutProduitModel.getOptionCoutUnitaireFixe() != 0) {
             nouvelleOption.setCoutUnitaireFixe(ajoutProduitModel.getOptionCoutUnitaireFixe());
@@ -126,8 +172,7 @@ public class AjoutProduitController extends AbstractController {
     }
 
     public void ajouterOptionPrixDegressif() {
-        PrixDegressif nouveauPrix = ajoutProduitModel.new PrixDegressif(
-                ajoutProduitModel.getOptionBorneInferieure(),
+        PrixDegressif nouveauPrix = new PrixDegressif(ajoutProduitModel.getOptionBorneInferieure(),
                 ajoutProduitModel.getOptionBorneSuperieure(),
                 ajoutProduitModel.getOptionCoutUnitaire());
         ajoutProduitModel.getListeOptionPrixDegressifProduit().add(nouveauPrix);
@@ -155,30 +200,24 @@ public class AjoutProduitController extends AbstractController {
         if (controlerChampsObligatoires(champsObligatoires)) {
             ProduitReferenceDto produitReferenceDto = AjoutProduitAdaptateur.preparationEnregistrementModel(ajoutProduitModel);
             // ajoutProduitCoordinateur.
+            if (produitReferenceDto.getIdProduit() != 0) {
+                ajoutProduitCoordinateur.modifierProduitReference(produitReferenceDto);
+            }
+            else {
+                ajoutProduitCoordinateur.ajouterProduitReference(produitReferenceDto);
+            }
         }
 
         return "";
     }
 
+    public void onTabChange(TabChangeEvent event) {
+        // this.setTab1("tab1.xhtml");
+        // this.setTab2("tab2.xhtml"）;
+        logger.debug("Changement de tab");
+    }
+
     // ===== Accesseurs =======================================================
-
-    /**
-     * Affecte ajoutProduitModel
-     * 
-     * @param ajoutProduitModel ajoutProduitModel à affecter
-     */
-    public void setAjoutProduitModel(AjoutProduitModel ajoutProduitModel) {
-        this.ajoutProduitModel = ajoutProduitModel;
-    }
-
-    /**
-     * Affecte ajoutProduitCoordinateur
-     * 
-     * @param ajoutProduitCoordinateur ajoutProduitCoordinateur à affecter
-     */
-    public void setAjoutProduitCoordinateur(AjoutProduitCoordinateur ajoutProduitCoordinateur) {
-        this.ajoutProduitCoordinateur = ajoutProduitCoordinateur;
-    }
 
     // ===== Classes imbriquées ===============================================
 }

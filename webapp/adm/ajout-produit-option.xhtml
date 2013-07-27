@@ -3,8 +3,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<h:form id="option">
 		<p:panel header="Options produit">
+		<p:messages/>
 			<p:fieldset id="listeOptionFiedset" legend="Options existantes">
 				<p:dataTable id="listeOption" var="option"
 					value="#{ajoutProduitModel.listeOptions}" paginator="true" rows="5"
@@ -50,8 +50,8 @@
 						<f:facet name="header">
 							<h:outputText value="Prix dégressif" />
 						</f:facet>
-						<p:commandButton id="selectButton" icon="ui-icon-search"
-							oncomplete="optionPrixDegresDialog.show()" update=":ajout-produit:option:tableauOptionPrixDegressifDlg"
+						<p:commandButton id="selectButton" icon="ui-icon-search" rendered="#{not empty option.listePrixDegressif}" 
+							oncomplete="optionPrixDegresDialog.show()" update="@(from)"
 							title="Détails Prix Dégressif">
 							<f:setPropertyActionListener value="#{option}"
 								target="#{ajoutProduitModel.optionSelectionne}" />
@@ -59,7 +59,7 @@
 					</p:column>
 					<p:column headerText="M" style="width:3%">
 						<p:commandButton id="modifierOptionButton"
-							update=":ajout-produit:option"
+							update="@(#ajoutProduitTabView:ajout-produit:ajoutNouvelleOptionFiedset) "
 							action="#{ajoutProduitController.modifierOption(option)}"
 							icon="ui-icon-pencil" title="Modifier"
 							style="width:15px; height:15px;" />
@@ -74,7 +74,7 @@
 				<br />
 				<p:commandButton id="ajouterOptionBtn"
 					action="#{ajoutProduitController.afficherPartieNouvelleOption}"
-					update=":ajout-produit:option" value="Ajouter une option"
+					update="@(#ajoutProduitTabView:ajout-produit:ajoutNouvelleOptionFiedset), listeOption" value="Ajouter une option"
 					title="View" style="float:right;" />
 				<br />
 			</p:fieldset>
@@ -195,11 +195,11 @@
 				<br />
 				<p:commandButton id="annulerAjouterOption"
 					action="#{ajoutProduitController.annulerAjouterNouvelleOption}"
-					style="float:right;width:130px;" update=":ajout-produit:option"
+					style="float:right;width:130px;" update="@(#ajoutProduitTabView:ajout-produit:ajoutNouvelleOptionFiedset),listeOptionFiedset"
 					value="Annuler" title="Annuler Ajouter l'option" />
 				<p:commandButton id="ajouterOption"
 					action="#{ajoutProduitController.ajouterNouvelleOption}"
-					style="float:right;width:130px;" update=":ajout-produit:option"
+					style="float:right;width:130px;" update="@(#ajoutProduitTabView:ajout-produit:ajoutNouvelleOptionFiedset),listeOptionFiedset"
 					value="Ajouter l'option" title="Ajouter l'option" />
 			</p:fieldset>
 		</p:panel>
@@ -251,5 +251,4 @@
 				</p:column>
 			</p:dataTable>
 		</p:dialog>
-	</h:form>
 </ui:composition>
