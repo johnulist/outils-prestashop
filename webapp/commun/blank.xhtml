@@ -8,16 +8,11 @@
 <ui:composition template="../templates/standard-template.xhtml">
 	<f:metadata>
 		<f:event type="preRenderView"
-			listener="#{gestionClientsController.init}" />
-		<f:viewParam name="income" value="#{gestionClientsModel.income}" />
+			listener="#{xxxController.init}" />
 	</f:metadata>
-	<ui:define name="title">Upyourbizz Gestion utilisateur</ui:define>
+	<ui:define name="title">Upyourbizz xxx</ui:define>
 	<ui:define name="content">
-		<h:form id="gestion-client">
-			<ui:include src="recherche-clients.xhtml"></ui:include>
-			<p:button value="Retour" icon="ui-icon-circle-arrow-w"
-				href="#{gestionClientsModel.income}" />
-		</h:form>
+		
 	</ui:define>
 </ui:composition>
 </html>

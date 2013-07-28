@@ -19,8 +19,6 @@
 			<p:messages id="messages" autoUpdate="true" closable="true" />
 			<h:form id="ajoutProduitTabView">
 				<p:tabView id="ajout-produit">
-					<p:ajax event="tabChange"
-						listener="#{ajoutProduitController.onTabChange}" />
 					<p:tab id="onglet-produit" title="Produit">
 						<ui:include src="ajout-produit-produit.xhtml"></ui:include>
 					</p:tab>

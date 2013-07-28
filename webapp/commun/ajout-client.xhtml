@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/standard-template.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{ajoutClientController.init}" />
+	</f:metadata>
+	<ui:define name="head">
+		<style type="text/css">
+.fileupload-content {
+	height: 60px;
+}
+</style>
+	</ui:define>
+	<ui:define name="title">Upyourbizz ajout client</ui:define>
+	<ui:define name="content">
+		<p:panel>
+			<p style="font-size: 250%; color: #835C3B;">
+				<h:outputText value="Ajout Client " />
+			</p>
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<h:form id="ajoutClient">
+				<div class="row">
+					<div class="large-6 columns">
+						<p:panel id="entreprise" header="Entreprise" closable="true">
+							<h:panelGrid id="entrepriseGrid" columns="2" cellpadding="5">
+								<h:outputLabel value="Société/Nom *" for="societe"
+									styleClass="defaultSize" />
+								<p:inputText id="societe" value="#{ajoutClientModel.societeNom}"
+									styleClass="ajoutClientInput" required="true"
+									requiredMessage="Veuillez entrer le nom de la société" />
+
+								<h:outputLabel value="Siret" for="siret"
+									styleClass="defaultSize" />
+								<p:inputText id="siret" value="#{ajoutClientModel.siret}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Forme Juridique" for="formeJuridique"
+									styleClass="defaultSize" />
+								<p:inputText id="formeJuridique"
+									value="#{ajoutClientModel.formeJuridique}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="TVA Intercommunautaire"
+									for="tvaIntercommunautaire" styleClass="defaultSize" />
+								<p:inputText id="tvaIntercommunautaire"
+									value="#{ajoutClientModel.tvaIntercommunautaire}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Téléphone Fixe" for="telephoneFixe"
+									styleClass="defaultSize" />
+								<p:inputText id="telephoneFixe"
+									value="#{ajoutClientModel.telephoneFixe}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Dirigeant Nom" for="dirigeantNom"
+									styleClass="defaultSize" />
+								<p:inputText id="dirigeantNom"
+									value="#{ajoutClientModel.dirigeantNom}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Dirigeant Prenom" for="dirigeantPrenom"
+									styleClass="defaultSize" />
+								<p:inputText id="dirigeantPrenom"
+									value="#{ajoutClientModel.dirigeantPrenom}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Adresse" for="adresse"
+									styleClass="defaultSize" />
+								<p:inputText id="adresse" value="#{ajoutClientModel.adresse}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Ville *" for="ville"
+									styleClass="defaultSize" />
+								<p:inputText id="ville" value="#{ajoutClientModel.ville}"
+									styleClass="ajoutClientInput" required="true"
+									requiredMessage="Veuillez entrer la ville de la société" />
+
+								<h:outputLabel value="Code Postal" for="codePostal"
+									styleClass="defaultSize" />
+								<p:inputText id="codePostal"
+									value="#{ajoutClientModel.codePostal}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Secteur Activité *"
+									for="secteurActiviteSelectionne" styleClass="defaultSize" />
+								<p:inputText id="secteurActiviteSelectionne"
+									value="#{ajoutClientModel.secteurActiviteSelectionne}"
+									styleClass="ajoutClientInput" required="true"
+									requiredMessage="Veuillez entrer le secteur d'activité de la société" />
+								<!-- <p:message id="iconMessage1" for="secteurActiviteSelectionne"
+									display="text" /> -->
+
+							</h:panelGrid>
+						</p:panel>
+					</div>
+					<div class="large-6 columns">
+						<p:panel id="contact" header="Contact" closable="true">
+							<h:panelGrid columns="2" cellpadding="5">
+								<h:outputLabel value="Nom" for="contactNom"
+									styleClass="defaultSize" />
+								<p:inputText id="contactNom"
+									value="#{ajoutClientModel.contactNom}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Prénom" for="contactPrenom"
+									styleClass="defaultSize" />
+								<p:inputText id="contactPrenom"
+									value="#{ajoutClientModel.contactPrenom}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Fonction" for="contactFonction"
+									styleClass="defaultSize" />
+								<p:inputText id="contactFonction"
+									value="#{ajoutClientModel.contactFonction}"
+									styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Téléphone Fixe" for="contactTelephoneFixe"
+									styleClass="defaultSize" />
+								<p:inputMask id="contactTelephoneFixe"
+									value="#{ajoutClientModel.contactTelephoneFixe}"
+									mask="99-99-99-99-99" styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Téléphone Portable"
+									for="contactTelephonePortable" styleClass="defaultSize" />
+								<p:inputMask id="contactTelephonePortable"
+									value="#{ajoutClientModel.contactTelephonePortable}"
+									mask="99-99-99-99-99" styleClass="ajoutClientInput" />
+
+								<h:outputLabel value="Email" for="contactEmail"
+									styleClass="defaultSize" />
+								<p:inputText id="contactEmail"
+									value="#{ajoutClientModel.contactEmail}"
+									styleClass="ajoutClientInput" />
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="image" header="Ajout image" closable="true">
+							<div class="row">
+								<div class="large-8 columns">
+									<p:fileUpload label="Choisir" uploadLabel="Envoyer"
+										cancelLabel="Annuler"
+										fileUploadListener="#{fileUploadController.handleFileUpload}"
+										mode="advanced" dragDropSupport="true" sizeLimit="100000"
+										allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+								</div>
+								<div class="large-4 columns">
+									<p:graphicImage value="../img/no_image.gif"
+										style="width:80px;display: block;margin: 0 auto; " />
+								</div>
+							</div>
+						</p:panel>
+					</div>
+				</div>
+				<br />
+				<p:commandButton value="Ajouter client" icon="ui-icon-circle-plus"
+					action="#{ajoutClientController.ajouterClient}"
+					update="@(ajoutClient)" />
+				<p:commandButton value="Annuler" icon="ui-icon-circle-close" />
+				<br />
+				<br />
+				<br />
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

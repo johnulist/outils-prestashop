@@ -54,6 +54,7 @@ public class AjoutProduitAdaptateur {
         }
         return nouveauProduit;
     }
+
     // ===== Accesseurs =======================================================
 
     // ===== Classes imbriquées ===============================================

@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dataTable id="tableClient" var="client"
+		value="#{rechercheClientsModel.listeClients}" widgetVar="clientsTable"
+		emptyMessage="Aucun client trouvé" filteredValue="#{rechercheClientsModel.listeClientsFiltree}">
+
+		<f:facet name="header">
+			<p:outputPanel>
+				<h:outputText value="Recherche Globale:" />
+				<p:inputText id="globalFilter" onkeyup="clientsTable.filter()"
+					style="width:150px" />
+			</p:outputPanel>
+		</f:facet>
+
+		<p:column id="societe" filterBy="societeNom" headerText="Société Nom"
+			filterMatchMode="contains">
+			<h:outputText value="#{client.societeNom}" />
+		</p:column>
+
+		<p:column id="telephoneFixe" filterBy="telephoneFixe"
+			headerText="Téléphone Fixe" filterMatchMode="contains">
+			<h:outputText value="#{client.telephoneFixe}" />
+		</p:column>
+
+		<p:column id="nom" filterBy="contactNom" headerText="Contact Nom"
+			filterMatchMode="contains">
+			<h:outputText value="#{client.contactNom}" />
+		</p:column>
+
+		<p:column id="prenom" filterBy="contactPrenom"
+			headerText="Contact Prenom" filterMatchMode="contains">
+			<h:outputText value="#{client.contactPrenom}" />
+		</p:column>
+
+		<p:column id="contactTelephonePortable" filterBy="contactTelephonePortable"
+			headerText="Contact Téléphone" filterMatchMode="contains">
+			<h:outputText value="#{client.contactTelephonePortable}" />
+		</p:column>
+
+		<p:column id="contactEmail" filterBy="contactEmail" headerText="Contact Email"
+			filterMatchMode="contains">
+			<h:outputText value="#{client.contactEmail}" />
+		</p:column>
+
+		<p:column id="secteurActiviteSelectionne" filterBy="secteurActiviteSelectionne" headerText="Secteur Activité"
+			filterMatchMode="contains">
+			<h:outputText value="#{client.secteurActiviteSelectionne}" />
+		</p:column>
+
+		<p:column id="ville" filterBy="ville" headerText="Ville"
+			filterMatchMode="contains">
+			<h:outputText value="#{client.ville}" />
+		</p:column>
+	</p:dataTable>
+
+</ui:composition>

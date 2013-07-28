@@ -26,8 +26,9 @@
 								styleClass="accueilGlobalBtn" href="liste-produits.faces"
 								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #40A1A4;" />
 							<br />
-							<p:button value="Gestion Utilisateurs" href="gestion-utilisateurs.xhtml"
-								icon="ui-icon-person" styleClass="accueilGlobalBtn"
+							<p:button value="Gestion Utilisateurs"
+								href="gestion-utilisateurs.xhtml" icon="ui-icon-person"
+								styleClass="accueilGlobalBtn"
 								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #40A1A4;" />
 							<p:button value="Tableau de bord" icon="ui-icon-calculator"
 								styleClass="accueilGlobalBtn"
@@ -47,10 +48,13 @@
 							<br />
 							<p:button value="Ajout client" icon="ui-icon-circle-plus"
 								styleClass="accueilGlobalBtn"
+								href="../commun/ajout-client.xhtml"
 								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #B78D1A;" />
-							<p:button value="Modification Client" icon="ui-icon-pencil"
+							<p:button value="Liste Client" icon="ui-icon-pencil"
 								styleClass="accueilGlobalBtn"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #B78D1A;" />
+								href="../commun/gestion-clients.faces?income=../adm/accueil.faces"
+								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #B78D1A;" >
+							</p:button>
 						</div>
 					</p:layoutUnit>
 					<p:layoutUnit position="south" size="600" closable="true"

@@ -25,11 +25,6 @@
 		<property name="gestionUtilisateursModel" ref="gestionUtilisateursModel" />
 		<property name="gestionUtilisateurCoordinateur" ref="gestionUtilisateurCoordinateur" />
 	</bean>
-	<bean id="gestionClientController"
-		class="fr.upyourbizz.web.presentation.controller.GestionClientController"
-		scope="request">
-		<property name="gestionClientModel" ref="gestionClientModel" />
-	</bean>
 	<bean id="listeProduitsController"
 		class="fr.upyourbizz.web.presentation.controller.ListeProduitsController"
 		scope="request">
@@ -51,9 +46,6 @@
 		scope="session" />
 	<bean id="gestionUtilisateursModel"
 		class="fr.upyourbizz.web.presentation.model.GestionUtilisateursModel"
-		scope="session" />
-	<bean id="gestionClientModel"
-		class="fr.upyourbizz.web.presentation.model.GestionClientModel"
 		scope="session" />
 	<bean id="listeProduitsModel"
 		class="fr.upyourbizz.web.presentation.model.ListeProduitsModel"

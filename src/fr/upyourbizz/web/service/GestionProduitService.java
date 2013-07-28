@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
+import fr.upyourbizz.web.dto.Option;
 import fr.upyourbizz.web.dto.PrixDegressif;
 import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
@@ -64,6 +66,7 @@ public class GestionProduitService {
         return produitReferenceDao.listerProduitsReference(nomSousFamille);
     }
 
+    @Transactional(rollbackFor = { TechnicalException.class })
     public void ajouterProduitReference(ProduitReferenceDto produitReference)
             throws TechnicalException {
         int idProduitRef = produitReferenceDao.ajouterProduitReference(
@@ -71,13 +74,31 @@ public class GestionProduitService {
                 produitReference.getNom(), produitReference.getDescriptionCourte(),
                 produitReference.getDescriptionLongueHtml(),
                 produitReference.getDescriptionOffreHtml(), produitReference.getAvantagesHtml(),
-                produitReference.getBeneficesHtml(),
+                produitReference.getBeneficesHtml(), produitReference.getCoutNominal(),
+                produitReference.getPrixUnitaire(),
                 produitReference.getUrlImgIllustrationProduit(),
                 produitReference.getUrlImgIconeProduit(), produitReference.getUrlImgProcessus());
 
         for (PrixDegressif prixDegressif : produitReference.getPrixDegressifProduit().getTableauPrixDegressif()) {
             produitReferenceDao.ajouterPrixDegressif(idProduitRef, prixDegressif);
         }
+        if (produitReference.getProduitOptions() != null) {
+            for (Option nouvelleOption : produitReference.getProduitOptions().getListeOption()) {
+                ajouterOptionProduit(idProduitRef, nouvelleOption);
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = { TechnicalException.class })
+    private void ajouterOptionProduit(int idProduitRef, Option nouvelleOption)
+            throws TechnicalException {
+        produitReferenceDao.ajouterOptionProduit(idProduitRef, nouvelleOption);
+        if (nouvelleOption.getListePrixDegressif() != null) {
+            for (PrixDegressif prixDegressif : nouvelleOption.getListePrixDegressif()) {
+                produitReferenceDao.ajouterPrixDegressifOption(idProduitRef, prixDegressif);
+            }
+        }
+
     }
 
     // ===== Accesseurs =======================================================

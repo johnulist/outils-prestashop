@@ -1,44 +1,56 @@
 /**
  * © 2013, Upyourbizz - All right reserved
  */
-package fr.upyourbizz.web.presentation.controller;
+package fr.upyourbizz.web.presentation.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import fr.upyourbizz.web.presentation.model.GestionClientModel;
+import org.springframework.stereotype.Component;
 
 /**
- * GestionClientController
+ * GestionClientModel
  */
-public class GestionClientController {
+@Component
+public class GestionClientsModel {
 
     // ===== Attributs statiques ==============================================
 
     @SuppressWarnings("unused")
-    private final Logger logger = LoggerFactory.getLogger(GestionClientController.class);
+    private final Logger logger = LoggerFactory.getLogger(GestionClientsModel.class);
 
     // ===== Méthodes statiques ===============================================
 
     // ===== Attributs ========================================================
 
-    private GestionClientModel gestionClientModel;
+    private String income;
 
     // ===== Constructeurs ====================================================
 
     // ===== Méthodes =========================================================
 
-    // TODO Corps de classe auto-généré
+    public void reinitialiser() {
+        // TODO Ébauche de méthode auto-générée
+
+    }
 
     // ===== Accesseurs =======================================================
 
     /**
-     * Affecte gestionClientModel
+     * Retourne income
      * 
-     * @param gestionClientModel gestionClientModel à affecter
+     * @return income
      */
-    public void setGestionClientModel(GestionClientModel gestionClientModel) {
-        this.gestionClientModel = gestionClientModel;
+    public String getIncome() {
+        return income;
+    }
+
+    /**
+     * Affecte income
+     * 
+     * @param income income à affecter
+     */
+    public void setIncome(String income) {
+        this.income = income;
     }
 
     // ===== Classes imbriquées ===============================================

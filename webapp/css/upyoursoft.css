@@ -71,5 +71,9 @@ div.accueilDivEditor{
     position: absolute;
 }
 /*
- * Ajout produit
+ * Ajout Client
  */
+ .ajoutClientInput{
+ 	width:150px;
+ }
+ 

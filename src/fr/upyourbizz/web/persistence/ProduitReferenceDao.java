@@ -11,8 +11,13 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.mysql.jdbc.Statement;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
+import fr.upyourbizz.web.dto.Option;
+import fr.upyourbizz.web.dto.PrixDegressif;
 import fr.upyourbizz.web.dto.PrixDegressifProduitDto;
 import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
@@ -174,15 +179,21 @@ public class ProduitReferenceDao {
      * @param descriptionOffre La description de l'offre associèe
      * @param avantages Les avantages du produit
      * @param benefices Les bénéfices du produit
+     * @param coutNominal
+     * @param prixUnitaire
      * @param urlImgIllustrationProduit
      * @param urlImgIconeProduit
      * @param urlImgProcessus
+     * @return L'id du produit ajouté. -1 s'il le produit n'a pas été ajouté
      * @throws TechnicalException Exception levée en cas d'erreur
      */
-    public void ajouterProduitReference(String nomSousFamille, String referenceProduit, String nom,
+    @Transactional(rollbackFor = { TechnicalException.class })
+    public int ajouterProduitReference(String nomSousFamille, String referenceProduit, String nom,
             String descriptionCourte, String descriptionLongue, String descriptionOffre,
-            String avantages, String benefices, String urlImgIllustrationProduit,
-            String urlImgIconeProduit, String urlImgProcessus) throws TechnicalException {
+            String avantages, String benefices, float coutNominal, float prixUnitaire,
+            String urlImgIllustrationProduit, String urlImgIconeProduit, String urlImgProcessus)
+            throws TechnicalException {
+        int nouvelleClefProduit = -1;
         try {
             Connection connection = ds.getConnection();
             StringBuilder requete = new StringBuilder();
@@ -191,8 +202,12 @@ public class ProduitReferenceDao {
 
             vars.append(" id_produit_sous_famille, reference_produit, nom, ");
             vars.append(" description_courte, description_longue, description_offre, ");
-            vars.append(" avantages, benefices ");
-            values.append(" " + REQUETE_SELECT_SOUS_FAMILLE + ",?,?,?,?,?,?,? ");
+            vars.append(" avantages, benefices, cout_nominal ");
+            values.append(" " + REQUETE_SELECT_SOUS_FAMILLE + ",?,?,?,?,?,?,?,? ");
+            if (prixUnitaire != 0F) {
+                vars.append(",prix_unitaire ");
+                values.append(",?");
+            }
             if (urlImgIllustrationProduit != null && !urlImgIllustrationProduit.isEmpty()) {
                 vars.append(",url_img_illustration_produit ");
                 values.append(",?");
@@ -214,7 +229,8 @@ public class ProduitReferenceDao {
             requete.append(values.toString());
             requete.append(") ");
 
-            PreparedStatement preStatement = connection.prepareStatement(requete.toString());
+            PreparedStatement preStatement = connection.prepareStatement(requete.toString(),
+                    Statement.RETURN_GENERATED_KEYS);
             preStatement.setString(1, nomSousFamille);
             preStatement.setString(2, referenceProduit);
             preStatement.setString(3, nom);
@@ -223,8 +239,13 @@ public class ProduitReferenceDao {
             preStatement.setString(6, descriptionOffre);
             preStatement.setString(7, avantages);
             preStatement.setString(8, benefices);
+            preStatement.setFloat(9, coutNominal);
 
-            int prochainValeurCompteur = 9;
+            int prochainValeurCompteur = 10;
+            if (prixUnitaire != 0F) {
+                preStatement.setFloat(prochainValeurCompteur, prixUnitaire);
+                prochainValeurCompteur++;
+            }
             if (urlImgIllustrationProduit != null && !urlImgIllustrationProduit.isEmpty()) {
                 preStatement.setString(prochainValeurCompteur, urlImgIllustrationProduit);
                 prochainValeurCompteur++;
@@ -241,7 +262,12 @@ public class ProduitReferenceDao {
             }
 
             preStatement.executeUpdate();
+            ResultSet generatedKeys = preStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                nouvelleClefProduit = generatedKeys.getInt(1);
+            }
             logger.debug("Ajout d'un nouveau produit: " + nom);
+            return nouvelleClefProduit;
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -264,6 +290,7 @@ public class ProduitReferenceDao {
      * @param benefices Les bénéfices du produit
      * @throws TechnicalException Exception levée en cas d'erreur
      */
+    @Transactional(rollbackFor = { TechnicalException.class })
     public void modifierProduitReference(int idProduitReference, String nomSousFamille,
             String referenceProduit, String nom, String descriptionCourte,
             String descriptionLongue, String descriptionOffre, String avantages, String benefices,
@@ -328,10 +355,6 @@ public class ProduitReferenceDao {
         }
     }
 
-    public void enregistrerProduitReference() {
-
-    }
-
     public List<ProduitSousFamilleDto> listerSousFamille(String nomFamille)
             throws TechnicalException {
         try {
@@ -393,6 +416,159 @@ public class ProduitReferenceDao {
             logger.error("Erreur Sql" + e.getMessage());
             throw new TechnicalException("Erreur Sql" + e.getMessage());
         }
+    }
+
+    @Transactional(rollbackFor = { TechnicalException.class })
+    public void ajouterPrixDegressif(int idProduitRef, PrixDegressif prixDegressif)
+            throws TechnicalException {
+        try {
+
+            Connection connection = ds.getConnection();
+            StringBuilder requete = new StringBuilder();
+            requete.append(" insert into prix_degressif_produit  ");
+            requete.append(" (borne_inferieure, borne_superieure, prix_unitaire, id_produit_reference)  ");
+            requete.append(" value  ");
+            requete.append(" (?, ?, ?, ?) ");
+
+            PreparedStatement preStatement = connection.prepareStatement(requete.toString());
+            preStatement.setFloat(1, prixDegressif.getBorneInferieure());
+            preStatement.setFloat(2, prixDegressif.getBorneSuperieure());
+            preStatement.setFloat(3, prixDegressif.getPrixUnitaire());
+            preStatement.setFloat(4, idProduitRef);
+
+            preStatement.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Erreur Sql" + e.getMessage());
+            throw new TechnicalException("Erreur Sql" + e.getMessage());
+        }
+
+    }
+
+    @Transactional(rollbackFor = { TechnicalException.class })
+    public void supprimerPrixDegressif(int idProduitRef) throws TechnicalException {
+        try {
+            Connection connection = ds.getConnection();
+            StringBuilder requete = new StringBuilder();
+            requete.append(" delete from prix_degressif_produit where id_produit_reference = ? ");
+
+            PreparedStatement preStatement = connection.prepareStatement(requete.toString());
+            preStatement.setInt(1, idProduitRef);
+
+            preStatement.executeUpdate();
+            logger.debug("Suppression des prix degressifs du produit id=" + idProduitRef
+                    + " effective");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Erreur Sql" + e.getMessage());
+            throw new TechnicalException("Erreur Sql" + e.getMessage());
+        }
+
+    }
+
+    @Transactional(rollbackFor = { TechnicalException.class })
+    public void ajouterOptionProduit(int idProduitRef, Option nouvelleOption)
+            throws TechnicalException {
+        try {
+
+            Connection connection = ds.getConnection();
+            StringBuilder requete = new StringBuilder();
+            requete.append(" insert into produit_option  ");
+            requete.append(" (id_produit_reference, reference_option, nom, obligatoire, prix_unitaire)  ");
+            requete.append(" value  ");
+            requete.append(" (?, ?, ?, ?, ?) ");
+
+            PreparedStatement preStatement = connection.prepareStatement(requete.toString());
+            preStatement.setInt(1, idProduitRef);
+            preStatement.setString(2, nouvelleOption.getReference());
+            preStatement.setString(3, nouvelleOption.getNom());
+            preStatement.setBoolean(4, nouvelleOption.isObligatoire());
+            preStatement.setFloat(5, nouvelleOption.getCoutUnitaireFixe());
+
+            preStatement.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Erreur Sql" + e.getMessage());
+            throw new TechnicalException("Erreur Sql" + e.getMessage());
+        }
+
+    }
+
+    @Transactional(rollbackFor = { TechnicalException.class })
+    public void supprimerOptionProduit(int idProduitRef) throws TechnicalException {
+        try {
+            Connection connection = ds.getConnection();
+            StringBuilder requete = new StringBuilder();
+            requete.append(" delete from produit_option where id_produit_reference = ? ");
+
+            PreparedStatement preStatement = connection.prepareStatement(requete.toString());
+            preStatement.setInt(1, idProduitRef);
+
+            preStatement.executeUpdate();
+            logger.debug("Suppression des options du produit id=" + idProduitRef + " effective");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Erreur Sql" + e.getMessage());
+            throw new TechnicalException("Erreur Sql" + e.getMessage());
+        }
+
+    }
+
+    @Transactional(rollbackFor = { TechnicalException.class })
+    public void ajouterPrixDegressifOption(int idProduitRef, PrixDegressif prixDegressif)
+            throws TechnicalException {
+        try {
+
+            Connection connection = ds.getConnection();
+            StringBuilder requete = new StringBuilder();
+            requete.append(" insert into prix_degressif_option  ");
+            requete.append(" (borne_inferieure, borne_superieure, prix_unitaire, id_produit_reference)  ");
+            requete.append(" value  ");
+            requete.append(" (?, ?, ?, ?) ");
+
+            PreparedStatement preStatement = connection.prepareStatement(requete.toString());
+            preStatement.setFloat(1, prixDegressif.getBorneInferieure());
+            preStatement.setFloat(2, prixDegressif.getBorneSuperieure());
+            preStatement.setFloat(3, prixDegressif.getPrixUnitaire());
+            preStatement.setFloat(4, prixDegressif.getIdPrixDegressif());
+
+            preStatement.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Erreur Sql" + e.getMessage());
+            throw new TechnicalException("Erreur Sql" + e.getMessage());
+        }
+
+    }
+
+    @Transactional(rollbackFor = { TechnicalException.class })
+    public void supprimerPrixDegressifOption(int idProduitRef) throws TechnicalException {
+        try {
+            Connection connection = ds.getConnection();
+            StringBuilder requete = new StringBuilder();
+            requete.append(" delete from prix_degressif_option where id_produit_reference = ? ");
+
+            PreparedStatement preStatement = connection.prepareStatement(requete.toString());
+            preStatement.setInt(1, idProduitRef);
+
+            preStatement.executeUpdate();
+            logger.debug("Suppression des prix degressifs du produit id=" + idProduitRef
+                    + " effective");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Erreur Sql" + e.getMessage());
+            throw new TechnicalException("Erreur Sql" + e.getMessage());
+        }
+
     }
 
     // ===== Accesseurs =======================================================

@@ -1,33 +1,27 @@
-/**
- * © 2013, Upyourbizz - All right reserved
- */
-package fr.upyourbizz.web.service;
-
-import java.util.List;
+package fr.upyourbizz.web.coordination;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
 import fr.upyourbizz.web.dto.ClientDto;
-import fr.upyourbizz.web.persistence.ClientDao;
+import fr.upyourbizz.web.service.GestionClientService;
 
-/**
- * GestionClientService
- */
-public class GestionClientService {
+@Component
+public class AjoutClientCoordinateur {
 
     // ===== Attributs statiques ==============================================
 
     @SuppressWarnings("unused")
-    private final Logger logger = LoggerFactory.getLogger(GestionClientService.class);
+    private final Logger logger = LoggerFactory.getLogger(AjoutClientCoordinateur.class);
 
     // ===== Méthodes statiques ===============================================
 
     // ===== Attributs ========================================================
-
-    private ClientDao clientDao;
+    @Autowired
+    private GestionClientService gestionClientService;
 
     // ===== Constructeurs ====================================================
 
@@ -39,9 +33,8 @@ public class GestionClientService {
      * @param nouveauClient Le client a ajouter
      * @throws TechnicalException Exception technique
      */
-    @Transactional(rollbackFor = { TechnicalException.class })
     public void ajouterClient(ClientDto nouveauClient) throws TechnicalException {
-        clientDao.ajouterClient(nouveauClient);
+        gestionClientService.ajouterClient(nouveauClient);
     }
 
     /**
@@ -50,31 +43,11 @@ public class GestionClientService {
      * @param nouveauClient
      * @throws TechnicalException Exception technique
      */
-    @Transactional(rollbackFor = { TechnicalException.class })
     public void modifierClient(ClientDto nouveauClient) throws TechnicalException {
-        clientDao.modifierClient(nouveauClient);
-    }
-
-    /**
-     * Liste tous les clients de l'application
-     * 
-     * @return La liste des clients
-     * @throws TechnicalException Exception technique
-     */
-    public List<ClientDto> listerClients() throws TechnicalException {
-        return clientDao.listerClients();
+        gestionClientService.modifierClient(nouveauClient);
     }
 
     // ===== Accesseurs =======================================================
-
-    /**
-     * Affecte clientDao
-     * 
-     * @param clientDao clientDao à affecter
-     */
-    public void setClientDao(ClientDao clientDao) {
-        this.clientDao = clientDao;
-    }
 
     // ===== Classes imbriquées ===============================================
 }

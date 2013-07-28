@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
-import org.primefaces.event.TabChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -200,21 +199,23 @@ public class AjoutProduitController extends AbstractController {
         if (controlerChampsObligatoires(champsObligatoires)) {
             ProduitReferenceDto produitReferenceDto = AjoutProduitAdaptateur.preparationEnregistrementModel(ajoutProduitModel);
             // ajoutProduitCoordinateur.
-            if (produitReferenceDto.getIdProduit() != 0) {
-                ajoutProduitCoordinateur.modifierProduitReference(produitReferenceDto);
+            try {
+                if (produitReferenceDto.getIdProduit() != 0) {
+
+                    ajoutProduitCoordinateur.modifierProduitReference(produitReferenceDto);
+
+                }
+                else {
+                    ajoutProduitCoordinateur.ajouterProduitReference(produitReferenceDto);
+                }
             }
-            else {
-                ajoutProduitCoordinateur.ajouterProduitReference(produitReferenceDto);
+            catch (TechnicalException e) {
+                e.printStackTrace();
+                redirectionVersPageErreurTechnique(e.getMessage(), "Détail");
             }
         }
 
         return "";
-    }
-
-    public void onTabChange(TabChangeEvent event) {
-        // this.setTab1("tab1.xhtml");
-        // this.setTab2("tab2.xhtml"）;
-        logger.debug("Changement de tab");
     }
 
     // ===== Accesseurs =======================================================

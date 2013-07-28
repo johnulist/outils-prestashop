@@ -51,7 +51,7 @@
 							<h:outputText value="Prix dégressif" />
 						</f:facet>
 						<p:commandButton id="selectButton" icon="ui-icon-search" rendered="#{not empty option.listePrixDegressif}" 
-							oncomplete="optionPrixDegresDialog.show()" update="@(from)"
+							oncomplete="PF('optionPrixDegresDialog').show()" update=":ajoutProduitTabView:ajout-produit:tableauOptionPrixDegressifDlg"
 							title="Détails Prix Dégressif">
 							<f:setPropertyActionListener value="#{option}"
 								target="#{ajoutProduitModel.optionSelectionne}" />

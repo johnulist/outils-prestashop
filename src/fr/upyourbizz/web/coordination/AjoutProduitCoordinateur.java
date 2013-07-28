@@ -28,12 +28,14 @@ public class AjoutProduitCoordinateur {
 
     // ===== Méthodes =========================================================
 
-    public void ajouterProduitReference(ProduitReferenceDto produitReference) {
-
+    public void ajouterProduitReference(ProduitReferenceDto produitReference)
+            throws TechnicalException {
+        gestionProduitService.ajouterProduitReference(produitReference);
     }
 
-    public void modifierProduitReference(ProduitReferenceDto produitReference) {
-
+    public void modifierProduitReference(ProduitReferenceDto produitReference)
+            throws TechnicalException {
+        gestionProduitService.ajouterProduitReference(produitReference);
     }
 
     /**
