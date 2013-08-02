@@ -3,15 +3,22 @@
  */
 package fr.upyourbizz.web.presentation.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.FileUploadEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import fr.upyourbizz.utils.adaptateur.AjoutProduitAdaptateur;
 import fr.upyourbizz.utils.exception.TechnicalException;
+import fr.upyourbizz.web.ListeEcrans;
 import fr.upyourbizz.web.coordination.AjoutProduitCoordinateur;
 import fr.upyourbizz.web.dto.Option;
 import fr.upyourbizz.web.dto.PrixDegressif;
@@ -27,6 +35,7 @@ import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
 import fr.upyourbizz.web.dto.ProduitSousFamilleDto;
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel;
+import fr.upyourbizz.web.presentation.model.ContexteModel;
 
 /**
  * AjoutProduitController
@@ -49,6 +58,9 @@ public class AjoutProduitController extends AbstractController {
     @Autowired
     private AjoutProduitCoordinateur ajoutProduitCoordinateur;
 
+    @Autowired
+    private ContexteModel context;
+
     // ===== Constructeurs ====================================================
 
     // ===== Méthodes =========================================================
@@ -69,6 +81,26 @@ public class AjoutProduitController extends AbstractController {
                 e.printStackTrace();
                 redirectionVersPageErreurTechnique(e.getMessage(),
                         e.getCause().getCause().getMessage());
+            }
+            if (!context.getIncome().isEmpty()
+                    && context.getIncome().equals(ListeEcrans.LISTE_PRODUITS.getNom())) {
+                if (context.getParams().containsKey("idProduit")) {
+                    int idProduit = (Integer) context.getParams().get("idProduit");
+                    logger.debug("" + idProduit);
+                    try {
+                        ProduitReferenceDto produitRef = ajoutProduitCoordinateur.recupererProduitReference(idProduit);
+                        List<ProduitSousFamilleDto> listeFamille = ajoutProduitCoordinateur.listerSousFamille(produitRef.getFamille().getNomFamille());
+                        ajoutProduitModel.getListeSousFamilles().clear();
+                        for (ProduitSousFamilleDto sousFamille : listeFamille) {
+                            ajoutProduitModel.getListeSousFamilles().add(
+                                    new SelectItem(sousFamille.getNomFamille()));
+                        }
+                        AjoutProduitAdaptateur.adapterProduitPourVue(produitRef, ajoutProduitModel);
+                    }
+                    catch (TechnicalException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -216,6 +248,72 @@ public class AjoutProduitController extends AbstractController {
         }
 
         return "";
+    }
+
+    public void uploadImgIllustration(FileUploadEvent event) {
+        FacesMessage msg = new FacesMessage("Success! ", event.getFile().getFileName()
+                + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        // Do what you want with the file
+        try {
+            copyFile(event.getFile().getFileName(), event.getFile().getInputstream());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void uploadImgIcon(FileUploadEvent event) {
+        FacesMessage msg = new FacesMessage("Success! ", event.getFile().getFileName()
+                + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        // Do what you want with the file
+        try {
+            copyFile(event.getFile().getFileName(), event.getFile().getInputstream());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void uploadImgProcess(FileUploadEvent event) {
+        FacesMessage msg = new FacesMessage("Success! ", event.getFile().getFileName()
+                + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        // Do what you want with the file
+        try {
+            copyFile(event.getFile().getFileName(), event.getFile().getInputstream());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void copyFile(String fileName, InputStream in) {
+        try {
+
+            // write the inputStream to a FileOutputStream
+            OutputStream out = new FileOutputStream(new File(fileName));
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+
+            in.close();
+            out.flush();
+            out.close();
+
+            System.out.println("New file created!");
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // ===== Accesseurs =======================================================

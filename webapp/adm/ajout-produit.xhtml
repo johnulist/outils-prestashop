@@ -10,6 +10,13 @@
 		<f:event type="preRenderView"
 			listener="#{ajoutProduitController.init}" />
 	</f:metadata>
+	<ui:define name="head">
+		<style type="text/css">
+		.fileupload-content {
+			height: 100px;
+		}
+		</style>
+	</ui:define>
 	<ui:define name="title">Upyourbizz Ajout Produit</ui:define>
 	<ui:define name="content">
 		<p:panel>

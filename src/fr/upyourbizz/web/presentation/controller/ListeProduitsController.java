@@ -6,16 +6,23 @@ import javax.faces.context.FacesContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
+import fr.upyourbizz.web.ListeEcrans;
+import fr.upyourbizz.web.ListeParamsContexte;
 import fr.upyourbizz.web.coordination.ListeProduitsCoordinateur;
 import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
 import fr.upyourbizz.web.dto.ProduitSousFamilleDto;
+import fr.upyourbizz.web.presentation.model.ContexteModel;
 import fr.upyourbizz.web.presentation.model.ListeProduitsModel;
 import fr.upyourbizz.web.presentation.model.ListeProduitsModel.Famille;
+import fr.upyourbizz.web.presentation.model.ListeProduitsModel.Produit;
 
-public class ListeProduitsController {
+@Component
+public class ListeProduitsController extends AbstractController {
 
     // ===== Attributs statiques ==============================================
 
@@ -24,9 +31,13 @@ public class ListeProduitsController {
     // ===== Méthodes statiques ===============================================
 
     // ===== Attributs ========================================================
-
+    @Autowired
     private ListeProduitsModel listeProduitsModel;
 
+    @Autowired
+    private ContexteModel contexte;
+
+    @Autowired
     private ListeProduitsCoordinateur listeProduitsCoordinateur;
 
     // ===== Constructeurs ====================================================
@@ -37,6 +48,7 @@ public class ListeProduitsController {
         if (!FacesContext.getCurrentInstance().isPostback()) {
             listeProduitsModel.setAfficherSousFamille(false);
             listeProduitsModel.setAfficherProduits(false);
+            lectureParamsContexte();
             try {
                 listeProduitsModel.getFamille().clear();
                 List<ProduitFamilleDto> famille = listeProduitsCoordinateur.listerFamille();
@@ -51,6 +63,15 @@ public class ListeProduitsController {
                 // TODO Rediriger vers écran erreur technique
             }
         }
+    }
+
+    private void lectureParamsContexte() {
+        // TODO Fonctionnement a revoir
+        // Harmoniser la navigation
+        if (contexte.getParams().containsKey(ListeParamsContexte.ID_CLIENT.getNom())) {
+            listeProduitsModel.setContextePage("pac");
+        }
+
     }
 
     /**
@@ -90,10 +111,14 @@ public class ListeProduitsController {
             List<ProduitReferenceDto> listeProduit = listeProduitsCoordinateur.listerProduitsReference(sousFamilleSelectionnee.getNomFamille());
             listeProduitsModel.getProduits().clear();
             for (ProduitReferenceDto produitReferenceDto : listeProduit) {
+                String descriptionCourte = produitReferenceDto.getDescriptionCourte();
+                if (descriptionCourte.length() > 40) {
+                    descriptionCourte = descriptionCourte.substring(0, 36);
+                }
                 listeProduitsModel.getProduits().add(
                         listeProduitsModel.new Produit(produitReferenceDto.getIdProduit(),
                                 produitReferenceDto.getNom(), produitReferenceDto.getReference(),
-                                produitReferenceDto.getUrlImgIconeProduit()));
+                                produitReferenceDto.getUrlImgIconeProduit(), descriptionCourte));
             }
             if (listeProduitsModel.getProduits().size() > 0) {
                 listeProduitsModel.setAfficherProduits(true);
@@ -106,6 +131,25 @@ public class ListeProduitsController {
             e.printStackTrace();
             // TODO Rediriger vers écran erreur technique
         }
+    }
+
+    public String modifierProduit(Produit produit) {
+        contexte.setIncome(ListeEcrans.LISTE_PRODUITS.getNom());
+        contexte.ajouterParam("idProduit", produit.getIdProduitReference());
+        return ListeEcrans.AJOUT_PRODUITS.getNom();
+    }
+
+    /**
+     * L'utilisateur vient de sélectionner un client dans le processus de
+     * création d'un PAC
+     * 
+     * @param clientDto Le client sélectionné
+     * @return La règle de navigation conduisant à la liste des produits.
+     */
+    public String creationPacProduitSelectionne() {
+        contexte.ajouterParam(ListeParamsContexte.ID_PRODUIT.getNom(),
+                listeProduitsModel.getProduitSelectionne().getIdProduitReference());
+        return ListeEcrans.CREER_PAC.getNom();
     }
 
     // ===== Accesseurs =======================================================

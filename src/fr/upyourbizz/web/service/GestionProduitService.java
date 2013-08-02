@@ -101,6 +101,18 @@ public class GestionProduitService {
 
     }
 
+    /**
+     * Récupère le produit référence dont l'id est passé en paramètre
+     * 
+     * @param idProduitReference L'id du produit de référence
+     * @return Le produit de référence
+     * @throws TechnicalException
+     */
+    public ProduitReferenceDto recupererProduitReference(int idProduitReference)
+            throws TechnicalException {
+        return produitReferenceDao.recupererProduitReference(idProduitReference);
+    }
+
     // ===== Accesseurs =======================================================
 
     /**

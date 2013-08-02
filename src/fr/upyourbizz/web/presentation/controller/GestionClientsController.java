@@ -14,8 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
+import fr.upyourbizz.web.ListeEcrans;
+import fr.upyourbizz.web.ListeParamsContexte;
 import fr.upyourbizz.web.coordination.GestionClientCoordinateur;
 import fr.upyourbizz.web.dto.ClientDto;
+import fr.upyourbizz.web.presentation.model.ContexteModel;
 import fr.upyourbizz.web.presentation.model.GestionClientsModel;
 import fr.upyourbizz.web.presentation.model.RechercheClientsModel;
 
@@ -43,6 +46,9 @@ public class GestionClientsController extends AbstractController {
     @Autowired
     private GestionClientCoordinateur gestionClientCoordinateur;
 
+    @Autowired
+    private ContexteModel contexte;
+
     // ===== Constructeurs ====================================================
 
     // ===== Méthodes =========================================================
@@ -64,6 +70,19 @@ public class GestionClientsController extends AbstractController {
                         e.getCause().getCause().getMessage());
             }
         }
+    }
+
+    /**
+     * L'utilisateur vient de sélectionner un client dans le processus de
+     * création d'un PAC
+     * 
+     * @param clientDto Le client sélectionné
+     * @return La règle de navigation conduisant à la liste des produits.
+     */
+    public String creationPacClientSelectionne() {
+        contexte.ajouterParam(ListeParamsContexte.ID_CLIENT.getNom(),
+                gestionClientsModel.getClientSelectionne().getIdClient());
+        return ListeEcrans.LISTE_PRODUITS.getNom();
     }
 
     public String retour() {

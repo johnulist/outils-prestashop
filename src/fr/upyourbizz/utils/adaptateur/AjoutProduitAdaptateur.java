@@ -55,6 +55,30 @@ public class AjoutProduitAdaptateur {
         return nouveauProduit;
     }
 
+    /**
+     * Adapte la liste de rôle à la vue
+     * 
+     * @param produitRef
+     * @param model
+     */
+    public static void adapterProduitPourVue(ProduitReferenceDto produitRef, AjoutProduitModel model) {
+        model.setNom(produitRef.getNom());
+        model.setReference(produitRef.getReference());
+        model.setFamilleSelectionnee(produitRef.getFamille().getNomFamille());
+        model.setSousFamilleSelectionnee(produitRef.getSousFamille().getNomFamille());
+        model.setDescriptionCourte(produitRef.getDescriptionCourte());
+        model.setDescriptionOffre(produitRef.getDescriptionOffreHtml());
+        model.setAvantages(produitRef.getAvantagesHtml());
+        model.setBenefices(produitRef.getBeneficesHtml());
+        model.setCoutNominal(produitRef.getCoutNominal());
+        model.setPrixUnitaireFixe(produitRef.getPrixUnitaire());
+        // model.setListePrixDegressifProduit = new ArrayList<PrixDegressif>();
+
+        // model.setListeOptions(produitRef.get)
+        model.setUrlImgIllustrationProduit(produitRef.getUrlImgIllustrationProduit());
+        model.setUrlImgIconeProduit(produitRef.getUrlImgIconeProduit());
+        model.setUrlImgProcessus(produitRef.getUrlImgProcessus());
+    }
     // ===== Accesseurs =======================================================
 
     // ===== Classes imbriquées ===============================================

@@ -57,18 +57,21 @@ input.connexionInput{
  * Accueil administration
  */
 button.accueilGlobalBtn{
-	width:200px;
+	width:49%;
 	height:80px;
 }
 
-div.accueilDivBtn{
-	position:absolute;
-	left:20%; 
-	top:20%
-}
 div.accueilDivEditor{
 	left: 10%;
     position: absolute;
+}
+button.adminBtn{
+	background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #40A1A4 !important; 
+	background: -webkit-linear-gradient(rgba(0,0,255,0.7), white) !important;
+}
+button.comBtn{
+	background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #B78D1A !important; 
+	background: -webkit-linear-gradient(rgba(238,118,0,0.7), white) !important;
 }
 /*
  * Ajout Client

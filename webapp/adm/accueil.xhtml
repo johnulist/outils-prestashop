@@ -10,83 +10,83 @@
 	<!-- 		<f:event type="preRenderView" -->
 	<!-- 			listener="#{listeProduitsController.init}" /> -->
 	<!-- 	</f:metadata> -->
+	<ui:define name="head">
+		<style type="text/css">
+		.ui-dashboard-column {
+    		width: 50%;
+		}
+		.dashPanel {
+		    height: 200px;
+		    margin: 10px;
+		    width: 95%;
+		}
+		.ui-editor {
+        	width: 99.5% !important;
+    	}
+		
+		</style>
+	</ui:define>
 	<ui:define name="title">Upyourbizz accueil administrateur</ui:define>
 	<ui:define name="content">
-		<p:panel>
+		<p:panel style="height:700px;">
 			<h:form id="accueil">
-				<p:layout style="min-width:400px;min-height:900px;" id="layout">
-					<p:layoutUnit position="west" resizable="true" size="600"
-						header="Administration" minSize="150" maxSize="800"
+				<p:dashboard id="board" model="#{accueilModele.model}">
+					<p:panel id="administration" styleClass="dashPanel" header="Administration"
 						closable="true" collapsible="true">
-						<div class="accueilDivBtn">
 							<p:button value="Ajout produit" icon="ui-icon-circle-plus"
-								styleClass="accueilGlobalBtn" href="ajout-produit.faces"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #40A1A4; " />
+								styleClass="accueilGlobalBtn adminBtn" href="ajout-produit.faces" />
 							<p:button value="Modification produit" icon="ui-icon-pencil"
-								styleClass="accueilGlobalBtn" href="liste-produits.faces"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #40A1A4;" />
+								styleClass="accueilGlobalBtn adminBtn" href="../commun/liste-produits.faces" />
 							<br />
 							<p:button value="Gestion Utilisateurs"
 								href="gestion-utilisateurs.xhtml" icon="ui-icon-person"
-								styleClass="accueilGlobalBtn"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #40A1A4;" />
+								styleClass="accueilGlobalBtn adminBtn"/>
 							<p:button value="Tableau de bord" icon="ui-icon-calculator"
-								styleClass="accueilGlobalBtn"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #40A1A4;" />
-						</div>
-					</p:layoutUnit>
-
-					<p:layoutUnit position="center" resizable="true"
-						header="Commercial" minSize="150" maxSize="500">
+								styleClass="accueilGlobalBtn adminBtn"/>
+					</p:panel>
+					<p:panel id="commercial" styleClass="dashPanel" header="Commercial" closable="true"
+						collapsible="true">
 						<div class="accueilDivBtn">
 							<p:button value="Créer un PAC" icon="ui-icon-triangle-1-e"
-								styleClass="accueilGlobalBtn"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #B78D1A;" />
+								styleClass="accueilGlobalBtn comBtn" />
 							<p:button value="PAC en cours" icon="ui-icon-triangle-1-e"
-								styleClass="accueilGlobalBtn"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #B78D1A;" />
+								styleClass="accueilGlobalBtn comBtn" />
 							<br />
 							<p:button value="Ajout client" icon="ui-icon-circle-plus"
-								styleClass="accueilGlobalBtn"
-								href="../commun/ajout-client.xhtml"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #B78D1A;" />
+								styleClass="accueilGlobalBtn comBtn"
+								href="../commun/ajout-client.xhtml" />
 							<p:button value="Liste Client" icon="ui-icon-pencil"
-								styleClass="accueilGlobalBtn"
-								href="../commun/gestion-clients.faces?income=../adm/accueil.faces"
-								style="background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #B78D1A;" >
+								styleClass="accueilGlobalBtn comBtn"
+								href="../commun/gestion-clients.faces?income=accueil">
 							</p:button>
 						</div>
-					</p:layoutUnit>
-					<p:layoutUnit position="south" size="600" closable="true"
-						collapsible="true" header="Production">
+					</p:panel>
+					<p:panel id="production" styleClass="dashPanel" header="Production" closable="true"
+						collapsible="true">
 						<br />
 						<p:button value="Planning de production" icon="ui-icon-cart"
-							style="width:200px; height:50px;left:10%; background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #D65774;" />
+							style="width:100px; height:50px;left:10%; background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #D65774;" />
 						<br />
 						<br />
 						<br />
-						<p:fieldset id="communication" legend="News Upyourbizz">
-							<br />
-							<div style="position: relative; height: 220px;">
-								<div class="accueilDivEditor">
-									<p:editor width="600" height="200" />
-									<p:button value="Ajouter annonce" icon="ui-icon-comment"
-										style="float:right" />
-								</div>
-							</div>
-							<br />
-						</p:fieldset>
+					</p:panel>
+					<p:panel id="communication" styleClass="dashPanel" header="Communication" closable="true"
+						collapsible="true">
+						<p:editor width="500" height="140" controls="bold italic underline strikethrough font size color bullets numbering"/>
+								<p:button value="Ajouter annonce" icon="ui-icon-comment"
+									style="float:right" />
+	
 						<br />
-						<p:fieldset id="ventes" legend="Dernières ventes">
-							<br />
-							<br />
-							<br />
-							<br />
-							<br />
-						</p:fieldset>
-
-					</p:layoutUnit>
-				</p:layout>
+					</p:panel>
+					<p:panel id="ventes" styleClass="dashPanel" header="Dernières ventes" closable="true"
+						collapsible="true">
+						<br />
+						<br />
+						<br />
+						<br />
+						<br />
+					</p:panel>
+				</p:dashboard>
 			</h:form>
 		</p:panel>
 	</ui:define>

@@ -107,18 +107,17 @@ public class AjoutProduitModel {
      * Images
      */
 
-    private String urlImgIllustrationProduit = "";
+    private String urlImgIllustrationProduit = "../img/no_image.gif";
 
-    private String urlImgIconeProduit = "";
+    private String urlImgIconeProduit = "../img/no_image.gif";
 
-    private String urlImgProcessus = "";
+    private String urlImgProcessus = "../img/no_image.gif";
 
     // ===== Attributs ========================================================
 
     // ===== Constructeurs ====================================================
 
     public AjoutProduitModel() {
-
     }
 
     // ===== Méthodes =========================================================
@@ -171,9 +170,9 @@ public class AjoutProduitModel {
         optionBorneSuperieure = 0;
         optionCoutUnitaire = 0F;
         optionAvantModification = null;
-        urlImgIllustrationProduit = "";
-        urlImgIconeProduit = "";
-        urlImgProcessus = "";
+        urlImgIllustrationProduit = "../img/no_image.gif";
+        urlImgIconeProduit = "../img/no_image.gif";
+        urlImgProcessus = "../img/no_image.gif";
     }
 
     // ===== Accesseurs =======================================================
@@ -244,10 +243,10 @@ public class AjoutProduitModel {
     /**
      * Affecte familleSelectionnee
      * 
-     * @param familleSelectionnee familleSelectionnee à affecter
+     * @param produitFamilleDto familleSelectionnee à affecter
      */
-    public void setFamilleSelectionnee(String familleSelectionnee) {
-        this.familleSelectionnee = familleSelectionnee;
+    public void setFamilleSelectionnee(String produitFamilleDto) {
+        this.familleSelectionnee = produitFamilleDto;
     }
 
     /**

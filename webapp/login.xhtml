@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
@@ -20,33 +21,59 @@
 		<link type="text/css" rel="stylesheet"
 			href="#{request.contextPath}/css/upyoursoft.css" />
 	</h:head>
-	<h:form id="form">
-	<p:growl id="growl" showDetail="true" life="3000" />  
-		<p:fieldset id="connexion" legend="Connexion" toggleable="true"
-			toggleSpeed="500" styleClass="connexion">
-			<p:focus context="connexion"/> 
-			<p:graphicImage value="/img/logo.png" />
-			<br />
-			<br />
-			<br />
-			<br />
-			<h:panelGrid columns="2" cellpadding="5" style="float:right">
-				<h:outputLabel for="username" value="Nom utilisateur"
-					styleClass="connexionLabel" />
-				<p:inputText value="#{loginBean.username}" id="username"
-					required="true" label="Nom utilisateur" styleClass="connexionInput" />
 
-				<h:outputLabel for="password" value="Mot de passe"
-					styleClass="connexionLabel" />
-				 <p:password value="#{loginBean.password}" id="password"
-					styleClass="connexionInput" required="true" label="Mot de passe" />
-
-				<f:facet name="footer">
-					<p:commandButton id="loginButton" value="Connexion" update="growl"
-						actionListener="#{loginBean.login}" style="float:right;" />
-				</f:facet>
-			</h:panelGrid>
-		</p:fieldset>
-	</h:form>
+	<fieldset
+		class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-hidden-container ui-fieldset-toggleable connexion"
+		id="connexion">
+		<legend class="ui-fieldset-legend ui-corner-all ui-state-default">
+			<span class="ui-fieldset-toggler ui-icon ui-icon-minusthick"></span>Connexion
+		</legend>
+		<div class="ui-fieldset-content">
+			<span id="j_idt18"></span><img alt=""
+				src="/outils-prestashop/img/logo.png" id="j_idt19" />
+			<c:if test="${not empty param.login_error}">
+				<div class="error">
+					Authentification refusée. Veuillez ré-essayer.<br /> Raison:
+					#{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
+				</div>
+			</c:if>
+			<br />
+			<br />
+			<br />
+			<br />
+			<form name="f"
+				action="${request.contextPath}/j_spring_security_check"
+				method="post">
+				<table cellpadding="5" style="float: right">
+					<tfoot>
+						<tr>
+							<td colspan="2">
+							<button type="submit" style="float: right;"
+									class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+									name="loginButton" id="loginButton">
+									<span class="ui-button-text ui-c">Connexion</span>
+								</button></td>
+						</tr>
+					</tfoot>
+					<tbody>
+						<tr>
+							<td><label class="connexionLabel" for="username">
+									Nom utilisateur</label></td>
+							<td><input type="text"
+								class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all connexionInput"
+								name="j_username" id="j_username" /></td>
+						</tr>
+						<tr>
+							<td><label class="connexionLabel" for="password">
+									Mot de passe</label></td>
+							<td><input type="password"
+								class="ui-inputfield ui-password ui-widget ui-state-default ui-corner-all connexionInput"
+								name="j_password" id="j_password" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</fieldset>
 </f:view>
 </html>

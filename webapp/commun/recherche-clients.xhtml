@@ -3,9 +3,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<p:dataTable id="tableClient" var="client"
+	<p:dataTable id="tableClient" var="client" paginator="true" rows="20"
+		paginatorAlwaysVisible="false"
 		value="#{rechercheClientsModel.listeClients}" widgetVar="clientsTable"
-		emptyMessage="Aucun client trouvé" filteredValue="#{rechercheClientsModel.listeClientsFiltree}">
+		emptyMessage="Aucun client trouvé"
+		filteredValue="#{rechercheClientsModel.listeClientsFiltree}">
 
 		<f:facet name="header">
 			<p:outputPanel>
@@ -35,17 +37,19 @@
 			<h:outputText value="#{client.contactPrenom}" />
 		</p:column>
 
-		<p:column id="contactTelephonePortable" filterBy="contactTelephonePortable"
-			headerText="Contact Téléphone" filterMatchMode="contains">
+		<p:column id="contactTelephonePortable"
+			filterBy="contactTelephonePortable" headerText="Contact Téléphone"
+			filterMatchMode="contains">
 			<h:outputText value="#{client.contactTelephonePortable}" />
 		</p:column>
 
-		<p:column id="contactEmail" filterBy="contactEmail" headerText="Contact Email"
-			filterMatchMode="contains">
+		<p:column id="contactEmail" filterBy="contactEmail"
+			headerText="Contact Email" filterMatchMode="contains">
 			<h:outputText value="#{client.contactEmail}" />
 		</p:column>
 
-		<p:column id="secteurActiviteSelectionne" filterBy="secteurActiviteSelectionne" headerText="Secteur Activité"
+		<p:column id="secteurActiviteSelectionne"
+			filterBy="secteurActiviteSelectionne" headerText="Secteur Activité"
 			filterMatchMode="contains">
 			<h:outputText value="#{client.secteurActiviteSelectionne}" />
 		</p:column>
@@ -53,6 +57,21 @@
 		<p:column id="ville" filterBy="ville" headerText="Ville"
 			filterMatchMode="contains">
 			<h:outputText value="#{client.ville}" />
+		</p:column>
+
+		<p:column id="choix" headerText="">
+			<p:commandButton
+				rendered="#{gestionClientsModel.contextePage == 'pac'}"
+				icon="ui-icon-check"
+				action="#{gestionClientsController.creationPacClientSelectionne}">
+				<f:setPropertyActionListener value="#{client}"
+					target="#{gestionClientsModel.clientSelectionne}" />
+			</p:commandButton>
+			<p:button icon="ui-icon-pencil"
+				rendered="#{gestionClientsModel.contextePage != 'pac'}"
+				href="ajout-client.faces" />
+			<p:button icon="ui-icon-info"
+				rendered="#{gestionClientsModel.contextePage != 'pac'}" />
 		</p:column>
 	</p:dataTable>
 

@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/standard-template.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{accueilVdrController.init}" />
+	</f:metadata>
+	<ui:define name="head">
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 50%;
+}
+
+.dashPanel {
+	height: 200px;
+	margin: 10px;
+	width: 95%;
+}
+
+.ui-editor {
+	width: 99.5% !important;
+}
+</style>
+	</ui:define>
+	<ui:define name="title">Upyourbizz accueil administrateur</ui:define>
+	<ui:define name="content">
+		<p:panel style="height:700px;">
+			<h:form id="accueil">
+				<p:dashboard id="board" model="#{accueilVdrModele.model}">
+					<p:panel id="annonces" styleClass="dashPanel" header="Annonces"
+						closable="true" collapsible="true">
+						<p:dataGrid var="annonce"
+							value="#{accueilVdrModele.listeAnnonces}" columns="1" rows="4">
+							<div
+								style="text-align: center; border: red 1px solid; border-radius: 5px;"
+								class="row">
+								<div class="small-1 columns"
+									style="padding-top: 3px; padding-bottom: 3px; border-right: grey 1px dashed; width: 7%; height: 15px;">
+									<p:graphicImage value="/img/info.png" width="20px" />
+								</div>
+								<div class="small-2 columns"
+									style="padding-top: 3px; padding-bottom: 3px; border-right: grey 1px dashed; height: 15px;">
+									<h:outputText value="#{annonce.dateCreation}">
+										<f:convertDateTime type="date" dateStyle="short"
+											pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</div>
+								<div class="small-3 columns"
+									style="padding-top: 3px; padding-bottom: 3px; border-right: grey 1px dashed; height: 15px;">
+									<h:outputText value="#{annonce.redacteur}" />
+								</div>
+								<div class="small-6 columns"
+									style="padding-top: 3px; padding-bottom: 3px; height: 15px;">
+									<h:outputText value="#{annonce.texte}" />
+								</div>
+							</div>
+						</p:dataGrid>
+						<br />
+						<br />
+						<br />
+						<br />
+						<br />
+					</p:panel>
+					<p:panel id="dernieresVentes" styleClass="dashPanel"
+						header="Mes Dernières Ventes" closable="true" collapsible="true">
+						<p:dataGrid var="vente"
+							value="#{accueilVdrModele.listeDerniereVentes}" columns="1" rows="4">
+							<div style="text-align: center; border: red 1px solid; border-radius: 5px;"
+								class="row">
+								<div class="small-3 columns"
+									style="padding-top: 3px; padding-bottom: 3px; border-right: grey 1px dashed; height: 15px; width:20%;">
+									<h:outputText value="#{vente.nomSociete}" />
+								</div>
+								<div class="small-3 columns"
+									style="padding-top: 3px; padding-bottom: 3px; border-right: grey 1px dashed; height: 15px;">
+									<h:outputText value="#{vente.nomProduit}" />
+								</div>
+								<div class="small-2 columns"
+									style="padding-top: 3px; padding-bottom: 3px; border-right: grey 1px dashed; height: 15px;">
+									<h:outputText value="#{vente.dateVente}">
+										<f:convertDateTime type="date" dateStyle="short"
+											pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</div>
+								<div class="small-4 columns"
+									style="padding-top: 3px; padding-bottom: 3px; height: 15px;">
+									<h:outputText value="#{vente.prixVente}" />
+								</div>
+							</div>
+						</p:dataGrid>
+					</p:panel>
+					<p:panel id="histoRchCli" styleClass="dashPanel"
+						header="Historique recherche client" closable="true"
+						collapsible="true">
+						<br />
+						<br />
+						<br />
+						<br />
+						<br />
+					</p:panel>
+					<p:panel id="produitsFav" styleClass="dashPanel"
+						header="Produits Favoris" closable="true" collapsible="true">
+						<br />
+						<br />
+						<br />
+						<br />
+						<br />
+					</p:panel>
+					<p:panel id="navigation" styleClass="dashPanel"
+						header="Raccourcis Navigation" closable="true" collapsible="true">
+						<p:button value="Creer PAC" icon="ui-icon-circle-plus"
+								styleClass="accueilGlobalBtn adminBtn" href="../commun/gestion-clients.faces?contexte=pac" />
+						<br />
+						<br />
+						<br />
+					</p:panel>
+					<p:panel id="statistiques" styleClass="dashPanel"
+						header="Statistiques" closable="true" collapsible="true">
+						<h:outputText value="Meilleur Vendeur:"/><h:outputText value="Eric Legrand"/>
+						<br />
+						<h:outputText value="Nombre ventes semaine"/><h:outputText value="6"/>
+						<br />
+						<h:outputText value="Nombre ventes mois"/><h:outputText value="24"/>
+						<br />
+						<br />
+					</p:panel>
+				</p:dashboard>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

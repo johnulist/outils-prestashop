@@ -3,16 +3,21 @@
  */
 package fr.upyourbizz.web.presentation.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * ListeProduits
  */
-public class ListeProduitsModel {
+@Component
+@Scope("session")
+public class ListeProduitsModel implements Serializable {
 
     // ===== Attributs statiques ==============================================
 
@@ -27,11 +32,15 @@ public class ListeProduitsModel {
 
     private List<Famille> sousFamille = new ArrayList<Famille>();
 
-    private List<Produit> produits = new ArrayList<Produit>();;
+    private List<Produit> produits = new ArrayList<Produit>();
+
+    private String contextePage = "";
 
     private boolean afficherSousFamille;
 
     private boolean afficherProduits;
+
+    private Produit produitSelectionne;
 
     // ===== Constructeurs ====================================================
 
@@ -94,6 +103,24 @@ public class ListeProduitsModel {
     }
 
     /**
+     * Retourne contextePage
+     * 
+     * @return contextePage
+     */
+    public String getContextePage() {
+        return contextePage;
+    }
+
+    /**
+     * Affecte contextePage
+     * 
+     * @param contextePage contextePage à affecter
+     */
+    public void setContextePage(String contextePage) {
+        this.contextePage = contextePage;
+    }
+
+    /**
      * Retourne afficherSousFamille
      * 
      * @return afficherSousFamille
@@ -129,8 +156,26 @@ public class ListeProduitsModel {
         this.afficherProduits = afficherProduits;
     }
 
+    /**
+     * Retourne produitSelectionne
+     * 
+     * @return produitSelectionne
+     */
+    public Produit getProduitSelectionne() {
+        return produitSelectionne;
+    }
+
+    /**
+     * Affecte produitSelectionne
+     * 
+     * @param produitSelectionne produitSelectionne à affecter
+     */
+    public void setProduitSelectionne(Produit produitSelectionne) {
+        this.produitSelectionne = produitSelectionne;
+    }
+
     // ===== Classes imbriquées ===============================================
-    public class Famille {
+    public class Famille implements Serializable {
 
         private String nomFamille = "";
 
@@ -179,7 +224,7 @@ public class ListeProduitsModel {
         }
     }
 
-    public class Produit {
+    public class Produit implements Serializable {
 
         private int idProduitReference;
 
@@ -189,13 +234,16 @@ public class ListeProduitsModel {
 
         private String urlImgIconeProduit;
 
+        private String descriptionCourte;
+
         public Produit(int idProduitReference, String nomProduit, String referenceProduit,
-                String urlImgIconeProduit) {
+                String urlImgIconeProduit, String descriptionCourte) {
             super();
             this.idProduitReference = idProduitReference;
             this.nomProduit = nomProduit;
             this.referenceProduit = referenceProduit;
             this.urlImgIconeProduit = urlImgIconeProduit;
+            this.descriptionCourte = descriptionCourte;
         }
 
         /**
@@ -268,6 +316,24 @@ public class ListeProduitsModel {
          */
         public void setUrlImgIconeProduit(String urlImgIconeProduit) {
             this.urlImgIconeProduit = urlImgIconeProduit;
+        }
+
+        /**
+         * Retourne descriptionCourte
+         * 
+         * @return descriptionCourte
+         */
+        public String getDescriptionCourte() {
+            return descriptionCourte;
+        }
+
+        /**
+         * Affecte descriptionCourte
+         * 
+         * @param descriptionCourte descriptionCourte à affecter
+         */
+        public void setDescriptionCourte(String descriptionCourte) {
+            this.descriptionCourte = descriptionCourte;
         }
     }
 }

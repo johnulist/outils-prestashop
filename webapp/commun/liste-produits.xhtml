@@ -9,6 +9,8 @@
 	<f:metadata>
 		<f:event type="preRenderView"
 			listener="#{listeProduitsController.init}" />
+		<f:viewParam name="contexte"
+			value="#{listeProduitsModel.contextePage}" />
 	</f:metadata>
 	<ui:define name="head">
 		<style type="text/css">
@@ -64,17 +66,44 @@
 					</p:ring>
 				</p:fieldset>
 				<br />
-				<p:fieldset id="listeProduitsFiedset" legend="Liste Produits" rendered="#{listeProduitsModel.afficherProduits}">
+				<p:fieldset id="listeProduitsFiedset" legend="Liste Produits"
+					rendered="#{listeProduitsModel.afficherProduits}">
 					<p:dataGrid var="produit" value="#{listeProduitsModel.produits}"
 						columns="3" rows="12" paginator="true"
+						paginatorAlwaysVisible="false"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-						<p:panel style="text-align:center;font-size:15px !important;">
-							<h:panelGrid columns="1" style="width:100%;">
+						<p:panel style="font-size:12px !important;">
+							<f:facet name="header">
 								<h:outputText value="#{produit.nomProduit}" />
-								<p:graphicImage value="/img/#{produit.urlImgIconeProduit}" style="width:50px;height:50px;"/>
-								<h:outputText value="#{produit.referenceProduit}" />
-							</h:panelGrid>
+								<p:commandButton id="modifierProduitBtn" update="@(form:last)"
+									rendered="#{listeProduitsModel.contextePage != 'pac'}"
+									action="#{listeProduitsController.modifierProduit(produit)}"
+									icon="ui-icon-pencil" title="Modifier"
+									style="width:15px; height:15px;float:right;" />
+							</f:facet>
+							<div class="row">
+								<div class="large-4 columns">
+
+									<p:graphicImage value="/img/#{produit.urlImgIconeProduit}"
+										style="width:70px;height:70px;" />
+								</div>
+								<div class="large-8 columns">
+									<h:outputText value="#{produit.referenceProduit}" />
+									<br />
+									<h:outputText value="#{produit.descriptionCourte}" />
+								</div>
+							</div>
+							<p:button value="Choisir" icon="ui-icon-circle-check"
+								rendered="#{listeProduitsModel.contextePage == 'pac'}"
+								href="accueil.faces" />
+							<p:commandButton
+								rendered="#{gestionClientsModel.contextePage == 'pac'}"
+								icon="ui-icon-check" 
+								action="#{listeProduitsController.creationPacProduitSelectionne}">
+								<f:setPropertyActionListener value="#{produit}"
+									target="#{listeProduitsModel.produitSelectionne}" />
+							</p:commandButton>
 						</p:panel>
 
 					</p:dataGrid>

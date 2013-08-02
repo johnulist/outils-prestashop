@@ -3,11 +3,52 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<h:panelGrid columns="2" cellpadding="10">
-		<h:outputText id="tab7Text"
-			value="The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.  
-                His beloved son Michael has just come home from the war, but does not intend to become part of his father's business. T  
-                hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect,  
-                but given to ruthless violence whenever anything stands against the good of the family." />
-	</h:panelGrid>
+	<p:panel id="imageIllustration"
+		header="Ajout image illustration produit" closable="true">
+		<div class="row">
+			<div class="large-8 columns">
+				<p:fileUpload label="Choisir" uploadLabel="Envoyer"
+					cancelLabel="Annuler"
+					fileUploadListener="#{ajoutProduitController.uploadImgIllustration}"
+					mode="advanced" dragDropSupport="true" sizeLimit="100000"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+			</div>
+			<div class="large-4 columns">
+				<p:graphicImage value="../img/no_image.gif"
+					style="width:80px;display: block;margin: 0 auto; " />
+			</div>
+		</div>
+	</p:panel>
+	<p:panel id="imageIconeProduit"
+		header="Ajout image icône produit" closable="true">
+		<div class="row">
+			<div class="large-8 columns">
+				<p:fileUpload label="Choisir" uploadLabel="Envoyer"
+					cancelLabel="Annuler"
+					fileUploadListener="#{ajoutProduitController.uploadImgIcon}"
+					mode="advanced" dragDropSupport="true" sizeLimit="100000"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+			</div>
+			<div class="large-4 columns">
+				<p:graphicImage value="../img/no_image.gif"
+					style="width:80px;display: block;margin: 0 auto; " />
+			</div>
+		</div>
+	</p:panel>
+	<p:panel id="imageProcessus"
+		header="Ajout image processus" closable="true">
+		<div class="row">
+			<div class="large-8 columns">
+				<p:fileUpload label="Choisir" uploadLabel="Envoyer"
+					cancelLabel="Annuler"
+					fileUploadListener="#{ajoutProduitController.uploadImgProcess}"
+					mode="advanced" dragDropSupport="true" sizeLimit="100000"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+			</div>
+			<div class="large-4 columns">
+				<p:graphicImage value="../img/no_image.gif"
+					style="width:80px;display: block;margin: 0 auto; " />
+			</div>
+		</div>
+	</p:panel>
 </ui:composition>

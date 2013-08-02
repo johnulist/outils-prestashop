@@ -8,18 +8,13 @@
 <ui:composition template="../templates/standard-template.xhtml">
 	<f:metadata>
 		<f:event type="preRenderView"
-			listener="#{gestionClientsController.init}" />
-		<f:viewParam name="income" value="#{gestionClientsModel.income}" />
-		<f:viewParam name="contexte" value="#{gestionClientsModel.contextePage}" />
+			listener="#{creerPacController.init}" />
+			<f:viewParam name="clientId" value="#{creerPacModel.clientId}" />
+			<f:viewParam name="produitId" value="#{creerPacModel.produitId}" />
 	</f:metadata>
-	<ui:define name="title">Upyourbizz Gestion utilisateur</ui:define>
+	<ui:define name="title">Upyourbizz création d'un plan d'action commerciale</ui:define>
 	<ui:define name="content">
-		<h:form id="gestion-client">
-			<ui:include src="recherche-clients.xhtml"></ui:include>
-			<p:commandButton
-				value="Retour" icon="ui-icon-circle-arrow-w"
-				action="#{gestionClientsController.retour}" />
-		</h:form>
+		<h:outputText value="En construction"></h:outputText>
 	</ui:define>
 </ui:composition>
 </html>

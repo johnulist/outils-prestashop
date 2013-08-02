@@ -2,11 +2,10 @@ package fr.upyourbizz.web.coordination;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
 import fr.upyourbizz.web.dto.ProduitFamilleDto;
@@ -17,7 +16,7 @@ import fr.upyourbizz.web.service.GestionProduitService;
 /**
  * ListeProduitsCoordinateur
  */
-@Named
+@Component
 public class ListeProduitsCoordinateur {
 
     // ===== Attributs statiques ==============================================
@@ -28,7 +27,7 @@ public class ListeProduitsCoordinateur {
     // ===== Méthodes statiques ===============================================
 
     // ===== Attributs ========================================================
-    @Inject
+    @Autowired
     private GestionProduitService gestionProduitService;
 
     // ===== Constructeurs ====================================================

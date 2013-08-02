@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="editor" class="fr.upyourbizz.web.EditorBean" />
 	<bean id="growlBean" class="fr.upyourbizz.web.presentation.GrowlBean" />
 	<!-- Managed bean controller creation -->
 	<bean id="updateImgPictureFromGoogleController"
@@ -25,12 +24,6 @@
 		<property name="gestionUtilisateursModel" ref="gestionUtilisateursModel" />
 		<property name="gestionUtilisateurCoordinateur" ref="gestionUtilisateurCoordinateur" />
 	</bean>
-	<bean id="listeProduitsController"
-		class="fr.upyourbizz.web.presentation.controller.ListeProduitsController"
-		scope="request">
-		<property name="listeProduitsModel" ref="listeProduitsModel" />
-		<property name="listeProduitsCoordinateur" ref="listeProduitsCoordinateur" />
-	</bean>
 	<bean id="testControleur"
 		class="fr.upyourbizz.web.presentation.controller.testControleur"
 		scope="request">
@@ -47,7 +40,7 @@
 	<bean id="gestionUtilisateursModel"
 		class="fr.upyourbizz.web.presentation.model.GestionUtilisateursModel"
 		scope="session" />
-	<bean id="listeProduitsModel"
+	<!-- <bean id="listeProduitsModel"
 		class="fr.upyourbizz.web.presentation.model.ListeProduitsModel"
-		scope="session" />
+		scope="session" /> -->
 </beans>

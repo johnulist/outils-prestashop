@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+           
+	<security:http security="none" pattern="/javax.faces.resource/**" />
+	
+	<!-- Configure Spring Security -->
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/welcome*" access="ROLE_USER" />
+		<security:form-login login-page="/login.faces" default-target-url="/adm/accueil.faces"
+			login-processing-url="/j_spring_security_check"
+			authentication-failure-url="/login.faces?login_error=1"
+			authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
+			
+		<security:logout logout-url="/logout" logout-success-url="/login.faces" />
+			
+		<security:intercept-url pattern="/login.faces" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		
+			
+		<!-- Accès admin -->
+		<security:intercept-url pattern="/adm/*" access="ROLE_ADMIN" />
+		
+		<!-- Accès admin -->
+		<security:intercept-url pattern="/vdr/*" access="ROLE_VENDEUR" />
+		
+		<!-- Accès parties commune -->
+		<security:intercept-url pattern="/commun/*" access="ROLE_USER" />
+
+		<!-- Accès aux ressources sans authentification -->
+		<security:intercept-url pattern="/img/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />	
+		<security:intercept-url pattern="/css/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<security:intercept-url pattern="/templates/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />	
+		
+		<!-- Accès par défaut -->
+		<security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		
+
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider
+			ref="customAuthenticationProvider" />
+	</security:authentication-manager>
+
+</beans>
