@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.upyourbizz.web.dto.PrixDegressifProduitDto;
-import fr.upyourbizz.web.dto.ProduitOptionsDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
 import fr.upyourbizz.web.dto.ProduitSousFamilleDto;
 import fr.upyourbizz.web.presentation.model.AjoutProduitModel;
@@ -39,6 +38,7 @@ public class AjoutProduitAdaptateur {
                 model.getDescriptionOffre(), model.getAvantages(), model.getBenefices(),
                 model.getUrlImgIllustrationProduit(), model.getUrlImgIconeProduit(),
                 model.getUrlImgProcessus(), model.getCoutNominal(), "");
+        nouveauProduit.setIdProduit(model.getIdProduit());
         if (model.getPrixUnitaireFixe() != 0F) {
             nouveauProduit.setPrixUnitaire(model.getPrixUnitaireFixe());
         }
@@ -48,9 +48,7 @@ public class AjoutProduitAdaptateur {
             nouveauProduit.setPrixDegressifProduit(prixDegressifProduitDto);
         }
         if (model.getListeOptions().size() > 0) {
-            ProduitOptionsDto produitOptionDto = new ProduitOptionsDto();
-            produitOptionDto.setListeOption(model.getListeOptions());
-            nouveauProduit.setProduitOptions(produitOptionDto);
+            nouveauProduit.setListeOption(model.getListeOptions());
         }
         return nouveauProduit;
     }
@@ -62,6 +60,7 @@ public class AjoutProduitAdaptateur {
      * @param model
      */
     public static void adapterProduitPourVue(ProduitReferenceDto produitRef, AjoutProduitModel model) {
+        model.setIdProduit(produitRef.getIdProduit());
         model.setNom(produitRef.getNom());
         model.setReference(produitRef.getReference());
         model.setFamilleSelectionnee(produitRef.getFamille().getNomFamille());
@@ -72,9 +71,8 @@ public class AjoutProduitAdaptateur {
         model.setBenefices(produitRef.getBeneficesHtml());
         model.setCoutNominal(produitRef.getCoutNominal());
         model.setPrixUnitaireFixe(produitRef.getPrixUnitaire());
-        // model.setListePrixDegressifProduit = new ArrayList<PrixDegressif>();
-
-        // model.setListeOptions(produitRef.get)
+        model.setListePrixDegressifProduit(produitRef.getPrixDegressifProduit().getTableauPrixDegressif());
+        model.setListeOptions(produitRef.getListeOption());
         model.setUrlImgIllustrationProduit(produitRef.getUrlImgIllustrationProduit());
         model.setUrlImgIconeProduit(produitRef.getUrlImgIconeProduit());
         model.setUrlImgProcessus(produitRef.getUrlImgProcessus());

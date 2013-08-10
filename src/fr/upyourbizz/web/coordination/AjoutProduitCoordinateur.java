@@ -35,7 +35,7 @@ public class AjoutProduitCoordinateur {
 
     public void modifierProduitReference(ProduitReferenceDto produitReference)
             throws TechnicalException {
-        gestionProduitService.ajouterProduitReference(produitReference);
+        gestionProduitService.modifierProduitReference(produitReference);
     }
 
     /**

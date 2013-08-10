@@ -3,8 +3,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
+	<h:panelGroup id="ajout-produit-option-pg">
 		<p:panel header="Options produit">
-		<p:messages/>
+			<p:messages />
 			<p:fieldset id="listeOptionFiedset" legend="Options existantes">
 				<p:dataTable id="listeOption" var="option"
 					value="#{ajoutProduitModel.listeOptions}" paginator="true" rows="5"
@@ -50,8 +51,10 @@
 						<f:facet name="header">
 							<h:outputText value="Prix dégressif" />
 						</f:facet>
-						<p:commandButton id="selectButton" icon="ui-icon-search" rendered="#{not empty option.listePrixDegressif}" 
-							oncomplete="PF('optionPrixDegresDialog').show()" update=":ajoutProduitTabView:ajout-produit:tableauOptionPrixDegressifDlg"
+						<p:commandButton id="selectButton" icon="ui-icon-search"
+							rendered="#{not empty option.listePrixDegressif}"
+							oncomplete="PF('optionPrixDegresDialog').show()"
+							update=":ajoutProduitTabView:ajout-produit:tableauOptionPrixDegressifDlg"
 							title="Détails Prix Dégressif">
 							<f:setPropertyActionListener value="#{option}"
 								target="#{ajoutProduitModel.optionSelectionne}" />
@@ -59,23 +62,23 @@
 					</p:column>
 					<p:column headerText="M" style="width:3%">
 						<p:commandButton id="modifierOptionButton"
-							update="@(#ajoutProduitTabView:ajout-produit:ajoutNouvelleOptionFiedset) "
-							action="#{ajoutProduitController.modifierOption(option)}"
+							update=":ajoutProduitTabView:ajout-produit:ajout-produit-option-pg"
+							actionListener="#{ajoutProduitController.modifierOption(option)}"
 							icon="ui-icon-pencil" title="Modifier"
 							style="width:15px; height:15px;" />
 					</p:column>
 					<p:column headerText="S" style="width:3%">
 						<p:commandButton id="deleteOptionButton" update="listeOption"
-							action="#{ajoutProduitController.suppressionOption(option)}"
+							actionListener="#{ajoutProduitController.suppressionOption(option)}"
 							icon="ui-icon-trash" title="Supprimer"
 							style="width:15px; height:15px;" />
 					</p:column>
 				</p:dataTable>
 				<br />
 				<p:commandButton id="ajouterOptionBtn"
-					action="#{ajoutProduitController.afficherPartieNouvelleOption}"
-					update="@(#ajoutProduitTabView:ajout-produit:ajoutNouvelleOptionFiedset), listeOption" value="Ajouter une option"
-					title="View" style="float:right;" />
+					actionListener="#{ajoutProduitController.afficherPartieNouvelleOption}"
+					update=":ajoutProduitTabView:ajout-produit:ajout-produit-option-pg"
+					value="Ajouter une option" title="View" style="float:right;" />
 				<br />
 			</p:fieldset>
 			<br />
@@ -195,60 +198,65 @@
 				<br />
 				<p:commandButton id="annulerAjouterOption"
 					action="#{ajoutProduitController.annulerAjouterNouvelleOption}"
-					style="float:right;width:130px;" update="@(#ajoutProduitTabView:ajout-produit:ajoutNouvelleOptionFiedset),listeOptionFiedset"
+					style="float:right;width:130px;"
+					update=":ajoutProduitTabView:ajout-produit:ajout-produit-option-pg"
 					value="Annuler" title="Annuler Ajouter l'option" />
 				<p:commandButton id="ajouterOption"
 					action="#{ajoutProduitController.ajouterNouvelleOption}"
-					style="float:right;width:130px;" update="@(#ajoutProduitTabView:ajout-produit:ajoutNouvelleOptionFiedset),listeOptionFiedset"
+					style="float:right;width:130px;"
+					update=":ajoutProduitTabView:ajout-produit:ajout-produit-option-pg"
 					value="Ajouter l'option" title="Ajouter l'option" />
 			</p:fieldset>
 		</p:panel>
+	</h:panelGroup>
 
-		<p:dialog header="Option Prix Dégressif"
-			widgetVar="optionPrixDegresDialog" resizable="false"
-			id="optionPrixDegresDlg" showEffect="fade" hideEffect="explode"
-			modal="true">
-			<p:dataTable var="prixOption"
-				value="#{ajoutProduitModel.optionSelectionne.listePrixDegressif}"
-				id="tableauOptionPrixDegressifDlg" editable="true">
+	<p:dialog header="Option Prix Dégressif"
+		widgetVar="optionPrixDegresDialog" resizable="false"
+		id="optionPrixDegresDlg" showEffect="fade" hideEffect="explode"
+		modal="true">
+		<p:dataTable var="prixOption"
+			value="#{ajoutProduitModel.optionSelectionne.listePrixDegressif}"
+			id="tableauOptionPrixDegressifDlg" editable="true">
 
-				<f:facet name="header">  
+			<f:facet name="header">  
             			Prix dégressifs 
         			</f:facet>
-				<p:column headerText="Borne Inférieure"
-					sortBy="#{prixOption.borneInferieure}">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{prixOption.borneInferieure}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText value="#{prixOption.borneInferieure}" style="width:100%" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="Borne Supérieure" style="width:30%">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{prixOption.borneSuperieure}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText value="#{prixOption.borneSuperieure}" style="width:100%" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="Prix Unitaire" style="width:30%">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{prixOption.prixUnitaire}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText value="#{prixOption.prixUnitaire}" style="width:100%" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="M" style="width:6%">
-					<p:rowEditor />
-				</p:column>
-			</p:dataTable>
-		</p:dialog>
+			<p:column headerText="Borne Inférieure"
+				sortBy="#{prixOption.borneInferieure}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{prixOption.borneInferieure}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{prixOption.borneInferieure}"
+							style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Borne Supérieure" style="width:30%">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{prixOption.borneSuperieure}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{prixOption.borneSuperieure}"
+							style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Prix Unitaire" style="width:30%">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{prixOption.prixUnitaire}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{prixOption.prixUnitaire}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="M" style="width:6%">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+	</p:dialog>
 </ui:composition>

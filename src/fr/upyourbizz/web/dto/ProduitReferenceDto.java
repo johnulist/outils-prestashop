@@ -3,6 +3,9 @@
  */
 package fr.upyourbizz.web.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +55,7 @@ public class ProduitReferenceDto {
 
     private PrixDegressifProduitDto prixDegressifProduit;
 
-    private ProduitOptionsDto produitOptions;
+    private List<OptionReference> listeOption = new ArrayList<OptionReference>();
 
     private String commentaire;
 
@@ -386,21 +389,21 @@ public class ProduitReferenceDto {
     }
 
     /**
-     * Retourne produitOptions
+     * Retourne listeOption
      * 
-     * @return produitOptions
+     * @return listeOption
      */
-    public ProduitOptionsDto getProduitOptions() {
-        return produitOptions;
+    public List<OptionReference> getListeOption() {
+        return listeOption;
     }
 
     /**
-     * Affecte produitOptions
+     * Affecte listeOption
      * 
-     * @param produitOptions produitOptions à affecter
+     * @param listeOption listeOption à affecter
      */
-    public void setProduitOptions(ProduitOptionsDto produitOptions) {
-        this.produitOptions = produitOptions;
+    public void setListeOption(List<OptionReference> listeOption) {
+        this.listeOption = listeOption;
     }
 
     /**

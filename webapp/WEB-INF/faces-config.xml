@@ -23,13 +23,13 @@
     </navigation-rule>	
     
     <navigation-rule>
-	<from-view-id>/adm/liste-produits.xhtml</from-view-id>
 	<navigation-case>
 		<from-outcome>ajout_produits</from-outcome>
 		<to-view-id>/adm/ajout-produit.xhtml</to-view-id>
 		<redirect />
 	</navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
 	<navigation-case>
 		<from-outcome>liste_produits</from-outcome>
