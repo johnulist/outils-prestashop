@@ -12,6 +12,11 @@ DROP TABLE IF EXISTS `prix_degressif_produit`;
 DROP TABLE IF EXISTS `plan_action_commercial_option`;
 DROP TABLE IF EXISTS `plan_action_commercial`;
 DROP TABLE IF EXISTS `produit_option`;
+DROP TABLE IF EXISTS `pac_produit_option`;
+DROP TABLE IF EXISTS `pac_produit`;
+DROP TABLE IF EXISTS `plan_action_commercial`;
+DROP TABLE IF EXISTS `etat_pac`;
+DROP TABLE IF EXISTS `produit_reference_option`;
 DROP TABLE IF EXISTS `produit_reference`;
 DROP TABLE IF EXISTS `produit_sous_famille`;
 DROP TABLE IF EXISTS `produit_famille`;
@@ -128,7 +133,7 @@ CREATE TABLE `produit_reference` (
 	id_produit_sous_famille TINYINT NOT NULL,
 	reference_produit varchar(10) NOT NULL,
 	nom varchar(40) NOT NULL,
-	description_courte varchar(40) DEFAULT NULL,
+	description_courte varchar(100) DEFAULT NULL,
 	description_longue TEXT DEFAULT NULL,
 	description_offre TEXT DEFAULT NULL,
 	avantages TEXT DEFAULT NULL,
@@ -144,7 +149,7 @@ CREATE TABLE `produit_reference` (
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `produit_option` (
+CREATE TABLE `produit_reference_option` (
 	id_produit_option int unsigned NOT NULL AUTO_INCREMENT,
 	id_produit_reference int unsigned NOT NULL,
 	reference_option varchar(10) NOT NULL, 
@@ -161,8 +166,8 @@ CREATE TABLE `prix_degressif_option` (
 	borne_superieur int NOT NULL,
 	prix_unitaire float DEFAULT NULL,
 	id_produit_option int unsigned NOT NULL,
-	INDEX (id_produit_option), 
-	FOREIGN KEY (id_produit_option) REFERENCES produit_option (id_produit_option), 
+	INDEX (id_tableau_prix_degressif_option), 
+	FOREIGN KEY (id_produit_option) REFERENCES produit_reference_option (id_produit_option), 
 	PRIMARY KEY(id_tableau_prix_degressif_option)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
@@ -177,36 +182,49 @@ CREATE TABLE `prix_degressif_produit` (
 	PRIMARY KEY(id_tableau_prix_degressif_produit)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
--- plan_action_commercial
--- id_client
--- id_produit_ref
--- quantite
--- option
--- commentaire
--- date_realisation
--- date_fin_realisation
+
 CREATE TABLE `plan_action_commercial` (
 	id_plan_action_commercial int unsigned NOT NULL AUTO_INCREMENT, 
-		id_client int unsigned NOT NULL,
-	id_produit_reference int unsigned NOT NULL,
-	quantite int unsigned NOT NULL,
-	commentaire text DEFAULT NULL,
-	date_commande date NOT NULL,
-	date_realisation date NOT NULL,
-	date_fin_realisation date DEFAULT NULL,
-	INDEX (id_plan_action_commercial), 
-	FOREIGN KEY (id_produit_reference) REFERENCES produit_reference (id_produit_reference), 
+	id_client int unsigned NOT NULL,
+	date_emission date NOT NULL,
+	date_relance date NOT NULL,
+	prix_calcule float NULL,
+	INDEX (id_plan_action_commercial),  
 	PRIMARY KEY(id_plan_action_commercial)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `plan_action_commercial_option` (
-	id_plan_action_commercial_option int unsigned NOT NULL AUTO_INCREMENT,
-	id_plan_action_commercial int unsigned NOT NULL,
-	id_produit_option int unsigned NOT NULL,
-	FOREIGN KEY (id_plan_action_commercial) REFERENCES plan_action_commercial (id_plan_action_commercial), 
-	FOREIGN KEY (id_produit_option) REFERENCES produit_option (id_produit_option), 
-	PRIMARY KEY(id_plan_action_commercial_option)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;	
+
+CREATE TABLE `etat_pac` (
+	id_etat_pac int unsigned NOT NULL AUTO_INCREMENT,
+	etat_pac varchar(10) NOT NULL, 
+	INDEX (id_etat_pac),  
+	PRIMARY KEY(id_etat_pac)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `pac_produit` (
+	id_pac_produit int unsigned NOT NULL AUTO_INCREMENT, 
+	id_produit_reference int unsigned NOT NULL,
+	quantite int unsigned NOT NULL,
+	commentaire text DEFAULT NULL,
+	date_realisation date NULL,
+	duree int unsigned NULL,
+	prix_calcule float NULL,
+	INDEX (id_pac_produit), 
+	FOREIGN KEY (id_produit_reference) REFERENCES produit_reference (id_produit_reference), 
+	PRIMARY KEY(id_pac_produit)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `pac_produit_option` (
+	id_pac_produit_option int unsigned NOT NULL AUTO_INCREMENT, 
+	id_pac_produit int unsigned NOT NULL,
+	date_realisation date NULL,
+	duree int unsigned NULL,
+	prix_calcule float NULL,
+	INDEX (id_pac_produit_option), 
+	FOREIGN KEY (id_pac_produit) REFERENCES pac_produit (id_pac_produit), 
+	PRIMARY KEY(id_pac_produit_option)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
 
 
 insert into produit_famille (nom, description, url_img_famille ) values ("E-Marketing", "Produits consacrés à tous se qui concerne l'e-marketing","EMARKETING.jpg");
@@ -221,6 +239,10 @@ insert into produit_sous_famille (nom, description, id_produit_famille,url_img_s
 insert into produit_sous_famille (nom, description, id_produit_famille,url_img_sous_famille) values ("Plan Communication Web", "", 1,"plancomweb.jpg");
 insert into produit_sous_famille (nom, description, id_produit_famille,url_img_sous_famille) values ("Référencement Payant", "", 1,"refpayant.jpg");
 
+insert into etat_pac (etat_pac) values ("En Cours");
+insert into etat_pac (etat_pac) values ("Devis");
+insert into etat_pac (etat_pac) values ("Valide");
+insert into etat_pac (etat_pac) values ("Perdu");
 
 insert into produit_reference (
 	id_produit_sous_famille,
@@ -253,7 +275,7 @@ insert into produit_reference (
 	description_offre,
 	avantages,
 	benefices,
-	url_img_icone_produit) value (1, "FLYERDOUBLE", "Flyer Double", "Pour communiquer et informer vos contacts sur votre entreprise ou votre secteur d’activité.", "La newsletter est un pilier de l’e-mailing communicationnel il n’existe rien de mieux pour conserver un lien avec vos contacts que l’envoi régulier d’une Newsletter.", "* Nous rédigeons et créons l’ensemble de vos Newsletter selon vos tendances et messages. * Nous établissons ensemble le planning de rédaction et d’envoi * Le routage de vos newsletters sont réalisées par nos soins *Après validation du contenu nous réalisons le routage et vous générons un rapport de retour sur investissement"," Informez <br/>L’e-mailing a un fort potentiel relationnel<br/> Donnez un coup de booste à un évènement ou à une offre commerciale <br/> Un rapport qualité prix imbattable !","Grâce aux contacts récurrents entretenus avec les clients ou fournisseurs, une fidélisation se met en place via l’envoi newsletter.<br/> l’envoi newsletter par mail est évidemment moins coûteux que d’autres techniques de communication <br/> Créé une relation client privilégié grâce à l’insertion de champs personnalisés");
+	url_img_icone_produit) value (1, "FLYERDOUBLE", "Flyer Double", "Pour communiquer et informer vos contacts sur votre entreprise ou votre secteur d’activité.", "La newsletter est un pilier de l’e-mailing communicationnel il n’existe rien de mieux pour conserver un lien avec vos contacts que l’envoi régulier d’une Newsletter.", "* Nous rédigeons et créons l’ensemble de vos Newsletter selon vos tendances et messages. * Nous établissons ensemble le planning de rédaction et d’envoi * Le routage de vos newsletters sont réalisées par nos soins *Après validation du contenu nous réalisons le routage et vous générons un rapport de retour sur investissement"," Informez <br/>L’e-mailing a un fort potentiel relationnel<br/> Donnez un coup de booste à un évènement ou à une offre commerciale <br/> Un rapport qualité prix imbattable !","Grâce aux contacts récurrents entretenus avec les clients ou fournisseurs, une fidélisation se met en place via l’envoi newsletter.<br/> l’envoi newsletter par mail est évidemment moins coûteux que d’autres techniques de communication <br/> Créé une relation client privilégié grâce à l’insertion de champs personnalisés", "newsletter.jpg");
 	
 
 insert into prix_degressif_produit (
@@ -270,12 +292,6 @@ insert into prix_degressif_produit (
 	
 insert into client (nom_societe, ville, secteur_activite) values ("BMW", "Le Mans", "Automobile");
 
-insert into plan_action_commercial (
-	id_client ,
-	id_produit_reference ,
-	quantite,
-	date_commande,
-	date_realisation) values (1,1,1,'2013-07-01', '2013-07-21');
 	
 select pr.id_produit_reference, psf.id_produit_famille, pr.id_produit_sous_famille, 
 pr.reference_produit, pr.nom, pr.description_courte, pr.description_longue,

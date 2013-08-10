@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.upyourbizz.utils.exception.TechnicalException;
-import fr.upyourbizz.web.dto.Option;
+import fr.upyourbizz.web.dto.OptionReference;
 import fr.upyourbizz.web.dto.PrixDegressif;
 import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
@@ -82,20 +82,51 @@ public class GestionProduitService {
         for (PrixDegressif prixDegressif : produitReference.getPrixDegressifProduit().getTableauPrixDegressif()) {
             produitReferenceDao.ajouterPrixDegressif(idProduitRef, prixDegressif);
         }
-        if (produitReference.getProduitOptions() != null) {
-            for (Option nouvelleOption : produitReference.getProduitOptions().getListeOption()) {
+        if (produitReference.getListeOption() != null) {
+            for (OptionReference nouvelleOption : produitReference.getListeOption()) {
                 ajouterOptionProduit(idProduitRef, nouvelleOption);
             }
         }
     }
 
     @Transactional(rollbackFor = { TechnicalException.class })
-    private void ajouterOptionProduit(int idProduitRef, Option nouvelleOption)
+    public void modifierProduitReference(ProduitReferenceDto produitReference)
             throws TechnicalException {
-        produitReferenceDao.ajouterOptionProduit(idProduitRef, nouvelleOption);
+        produitReferenceDao.modifierProduitReference(produitReference.getIdProduit(),
+                produitReference.getSousFamille().getNomFamille(), produitReference.getReference(),
+                produitReference.getNom(), produitReference.getDescriptionCourte(),
+                produitReference.getDescriptionLongueHtml(),
+                produitReference.getDescriptionOffreHtml(), produitReference.getAvantagesHtml(),
+                produitReference.getBeneficesHtml(), produitReference.getCoutNominal(),
+                produitReference.getPrixUnitaire(),
+                produitReference.getUrlImgIllustrationProduit(),
+                produitReference.getUrlImgIconeProduit(), produitReference.getUrlImgProcessus());
+
+        // Suppression des prix degressifs existant
+        produitReferenceDao.supprimerPrixDegressif(produitReference.getIdProduit());
+
+        for (PrixDegressif prixDegressif : produitReference.getPrixDegressifProduit().getTableauPrixDegressif()) {
+            produitReferenceDao.ajouterPrixDegressif(produitReference.getIdProduit(), prixDegressif);
+        }
+
+        // Suppression des options liées au produit
+        produitReferenceDao.supprimerPrixDegressifOption(produitReference.getIdProduit());
+        produitReferenceDao.supprimerOptionProduit(produitReference.getIdProduit());
+
+        if (produitReference.getListeOption() != null) {
+            for (OptionReference nouvelleOption : produitReference.getListeOption()) {
+                ajouterOptionProduit(produitReference.getIdProduit(), nouvelleOption);
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = { TechnicalException.class })
+    private void ajouterOptionProduit(int idProduitRef, OptionReference nouvelleOption)
+            throws TechnicalException {
+        int idProduitOption = produitReferenceDao.ajouterOptionProduit(idProduitRef, nouvelleOption);
         if (nouvelleOption.getListePrixDegressif() != null) {
             for (PrixDegressif prixDegressif : nouvelleOption.getListePrixDegressif()) {
-                produitReferenceDao.ajouterPrixDegressifOption(idProduitRef, prixDegressif);
+                produitReferenceDao.ajouterPrixDegressifOption(idProduitOption, prixDegressif);
             }
         }
 
@@ -110,7 +141,9 @@ public class GestionProduitService {
      */
     public ProduitReferenceDto recupererProduitReference(int idProduitReference)
             throws TechnicalException {
-        return produitReferenceDao.recupererProduitReference(idProduitReference);
+        ProduitReferenceDto resultat = produitReferenceDao.recupererProduitReference(idProduitReference);
+        resultat.setListeOption(produitReferenceDao.listerOptionProduitReference(idProduitReference));
+        return resultat;
     }
 
     // ===== Accesseurs =======================================================

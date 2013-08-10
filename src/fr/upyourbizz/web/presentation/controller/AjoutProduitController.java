@@ -29,7 +29,7 @@ import fr.upyourbizz.utils.adaptateur.AjoutProduitAdaptateur;
 import fr.upyourbizz.utils.exception.TechnicalException;
 import fr.upyourbizz.web.ListeEcrans;
 import fr.upyourbizz.web.coordination.AjoutProduitCoordinateur;
-import fr.upyourbizz.web.dto.Option;
+import fr.upyourbizz.web.dto.OptionReference;
 import fr.upyourbizz.web.dto.PrixDegressif;
 import fr.upyourbizz.web.dto.ProduitFamilleDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
@@ -154,7 +154,7 @@ public class AjoutProduitController extends AbstractController {
         ajoutProduitModel.setAfficherPartieNouvelleOption(true);
     }
 
-    public void modifierOption(Option optionAModifier) {
+    public void modifierOption(OptionReference optionAModifier) {
         // On affecte les éléments à la vue
         ajoutProduitModel.setOptionNom(optionAModifier.getNom());
         ajoutProduitModel.setOptionReference(optionAModifier.getReference());
@@ -163,7 +163,7 @@ public class AjoutProduitController extends AbstractController {
         ajoutProduitModel.setListeOptionPrixDegressifProduit(optionAModifier.getListePrixDegressif());
 
         // On sauvegarde les anciennes valeurs
-        Option optionAvantModif = new Option(optionAModifier.getNom(),
+        OptionReference optionAvantModif = new OptionReference(optionAModifier.getNom(),
                 optionAModifier.getReference(), optionAModifier.isObligatoire());
         optionAvantModif.setCoutUnitaireFixe(optionAModifier.getCoutUnitaireFixe());
         optionAvantModif.setListePrixDegressif(optionAModifier.getListePrixDegressif());
@@ -173,12 +173,12 @@ public class AjoutProduitController extends AbstractController {
         ajoutProduitModel.setAfficherPartieNouvelleOption(true);
     }
 
-    public void suppressionOption(Option optionASupprimer) {
+    public void suppressionOption(OptionReference optionASupprimer) {
         ajoutProduitModel.getListeOptions().remove(optionASupprimer);
     }
 
     public void ajouterNouvelleOption() {
-        Option nouvelleOption = new Option(ajoutProduitModel.getOptionNom(),
+        OptionReference nouvelleOption = new OptionReference(ajoutProduitModel.getOptionNom(),
                 ajoutProduitModel.getOptionReference(), ajoutProduitModel.isOptionObligatoire());
         if (ajoutProduitModel.getOptionCoutUnitaireFixe() != 0) {
             nouvelleOption.setCoutUnitaireFixe(ajoutProduitModel.getOptionCoutUnitaireFixe());

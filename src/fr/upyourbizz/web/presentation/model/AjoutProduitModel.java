@@ -11,7 +11,7 @@ import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.upyourbizz.web.dto.Option;
+import fr.upyourbizz.web.dto.OptionReference;
 import fr.upyourbizz.web.dto.PrixDegressif;
 
 /**
@@ -29,6 +29,7 @@ public class AjoutProduitModel {
     /*
      * Produit
      */
+    private int idProduit = 0;
 
     private String nom = "";
 
@@ -74,7 +75,7 @@ public class AjoutProduitModel {
      * Options
      */
 
-    private List<Option> listeOptions = new ArrayList<Option>();
+    private List<OptionReference> listeOptions = new ArrayList<OptionReference>();
 
     private boolean afficherPartieNouvelleOption = false;
 
@@ -84,7 +85,7 @@ public class AjoutProduitModel {
 
     private List<PrixDegressif> listeOptionPrixDegressifProduit = new ArrayList<PrixDegressif>();
 
-    private Option optionSelectionne;
+    private OptionReference optionSelectionne;
 
     private float optionCoutNominal = 0F;
 
@@ -101,7 +102,7 @@ public class AjoutProduitModel {
     /**
      * Permet l'annulation de la modification
      */
-    private Option optionAvantModification = null;
+    private OptionReference optionAvantModification = null;
 
     /**
      * Images
@@ -157,7 +158,7 @@ public class AjoutProduitModel {
         borneSuperieure = 0;
         coutUnitaire = 0F;
         listePrixDegressifProduit = new ArrayList<PrixDegressif>();
-        listeOptions = new ArrayList<Option>();
+        listeOptions = new ArrayList<OptionReference>();
         afficherPartieNouvelleOption = false;
         optionNom = "";
         optionReference = "";
@@ -176,6 +177,24 @@ public class AjoutProduitModel {
     }
 
     // ===== Accesseurs =======================================================
+
+    /**
+     * Retourne idProduit
+     * 
+     * @return idProduit
+     */
+    public int getIdProduit() {
+        return idProduit;
+    }
+
+    /**
+     * Affecte idProduit
+     * 
+     * @param idProduit idProduit à affecter
+     */
+    public void setIdProduit(int idProduit) {
+        this.idProduit = idProduit;
+    }
 
     /**
      * Retourne nom
@@ -470,7 +489,7 @@ public class AjoutProduitModel {
      * 
      * @return listeOptions
      */
-    public List<Option> getListeOptions() {
+    public List<OptionReference> getListeOptions() {
         return listeOptions;
     }
 
@@ -479,7 +498,7 @@ public class AjoutProduitModel {
      * 
      * @param listeOptions listeOptions à affecter
      */
-    public void setListeOptions(List<Option> listeOptions) {
+    public void setListeOptions(List<OptionReference> listeOptions) {
         this.listeOptions = listeOptions;
     }
 
@@ -563,7 +582,7 @@ public class AjoutProduitModel {
      * 
      * @return optionSelectionne
      */
-    public Option getOptionSelectionne() {
+    public OptionReference getOptionSelectionne() {
         return optionSelectionne;
     }
 
@@ -572,7 +591,7 @@ public class AjoutProduitModel {
      * 
      * @param optionSelectionne optionSelectionne à affecter
      */
-    public void setOptionSelectionne(Option optionSelectionne) {
+    public void setOptionSelectionne(OptionReference optionSelectionne) {
         this.optionSelectionne = optionSelectionne;
     }
 
@@ -689,7 +708,7 @@ public class AjoutProduitModel {
      * 
      * @return optionAvantModification
      */
-    public Option getOptionAvantModification() {
+    public OptionReference getOptionAvantModification() {
         return optionAvantModification;
     }
 
@@ -698,7 +717,7 @@ public class AjoutProduitModel {
      * 
      * @param optionAvantModification optionAvantModification à affecter
      */
-    public void setOptionAvantModification(Option optionAvantModification) {
+    public void setOptionAvantModification(OptionReference optionAvantModification) {
         this.optionAvantModification = optionAvantModification;
     }
 

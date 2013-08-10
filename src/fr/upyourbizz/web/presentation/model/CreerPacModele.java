@@ -1,11 +1,15 @@
 package fr.upyourbizz.web.presentation.model;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
-import fr.upyourbizz.web.dto.ClientDto;
 import fr.upyourbizz.web.dto.ProduitReferenceDto;
 
+@Component
 public class CreerPacModele {
 
     // ===== Attributs statiques ==============================================
@@ -17,13 +21,16 @@ public class CreerPacModele {
 
     // ===== Attributs ========================================================
 
-    private String clientId = "";
+    /**
+     * Map contenant la liste des produits à utiliser pour le PAC
+     */
+    private Map<Integer, ProduitReferenceDto> listeProduitsRefChoisis;
 
-    private String produitId = "";
+    private ProduitReferenceDto produitReferenceSelectionne;
 
-    private ClientDto client;
+    private Map<Integer, List<ProduitPac>> listeProduitsPac;
 
-    private ProduitReferenceDto produit;
+    private List<ProduitPac> produitsAffichesOnglets;
 
     // ===== Constructeurs ====================================================
 
@@ -32,39 +39,75 @@ public class CreerPacModele {
     // ===== Accesseurs =======================================================
 
     /**
-     * Retourne clientId
+     * Retourne listeProduitsRefChoisis
      * 
-     * @return clientId
+     * @return listeProduitsRefChoisis
      */
-    public String getClientId() {
-        return clientId;
+    public Map<Integer, ProduitReferenceDto> getListeProduitsRefChoisis() {
+        return listeProduitsRefChoisis;
     }
 
     /**
-     * Affecte clientId
+     * Affecte listeProduitsRefChoisis
      * 
-     * @param clientId clientId à affecter
+     * @param listeProduitsRefChoisis listeProduitsRefChoisis à affecter
      */
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setListeProduitsRefChoisis(Map<Integer, ProduitReferenceDto> listeProduitsRefChoisis) {
+        this.listeProduitsRefChoisis = listeProduitsRefChoisis;
     }
 
     /**
-     * Retourne produitId
+     * Retourne produitReferenceSelectionne
      * 
-     * @return produitId
+     * @return produitReferenceSelectionne
      */
-    public String getProduitId() {
-        return produitId;
+    public ProduitReferenceDto getProduitReferenceSelectionne() {
+        return produitReferenceSelectionne;
     }
 
     /**
-     * Affecte produitId
+     * Affecte produitReferenceSelectionne
      * 
-     * @param produitId produitId à affecter
+     * @param produitReferenceSelectionne produitReferenceSelectionne à affecter
      */
-    public void setProduitId(String produitId) {
-        this.produitId = produitId;
+    public void setProduitReferenceSelectionne(ProduitReferenceDto produitReferenceSelectionne) {
+        this.produitReferenceSelectionne = produitReferenceSelectionne;
+    }
+
+    /**
+     * Retourne listeProduitsPac
+     * 
+     * @return listeProduitsPac
+     */
+    public Map<Integer, List<ProduitPac>> getListeProduitsPac() {
+        return listeProduitsPac;
+    }
+
+    /**
+     * Affecte listeProduitsPac
+     * 
+     * @param listeProduitsPac listeProduitsPac à affecter
+     */
+    public void setListeProduitsPac(Map<Integer, List<ProduitPac>> listeProduitsPac) {
+        this.listeProduitsPac = listeProduitsPac;
+    }
+
+    /**
+     * Retourne produitsAffichesOnglets
+     * 
+     * @return produitsAffichesOnglets
+     */
+    public List<ProduitPac> getProduitsAffichesOnglets() {
+        return produitsAffichesOnglets;
+    }
+
+    /**
+     * Affecte produitsAffichesOnglets
+     * 
+     * @param produitsAffichesOnglets produitsAffichesOnglets à affecter
+     */
+    public void setProduitsAffichesOnglets(List<ProduitPac> produitsAffichesOnglets) {
+        this.produitsAffichesOnglets = produitsAffichesOnglets;
     }
 
     // ===== Classes imbriquées ===============================================

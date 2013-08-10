@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
 /**
  * Option
  */
-public class Option {
+public class OptionReference {
 
     // ===== Attributs statiques ==============================================
 
     @SuppressWarnings("unused")
-    private final Logger logger = LoggerFactory.getLogger(Option.class);
+    private final Logger logger = LoggerFactory.getLogger(OptionReference.class);
 
     // ===== Méthodes statiques ===============================================
 
@@ -35,7 +35,7 @@ public class Option {
 
     // ===== Constructeurs ====================================================
 
-    public Option(String nom, String reference, boolean obligatoire) {
+    public OptionReference(String nom, String reference, boolean obligatoire) {
         super();
         this.nom = nom;
         this.reference = reference;

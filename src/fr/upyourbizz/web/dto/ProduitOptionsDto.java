@@ -21,7 +21,7 @@ public class ProduitOptionsDto {
 
     // ===== Méthodes statiques ===============================================
 
-    List<Option> listeOption = new ArrayList<Option>();
+    List<OptionReference> listeOption = new ArrayList<OptionReference>();
 
     // ===== Attributs ========================================================
 
@@ -36,7 +36,7 @@ public class ProduitOptionsDto {
      * 
      * @return listeOption
      */
-    public List<Option> getListeOption() {
+    public List<OptionReference> getListeOption() {
         return listeOption;
     }
 
@@ -45,7 +45,7 @@ public class ProduitOptionsDto {
      * 
      * @param listeOption listeOption à affecter
      */
-    public void setListeOption(List<Option> listeOption) {
+    public void setListeOption(List<OptionReference> listeOption) {
         this.listeOption = listeOption;
     }
 

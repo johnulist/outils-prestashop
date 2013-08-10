@@ -13,6 +13,9 @@ label.defaultSize{
 	width:130px;
 	display: inline-block;
 }
+.ui-editor {
+	width: 99.5% !important;
+ }
 
 /*
  * Template

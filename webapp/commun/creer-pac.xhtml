@@ -7,14 +7,68 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="../templates/standard-template.xhtml">
 	<f:metadata>
-		<f:event type="preRenderView"
-			listener="#{creerPacController.init}" />
-			<f:viewParam name="clientId" value="#{creerPacModel.clientId}" />
-			<f:viewParam name="produitId" value="#{creerPacModel.produitId}" />
+		<f:event type="preRenderView" listener="#{creerPacController.init}" />
 	</f:metadata>
 	<ui:define name="title">Upyourbizz création d'un plan d'action commerciale</ui:define>
 	<ui:define name="content">
 		<h:outputText value="En construction"></h:outputText>
+		<h:form id="creerPac">
+			<p:tabView id="tabView" var="produit"
+				value="#{creerPacModele.produitsAffichesOnglets}">
+
+				<p:tab id="produitTab" title="#{produit.nomOnglet}">
+
+					<div class="row">
+						<div class="large-6 columns">
+							<p:panel header="Quantité">
+								<h:panelGrid columns="2" cellpadding="5">
+									<h:outputLabel value="Quantité: " for="quantite"
+										styleClass="defaultSize" />
+									<p:inputText id="quantite" value="#{produit.quantite}" />
+								</h:panelGrid>
+							</p:panel>
+						</div>
+						<div class="large-6 columns"></div>
+					</div>
+					<p:panel header="Options">
+						<p:dataTable var="option" value="#{produit.listeOptions}">
+							<p:column headerText="Nom">
+								<h:outputText value="#{option.nom}" />
+							</p:column>
+
+							<p:column headerText="Durée">
+								<h:outputText value="#{option.duree}" />
+							</p:column>
+
+							<p:column headerText="Prix">
+								<h:outputText value="#{option.prixCalcule}" />
+							</p:column>
+
+							<p:column headerText="Détail">
+								<p:commandButton id="detailOption" icon="ui-icon-search"
+									oncomplete="PF('optionPrixDegresDialog').show()"
+									update="@(form:last)" title="Détails Option">
+									<!-- <f:setPropertyActionListener value="#{option}"
+										target="#{ajoutProduitModel.optionSelectionne}" /> -->
+								</p:commandButton>
+							</p:column>
+
+							<p:column headerText="Sélectionner">
+								<p:selectBooleanCheckbox value="#{option.retenue}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					<p:panel header="Commentaire">
+						<p:editor width="500" height="140"
+							controls="bold italic underline strikethrough font size color bullets numbering" />
+						<p:button value="Ajouter commentaire" icon="ui-icon-comment"
+							style="float:right" />
+					</p:panel>
+
+				</p:tab>
+
+			</p:tabView>
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>
